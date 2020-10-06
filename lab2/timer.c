@@ -32,8 +32,22 @@ void (timer_int_handler)() {
 }
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  u8_t rbword = 0;
+  rbword | TIMER_RB_CMD | TIMER_RB_STATUS_ | TIMER_RB_SEL(timer) ;
+  if(timer == 0){
+    port = TIMER_0;
+  }
+  else if(timer == 1){
+    port = TIMER_1;
+  }
+  else{
+    port = TIMER_2;
+  }
+
+  sys_outb(TIMER_CTRL, rbword);
+  util_sys_inb(port, st);
+
+  printf("%s\n", __func__);
 
   return 1;
 }
