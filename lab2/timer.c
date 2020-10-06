@@ -54,7 +54,8 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                         enum timer_status_field field) {
-  /* To be implemented by the students */
+
+
   printf("%s is not yet implemented!\n", __func__);
 
   return 1;
