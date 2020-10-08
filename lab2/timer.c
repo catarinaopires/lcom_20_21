@@ -50,16 +50,16 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
         port = TIMER_2;
     }
     else{
-        return 0;
+        return 1;
     }
 
     // Write Read-Back word to control regiter (0x43)
-    if (sys_outb(TIMER_CTRL, rbword))
+    if (sys_outb(TIMER_CTRL, rbword) != 0)
         return 1;
 
     // Reads timer status
     // util_sys_inb calls sys_inb with st variable transformed into uint32_t
-    if(util_sys_inb(port, st))
+    if(util_sys_inb(port, st) != 0)
         return 1;
 
     return 0;
@@ -70,6 +70,10 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
                          enum timer_status_field field) {
 
     union timer_status_field_val conf;
+
+    // Invalid timer
+    if(!(timer >= 0 && timer <= 2))
+        return 1;
 
     // BCD
     conf.bcd = st && BIT(0);
@@ -86,11 +90,12 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
     if(st && (BIT(4)| BIT(5)) == TIMER_LSB_MSB)
         // TODO: Change info in union
 
-    // Byte ????
-
+    // Byte 
+    conf.byte = st;
 
     timer_print_config(timer, field, conf);
 
     printf("%s is not yet implemented!\n", _func_);
-    return 1;
+
+    return 0;
 }

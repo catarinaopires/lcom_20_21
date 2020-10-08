@@ -18,9 +18,9 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb) {
 
 int (util_sys_inb)(int port, uint8_t *value) {
   unsigned int value32;
+
   sys_inb(port, value32);
   value = *value32 + 24;
 
-  printf("%s \n", __func__);
-  return 1;
+  return 0;
 }
