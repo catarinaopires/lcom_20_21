@@ -22,10 +22,10 @@ int (util_sys_inb)(int port, uint8_t *value) {
   unsigned int value32;
 
   //Calls minix SYS_DEVIO to read from the specified port
-  sys_inb(port, value32);
+  sys_inb(port, &value32);
 
   //Derefrences the value pointer, changing the memory content to the value read with the SYS_DEVIO call
-  *value = *(*value32 + 24);
+  *value = *(&value32 + 24);
 
   return 0;
 }
