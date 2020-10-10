@@ -40,7 +40,7 @@ int(timer_test_read_config)(uint8_t timer, enum timer_status_field field) {
         return 1;
         
     return 0;
-    printf("%s \n", _func_);
+    printf("%s \n", __func__);
 }
 
 int(timer_test_time_base)(uint8_t timer, uint32_t freq) {
