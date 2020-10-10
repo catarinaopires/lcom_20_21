@@ -3,21 +3,19 @@
 #include <stdint.h>
 
 int(util_get_LSB)(uint16_t val, uint8_t *lsb) {
-  
-  lsb = val;
 
-  printf("%s \n", __func__);
-
+  //Derefrences the arg in pointer and changes its memory content
+  *lsb = val;
   return 0;
+
 }
 
 int(util_get_MSB)(uint16_t val, uint8_t *msb) {
- 
-  msb = val >> 8;
 
-  printf("%s \n", __func__);
-
+  //Derefrences the arg in pointer and changes its memory content
+  *msb = val >> 8;
   return 0;
+
 }
 
 int (util_sys_inb)(int port, uint8_t *value) {
