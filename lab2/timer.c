@@ -5,6 +5,8 @@
 
 #include "i8254.h"
 
+
+
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   /* To be implemented by the students */
   printf("%s is not yet implemented!\n", __func__);
@@ -33,25 +35,26 @@ void (timer_int_handler)() {
 
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
-    u8_t rbword = 0;
+    uint8_t rbword = 0;
     uint8_t port;
-
-    // Create Read-Back Word
-    rbword | TIMER_RB_CMD | TIMER_RB_STATUS_ | TIMER_RB_SEL(timer);
 
     // Check if given timer is valid
     if(timer == 0){
-        port = TIMER_0;
+    port = TIMER_0;
     }
     else if(timer == 1){
-        port = TIMER_1;
-    }
+    port = TIMER_1;
+  }
     else if(timer == 2){
-        port = TIMER_2;
-    }
+    port = TIMER_2;
+  }
     else{
-        return 1;
+    return 1;
     }
+
+    // Create Read-Back Word
+    rbword | TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
+
 
     // Write Read-Back word to control regiter (0x43)
     if (sys_outb(TIMER_CTRL, rbword) != 0)
@@ -69,33 +72,56 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                          enum timer_status_field field) {
 
-    union timer_status_field_val conf;
+    union timer_status_field_val timer_conf;
 
     // Invalid timer
     if(!(timer >= 0 && timer <= 2))
         return 1;
 
-    // BCD
-    conf.bcd = st && BIT(0);
+    switch(field){
 
-    // Counting Mode
-    conf.count_mode = st && (BIT(3)| BIT(2) | BIT(1));
+      case(tsf_all):
+        timer_conf.byte = st;
+        break;
 
-    // Type of access
-    // ADD TO UNION: CONF.TIMER_INIT ???
-    if(st && (BIT(4)| BIT(5)) == TIMER_LSB)
-        // TODO: Change info in union
-    if(st && (BIT(4)| BIT(5)) == TIMER_MSB)
-        // TODO: Change info in union
-    if(st && (BIT(4)| BIT(5)) == TIMER_LSB_MSB)
-        // TODO: Change info in union
+      case(tsf_initial):
+        uint8_t mask = 0x30;
+        mask = st & mask;
 
-    // Byte 
-    conf.byte = st;
+        if(mask == TIMER_LSB_MSB){
+          timer_conf.in_mode = MSB_after_LSB;
+        }
+        else if (mask == TIMER_MSB){
+          timer_conf.in_mode = MSB_only;
+        }
+        else if (mask == TIMER_LSB){
+          timer_conf.in_mode = LSB_only;
+        }
+        else
+          timer_conf.in_mode = INVAL_val;
+        break;
 
-    timer_print_config(timer, field, conf);
+      case(tsf_mode):
+        uint8_t mask = 0x0D;
+        mask = st & mask;
+        mask >> 1;
 
-    printf("%s is not yet implemented!\n", _func_);
+        //Handle dc bit
+        if(mask > 5){
+          timer_conf.count_mode = mask - 4;
+        }
+        else {
+          timer_conf.count_mode = mask;
+        }
+        break;
+
+      case(tsf_base):
+        timer_conf.bcd = (st & TIMER_BCD);
+        break;
+    };
+
+    timer_print_config(timer, field, timer_conf);
+
 
     return 0;
 }
