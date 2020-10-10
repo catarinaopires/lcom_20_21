@@ -53,7 +53,7 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
     }
 
     // Create Read-Back Word
-    rbword | TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
+    rbword = rbword | TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
 
 
     // Write Read-Back word to control regiter (0x43)
@@ -72,55 +72,56 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                          enum timer_status_field field) {
 
-    union timer_status_field_val timer_conf;
+  union timer_status_field_val timer_conf;
 
-    // Invalid timer
-    if(!(timer >= 0 && timer <= 2))
-        return 1;
+  // Invalid timer
+  if(!(timer >= 0 && timer <= 2))
+    return 1;
+  uint8_t maskInit = 0x30;
+  uint8_t maskMode = 0x0D;
 
-    switch(field){
+  switch(field){
+    case(tsf_all):
+      timer_conf.byte = st;
+      break;
 
-      case(tsf_all):
-        timer_conf.byte = st;
-        break;
+    case(tsf_initial):
 
-      case(tsf_initial):
-        uint8_t mask = 0x30;
-        mask = st & mask;
+      maskInit = st & maskInit;
 
-        if(mask == TIMER_LSB_MSB){
+      if(maskInit == TIMER_LSB_MSB){
           timer_conf.in_mode = MSB_after_LSB;
         }
-        else if (mask == TIMER_MSB){
+      else if (maskInit == TIMER_MSB){
           timer_conf.in_mode = MSB_only;
         }
-        else if (mask == TIMER_LSB){
+      else if (maskInit == TIMER_LSB){
           timer_conf.in_mode = LSB_only;
         }
-        else
-          timer_conf.in_mode = INVAL_val;
-        break;
+      else
+        timer_conf.in_mode = INVAL_val;
+      break;
 
-      case(tsf_mode):
-        uint8_t mask = 0x0D;
-        mask = st & mask;
-        mask >> 1;
+    case(tsf_mode):
 
-        //Handle dc bit
-        if(mask > 5){
-          timer_conf.count_mode = mask - 4;
+      maskMode = st & maskMode;
+      maskMode = maskMode >> 1;
+
+      //Handle dc bit
+      if(maskMode > 5){
+          timer_conf.count_mode = maskMode - 4;
         }
-        else {
-          timer_conf.count_mode = mask;
+      else {
+          timer_conf.count_mode = maskMode;
         }
-        break;
+      break;
 
-      case(tsf_base):
-        timer_conf.bcd = (st & TIMER_BCD);
-        break;
-    };
+    case(tsf_base):
+      timer_conf.bcd = (st & TIMER_BCD);
+      break;
+  };
 
-    timer_print_config(timer, field, timer_conf);
+  timer_print_config(timer, field, timer_conf);
 
-    return 0;
+  return 0;
 }
