@@ -66,7 +66,7 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
         return 1;
 
     return 0;
-    printf("%s\n", _func_);
+    printf("%s\n",  __func__);
 }
 
 int (timer_display_conf)(uint8_t timer, uint8_t st,
@@ -121,7 +121,6 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
     };
 
     timer_print_config(timer, field, timer_conf);
-
 
     return 0;
 }
