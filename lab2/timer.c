@@ -8,8 +8,24 @@
 
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  
+  // Invalid timer
+  if(!(timer >= 0 && timer <= 2))
+    return 1;
+
+  // Change the operating frequency of a timer
+  int initialValue = TIMER_FREQ / freq;
+
+  // TODO:
+  // to enable the speaker, you must set to 1 both bits 0 and 1 of I/O port 0x61 (SPEAKER_CTRL)
+
+  // Must use the read-back command so that it does not change the 4 LSBs (mode and BCD/binary) of the timer's control word.
+
+
+
+
+
+  printf("%s \n", __func__);
 
   return 1;
 }
@@ -77,6 +93,7 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
   // Invalid timer
   if(!(timer >= 0 && timer <= 2))
     return 1;
+
   uint8_t maskInit = 0x30;
   uint8_t maskMode = 0x0D;
 
@@ -107,7 +124,7 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
       maskMode = st & maskMode;
       maskMode = maskMode >> 1;
 
-      //Handle dc bit
+      // Handle DC bit
       if(maskMode > 5){
           timer_conf.count_mode = maskMode - 4;
         }
