@@ -9,7 +9,7 @@
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   
-  // Invalid timer
+  /*// Invalid timer
   if(!(timer >= 0 && timer <= 2))
     return 1;
 
@@ -22,10 +22,10 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   // Must use the read-back command so that it does not change the 4 LSBs (mode and BCD/binary) of the timer's control word.
 
 
+  */
 
 
-
-  printf("%s \n", __func__);
+  printf("%s Not implemented, yet\n", __func__);
 
   return 1;
 }
@@ -95,7 +95,7 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
     return 1;
 
   uint8_t maskInit = 0x30;
-  uint8_t maskMode = 0x0D;
+  uint8_t maskMode = 0x0E;
 
   switch(field){
     case(tsf_all):
