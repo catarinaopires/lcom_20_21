@@ -44,8 +44,10 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
   controlWord = controlWord | timerCtrlSel | TIMER_LSB_MSB;
 
-  if(sys_outb(TIMER_CTRL, controlWord))
+  if(sys_outb(TIMER_CTRL, controlWord) != OK) {
+    printf("Error in sys_outb() timer_set_frequency()");
     return 1;
+  }
 
   // Write freq value in the selected timer
 
@@ -54,10 +56,14 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   util_get_LSB(freqValue, &lsb);
   util_get_MSB(freqValue, &msb);
 
-  if(!sys_outb(timerPort,lsb)){
-    if(!sys_outb(timerPort, msb))
+  if(sys_outb(timerPort,lsb) == OK){
+    if(sys_outb(timerPort, msb) == OK)
       return 0;
+    else
+      printf("Error in sys_outb(msb) timer_set_frequency()");
   }
+  else
+    printf("Error in sys_outb(lsb) timer_set_frequency()");
 
   return 1;
 }
@@ -100,21 +106,25 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
     return 1;
     }
 
+
     // Create Read-Back Word
     rbword = rbword | TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
 
 
     // Write Read-Back word to control regiter (0x43)
-    if (sys_outb(TIMER_CTRL, rbword))
-        return 1;
+    if (sys_outb(TIMER_CTRL, rbword) != OK) {
+      printf("Error in sys_outb() in timer_get_conf()");
+      return 1;
+    }
 
     // Reads timer status
     // util_sys_inb calls sys_inb with st variable transformed into uint32_t
-    if(util_sys_inb(port, st))
-        return 1;
+    if(util_sys_inb(port, st)) {
+      printf("Error in utils_sys_inb() in timer_get_conf()");
+      return 1;
+    }
 
     return 0;
-    printf("%s\n",  __func__);
 }
 
 int (timer_display_conf)(uint8_t timer, uint8_t st,
