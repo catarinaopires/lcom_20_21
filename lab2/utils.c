@@ -25,7 +25,7 @@ int (util_sys_inb)(int port, uint8_t *value) {
   sys_inb(port, &value32);
 
   //Derefrences the value pointer, changing the memory content to the value read with the SYS_DEVIO call
-  *value = *&value32;
+  *value = value32;
 
   return 0;
 }
