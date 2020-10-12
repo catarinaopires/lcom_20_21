@@ -9,23 +9,55 @@
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   
-  /*// Invalid timer
+  // Invalid timer
   if(!(timer >= 0 && timer <= 2))
     return 1;
 
   // Change the operating frequency of a timer
-  int initialValue = TIMER_FREQ / freq;
+  uint16_t  freqValue = TIMER_FREQ / freq;
 
-  // TODO:
-  // to enable the speaker, you must set to 1 both bits 0 and 1 of I/O port 0x61 (SPEAKER_CTRL)
+  // Get current configuration, and keep LSB
+  uint8_t maskMSB = 0x0F;
+  uint8_t controlWord = 0;
+  timer_get_conf(timer, &controlWord);
+  controlWord = (controlWord & maskMSB);
 
-  // Must use the read-back command so that it does not change the 4 LSBs (mode and BCD/binary) of the timer's control word.
+  // Assemble new control word and write it to ctrl register
+  uint8_t timerCtrlSel;
+  uint8_t timerPort;
+  switch(timer){
+    case 0:
+      timerCtrlSel = TIMER_SEL0;
+      timerPort = TIMER_0;
+      break;
 
+    case 1:
+      timerCtrlSel = TIMER_SEL1;
+      timerPort = TIMER_1;
+      break;
 
-  */
+    case 2:
+      timerCtrlSel = TIMER_SEL2;
+      timerPort = TIMER_2;
+      break;
+  };
 
+  controlWord = controlWord | timerCtrlSel | TIMER_LSB_MSB;
 
-  printf("%s Not implemented, yet\n", __func__);
+  if(sys_outb(TIMER_CTRL, controlWord))
+    return 1;
+
+  // Write freq value in the selected timer
+
+  uint8_t lsb;
+  uint8_t msb;
+  util_get_LSB(freqValue, &lsb);
+  util_get_MSB(freqValue, &msb);
+
+  if(!sys_outb(timerPort,lsb)){
+    if(!sys_outb(timerPort, msb))
+      return 0;
+  }
 
   return 1;
 }
@@ -73,12 +105,12 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 
 
     // Write Read-Back word to control regiter (0x43)
-    if (sys_outb(TIMER_CTRL, rbword) != 0)
+    if (sys_outb(TIMER_CTRL, rbword))
         return 1;
 
     // Reads timer status
     // util_sys_inb calls sys_inb with st variable transformed into uint32_t
-    if(util_sys_inb(port, st) != 0)
+    if(util_sys_inb(port, st))
         return 1;
 
     return 0;
