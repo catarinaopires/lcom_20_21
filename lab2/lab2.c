@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+uint32_t COUNTER;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -49,8 +50,6 @@ int(timer_test_time_base)(uint8_t timer, uint32_t freq) {
 
   return 0;
 }
-
-uint32_t counter;
 
 int(timer_test_int)(uint8_t time) {
   int ipc_status;

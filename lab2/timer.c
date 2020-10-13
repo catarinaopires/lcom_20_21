@@ -91,7 +91,7 @@ int (timer_unsubscribe_int)() {
   return 0;
 }
 void (timer_int_handler)() {
-  counter++;
+  COUNTER++;
 
 }
 
