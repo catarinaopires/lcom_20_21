@@ -5,7 +5,8 @@
 
 #include "i8254.h"
 
-
+extern uint32_t counter;
+int HOOK_ID = 0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   
@@ -68,23 +69,30 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   return 1;
 }
 
-int (timer_subscribe_int)(uint8_t *bit_no) {
-    /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
-  return 1;
+int (timer_subscribe_int)(uint8_t *bit_no) {
+  HOOK_ID = *bit_no;
+
+  if(sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &HOOK_ID) != OK){
+    printf("%s !\n", __func__);
+    return 1;
+  }
+
+  return 0;
 }
 
 int (timer_unsubscribe_int)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  if(sys_irqrmpolicy(&HOOK_ID) != OK){
+    printf("%s !\n", __func__);
+    return 1;
+  }
 
-  return 1;
+
+  return 0;
 }
-
 void (timer_int_handler)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  COUNTER++;
+
 }
 
 
