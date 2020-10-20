@@ -5,8 +5,7 @@
 #include <minix/sysutil.h>
 #include"kbd_macros.h"
 #include"utils.h"
-uint16_t OUTPUT_BUFFER_DATA = 0;
-uint8_t ST = 0;
+
 
 int (kbd_subscribe_int)(uint8_t *bit_no);
 
@@ -16,7 +15,8 @@ int(kbd_unsubscribe_int)();
  * OUTPUT_BUFFER_DATA - 8bits
  * ST - (Status register) 8bits
 */
-
+uint16_t OUTPUT_BUFFER_DATA = 0;
+uint8_t ST = 0;
 
 
 #define COUNTERIT 0
