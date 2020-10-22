@@ -6,21 +6,20 @@
 #include"kbd_macros.h"
 #include"utils.h"
 
-
 int (kbd_subscribe_int)(uint8_t *bit_no);
 
 int(kbd_unsubscribe_int)();
+
 
 /* Declare global variables to use with kbd interrupts
  * OUTPUT_BUFFER_DATA - 8bits
  * ST - (Status register) 8bits
 */
-uint16_t OUTPUT_BUFFER_DATA = 0;
-uint8_t ST = 0;
-
-
-#define COUNTERIT 0
+extern uint16_t OUTPUT_BUFFER_DATA;
+extern uint8_t ST;
 
 
 void (kbc_ih)();
+
+void(kbc_ih2)();
 #endif

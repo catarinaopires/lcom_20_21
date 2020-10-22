@@ -8,6 +8,16 @@
 #include <stdint.h>
 
 
+uint32_t COUNTERIT = 0;
+/* Declare global variables to use with kbd interrupts
+ * OUTPUT_BUFFER_DATA - 16bits
+ * ST - (Status register) 8bits
+*/
+uint16_t OUTPUT_BUFFER_DATA = 0;
+uint8_t ST = 0;
+
+
+
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -37,16 +47,17 @@ bool (kbd_scancode_make)(){
 }
 
 uint8_t (kbd_scancode_size)(){
-  if(OUTPUT_BUFFER_DATA > 31)
+  if(OUTPUT_BUFFER_DATA > 255)
     return 2;
   else
     return 1;
 }
 
 uint8_t* (kdb_scancode_bytes)(uint8_t bytes[]){
-  for(int i = 0; i < kbd_scancode_size() && OUTPUT_BUFFER_DATA; i++){
-    bytes[i] = utils_get_LSB(OUTPUT_BUFFER_DATA);
-    OUTPUT_BUFFER_DATA = OUTPUT_BUFFER_DATA >> 8;
+  uint16_t tmp = OUTPUT_BUFFER_DATA;
+  for(int i = 0; i < kbd_scancode_size() && tmp; i++){
+    bytes[i] = utils_get_LSB(tmp);
+    tmp = tmp >> 8;
   }
   return bytes;
 }
@@ -56,7 +67,7 @@ int(kbd_test_scan)() {
   message msg;
 
   uint8_t irq_set = 1;
-  timer_subscribe_int(&irq_set);
+  kbd_subscribe_int(&irq_set);
   uint8_t bytes[2];
   int r;
   while(bytes[0] != KBD_ESC_RELEASE) { /* You may want to use a different condition */
@@ -70,7 +81,9 @@ int(kbd_test_scan)() {
         case HARDWARE: /* hardware interrupt notification */
           if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
             /* process it */
+            OUTPUT_BUFFER_DATA = 0;
             kbc_ih();
+            kbc_ih2();
 
             //Print Scancode
             kbd_print_scancode(kbd_scancode_make(), kbd_scancode_size(), kdb_scancode_bytes(bytes));
@@ -84,8 +97,8 @@ int(kbd_test_scan)() {
       /* no standard messages expected: do nothing */
     }
   }
-    kbd_unsubscribe_int();
-    kbd_print_no_sysinb(COUNTERIT);
+  kbd_unsubscribe_int();
+  kbd_print_no_sysinb(COUNTERIT);
   return 0;
 }
 

@@ -1,5 +1,11 @@
 #include"utils.h"
 #include <stdint.h>
+#include "kbd_macros.h"
+
+
+#ifdef COUNTER_SYS_INB
+  extern uint32_t COUNTERIT;
+#endif
 
 int (util_sys_inb8)(int port, uint8_t *value) {
   unsigned int value32;
@@ -10,9 +16,11 @@ int (util_sys_inb8)(int port, uint8_t *value) {
 
   //Derefrences the value pointer, changing the memory content to the value read with the SYS_DEVIO call
   *value = value32;
-  #ifdef COUNTERIT
+
+#ifdef COUNTER_SYS_INB
   COUNTERIT += 1;
-  #endif
+#endif
+
   return 0;
 
 }
@@ -26,9 +34,11 @@ int (util_sys_inb16)(int port, uint16_t *value) {
 
   //Derefrences the value pointer, changing the memory content to the value read with the SYS_DEVIO call
   *value = value32;
-  #ifdef COUNTERIT
+
+#ifdef COUNTER_SYS_INB
   COUNTERIT += 1;
-  #endif
+#endif
+
   return 0;
 }
 

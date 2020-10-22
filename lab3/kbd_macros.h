@@ -20,4 +20,7 @@
 
 #define WAIT_KBC 20000
 
+#define COUNTER_SYS_INB
+
+
 #endif
