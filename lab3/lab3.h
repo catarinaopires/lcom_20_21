@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -15,5 +14,3 @@ void kbc_ih(void);
 int kbd_print_scancode(bool make, uint8_t size, uint8_t *bytes);
 
 int kbd_print_no_sysinb(uint32_t cnt);
-
-
