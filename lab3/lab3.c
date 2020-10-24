@@ -43,6 +43,9 @@ int(kbd_test_scan)() {
   uint8_t counter = 0;
   uint8_t bytes[2] = {0, 0};
 
+  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), irq_set))
+    return 1;
+
   while (OUTPUT_BUFF_DATA != KBC_ESC_BREAKCODE) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -55,16 +58,16 @@ int(kbd_test_scan)() {
           if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
             kbc_ih();
             if (counter == 1) {
-              couter = 0;
-              bytes[1] = OUTPUT_BUFF_DATA;
-              kbd_print_scancode(sdsdsdsd, 2, *bytes);
-            }
-            else if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
-              counter++;
-              bytes[0] = OUTPUT_BUFF_DATA;
+              bytes[counter] = OUTPUT_BUFF_DATA;
+              counter = 0;
+              kbd_print_scancode(is_make_code(), 2, *bytes);
             }
             else {
-              kbd_print_scancode(ddsdsdsd, 1, *bytes);
+              bytes[counter] = OUTPUT_BUFF_DATA;
+              if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                counter++;
+              else
+                kbd_print_scancode(is_make_code(), 1, *bytes);
             }
           }
           break;
@@ -77,7 +80,9 @@ int(kbd_test_scan)() {
     }
   }
 
-  return 1;
+  if(unsubscribe_int())
+    return 1;
+  return 0;
 }
 
 int(kbd_test_poll)() {

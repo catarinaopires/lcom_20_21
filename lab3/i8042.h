@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <minix/sysutil.h>
 // Define Keyboard Controller (KBC) IRQ
 #define KBC_IRQ 1
 
