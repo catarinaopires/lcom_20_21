@@ -57,7 +57,7 @@ int(kbd_test_scan)() {
     if (is_ipc_notify(ipc_status)) { /* received notification */
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:                             /* hardware interrupt notification */
-          if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
+          if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
             kbc_ih();
             if (counter == 1) {
               bytes[counter] = OUTPUT_BUFF_DATA;

@@ -1,7 +1,6 @@
 #pragma once
 #include <lcom/lab3.h>
 #include <stdint.h>
-#include <minix/sysutil.h>
 // Define Keyboard Controller (KBC) IRQ
 #define KBC_IRQ 1
 
@@ -12,7 +11,7 @@
 #define KBC_OUT_BUF 0x60  // KBC's Output register
 
 // Define wait time for KBC reads
-#define WAIT_KBC 20000
+#define DELAY_US 20000
 
 // Breakcode flag (Output buffer's bit 7 is high)
 #define KBC_BREAKCODE_FLAG BIT(7)
@@ -35,3 +34,4 @@ uint8_t OUTPUT_BUFF_DATA;
 int SCAN_COUNTER;
 
 int is_make_code();
+
