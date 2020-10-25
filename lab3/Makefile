@@ -2,7 +2,7 @@
 PROG=lab3
 
 # source code files to be compiled
-SRCS = lab3.c i8042.c ../common/utils.c ../common/interrupts.c
+SRCS = lab3.c i8042.c utils.c interrupts.c
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set

@@ -1,4 +1,5 @@
 #pragma once
+#include <lcom/lab3.h>
 #include <stdint.h>
 #include <minix/sysutil.h>
 // Define Keyboard Controller (KBC) IRQ
@@ -32,7 +33,5 @@
 // Global variables needed
 uint8_t OUTPUT_BUFF_DATA;
 int SCAN_COUNTER;
-
-void kbc_ih(void);
 
 int is_make_code();

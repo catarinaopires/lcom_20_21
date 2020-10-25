@@ -1,7 +1,8 @@
 #include <lcom/lcf.h>
 
-#include "i8042.h"
 #include <lcom/lab3.h>
+#include "i8042.h"
+#include "interrupts.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -9,8 +10,8 @@
 #  define IRQ_SET 1
 #endif
 
-extern OUTPUT_BUFF_DATA;
-extern SCAN_COUNTER;
+extern uint8_t OUTPUT_BUFF_DATA;
+extern int SCAN_COUNTER;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -38,15 +39,16 @@ int main(int argc, char *argv[]) {
 
 int(kbd_test_scan)() {
   int ipc_status;
+  int r;
   message msg;
   uint8_t irq_set = IRQ_SET;
   uint8_t counter = 0;
   uint8_t bytes[2] = {0, 0};
 
-  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), irq_set))
+  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
     return 1;
 
-  while (OUTPUT_BUFF_DATA != KBC_ESC_BREAKCODE) {
+  while (bytes[0] != KBC_ESC_BREAKCODE) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -60,14 +62,14 @@ int(kbd_test_scan)() {
             if (counter == 1) {
               bytes[counter] = OUTPUT_BUFF_DATA;
               counter = 0;
-              kbd_print_scancode(is_make_code(), 2, *bytes);
+              kbd_print_scancode(is_make_code(), 2, &bytes[0]);
             }
             else {
               bytes[counter] = OUTPUT_BUFF_DATA;
               if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
                 counter++;
               else
-                kbd_print_scancode(is_make_code(), 1, *bytes);
+                kbd_print_scancode(is_make_code(), 1,  &bytes[0]);
             }
           }
           break;
