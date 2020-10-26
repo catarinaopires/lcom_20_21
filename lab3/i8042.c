@@ -1,22 +1,19 @@
 #include "i8042.h"
 #include <lcom/lcf.h>
 #include <lcom/lab3.h>
+#include <minix/sysutil.h>
 
 void(kbc_ih)() {
   uint8_t st;
   uint8_t data;
-  while( 1 ) {
-    util_sys_inb(KBC_ST_REG, &st); /* assuming it returns OK */
-  /* loop while 8042 output buffer is empty */
-    if(st & KBC_OUTPUT_BUFF_FULL) {
-      util_sys_inb(KBC_OUT_BUF, &data);
-    }
-    if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ) {
-      OUTPUT_BUFF_DATA = data;
-      break;
-    }
+  util_sys_inb(KBC_ST_REG, &st); /* assuming it returns OK */
+
+  if(st & KBC_OUTPUT_BUFF_FULL) {
+    util_sys_inb(KBC_OUT_BUF, &data);
   }
-  tickdelay(micros_to_ticks(WAIT_KBC));                           // Wait for KBC
+  if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ) {
+    OUTPUT_BUFF_DATA = data;
+  }
 }
 
 int is_make_code(){
