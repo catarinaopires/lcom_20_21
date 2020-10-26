@@ -59,7 +59,7 @@ int(timer_test_int)(uint8_t time) {
   timer_subscribe_int(&irq_set);
 
   int r;
-  while(counter/60 < time ) { /* You may want to use a different condition */
+  while(COUNTER/60 < time ) { /* You may want to use a different condition */
    /* Get a request message. */
      if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) { 
         printf("driver_receive failed with: %d", r);
@@ -73,7 +73,7 @@ int(timer_test_int)(uint8_t time) {
 
                   timer_int_handler();
 
-                  if(counter%60 == 0)
+                  if(COUNTER % 60 == 0)
                     timer_print_elapsed_time();
                    
                 }
