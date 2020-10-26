@@ -12,6 +12,7 @@
 
 extern uint8_t OUTPUT_BUFF_DATA;
 extern int SCAN_COUNTER;
+extern int POLL_COUNTER;
 
 
 int main(int argc, char *argv[]) {
@@ -92,10 +93,77 @@ int(kbd_test_scan)() {
 }
 
 int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+   /* To be completed by the students */
+  printf("%s is implemented!\n", __func__);
 
-  return 1;
+  uint8_t stat;
+  uint8_t counter = 0;
+  uint8_t bytes[2] = {0, 0};
+  uint8_t cmd;
+
+  while( 1 ) {
+    util_sys_inb(KBC_ST_REG, &stat); /* assuming it returns OK */
+    /* loop while 8042 input buffer is not empty */
+    if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
+
+      sys_outb(KBC_CMD_REG, KBC_CMD_READ);
+      util_sys_inb(KBC_OUT_BUF, &cmd);   // Read command byte
+
+      // Change Bit 0 to 0 to disable keyboard interrupt
+      cmd = cmd & 0xfe;
+
+      // Write new command
+      sys_outb(KBC_CMD_REG, KBC_OUT_BUF);
+      sys_outb(KBC_OUT_BUF, cmd);
+
+      break;
+    }
+    tickdelay(micros_to_ticks(WAIT_KBC));
+  }
+
+
+  while(bytes[0] != KBC_ESC_BREAKCODE){
+    if (kbc_read_poll() == 0){
+      if (counter == 1) {
+        bytes[counter] = OUTPUT_BUFF_DATA;
+        counter = 0;
+        kbd_print_scancode(is_make_code(), 2, bytes);
+      }
+      else {
+        bytes[counter] = OUTPUT_BUFF_DATA;
+        if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+          counter++;
+        else
+          kbd_print_scancode(is_make_code(), 1, bytes);
+      }
+     
+    }
+  }
+  kbd_print_no_sysinb(POLL_COUNTER); 
+
+
+  while( 1 ) {
+    util_sys_inb(KBC_ST_REG, &stat); /* assuming it returns OK */
+    /* loop while 8042 input buffer is not empty */
+    if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
+
+      // TODO: ADD KBC_CMD_READ = 0x20 TO MACROS
+      sys_outb(KBC_CMD_REG, KBC_CMD_READ);
+      util_sys_inb(KBC_OUT_BUF, &cmd);   // Read command byte
+
+       // Change Bit 0 to 1 to enable keyboard interrupt
+      cmd = cmd | BIT(0);
+
+      // Write new command
+      sys_outb(KBC_CMD_REG, KBC_OUT_BUF);
+      sys_outb(KBC_OUT_BUF, cmd);
+
+      break;
+    }
+    tickdelay(micros_to_ticks(WAIT_KBC)); 
+  }
+
+  return 0;
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {
