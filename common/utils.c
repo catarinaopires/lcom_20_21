@@ -18,13 +18,12 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb) {
 
 }
 
-
 int (util_sys_inb)(int port, uint8_t *value) {
   unsigned int value32;
 
   //Calls minix SYS_DEVIO to read from the specified port
   if(sys_inb(port, &value32) != OK) {
-      printf("Error in %s function's sys_inb call", __func__);
+      printf("Error in %s function's sys_inb call", __func__)
       return 1;
   }
 
@@ -33,11 +32,3 @@ int (util_sys_inb)(int port, uint8_t *value) {
 
   return 0;
 }
-
-#ifdef SCAN_COUNTER
-  SCAN_COUNTER += 1;
-#endif
-
-  return 0;
-}
-
