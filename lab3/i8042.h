@@ -28,6 +28,9 @@
 // Define 'Esc' breakcode for loop termination
 #define KBC_ESC_BREAKCODE 0x81
 
+// Define for variable counter
+#define COUNT_SCAN
+
 
 // Global variables needed
 uint8_t OUTPUT_BUFF_DATA;
