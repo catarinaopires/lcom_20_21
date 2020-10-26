@@ -62,13 +62,12 @@ int(kbd_test_scan)() {
         case HARDWARE:                             /* hardware interrupt notification */
           if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
             kbc_ih();
+            bytes[counter] = OUTPUT_BUFF_DATA;
             if (counter == 1) {
-              bytes[counter] = OUTPUT_BUFF_DATA;
               counter = 0;
               kbd_print_scancode(is_make_code(), 2, &bytes[0]);
             }
             else {
-              bytes[counter] = OUTPUT_BUFF_DATA;
               if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
                 counter++;
               else
@@ -88,7 +87,7 @@ int(kbd_test_scan)() {
 
   if(unsubscribe_int())
     return 1;
-  //kbd_print_no_sysinb(COUNTERIT);
+  kbd_print_no_sysinb(SCAN_COUNTER);
   return 0;
 }
 

@@ -14,6 +14,8 @@ void(kbc_ih)() {
   if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ) {
     OUTPUT_BUFF_DATA = data;
   }
+  else
+    OUTPUT_BUFF_DATA = 0;
 }
 
 int is_make_code(){

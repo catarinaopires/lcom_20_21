@@ -30,5 +30,9 @@ int (util_sys_inb)(int port, uint8_t *value) {
   //Derefrences the value pointer, changing the memory content to the value read with the SYS_DEVIO call
   *value = value32;
 
+#ifdef COUNT_SCAN
+  SCAN_COUNTER += 1;
+#endif
+
   return 0;
 }
