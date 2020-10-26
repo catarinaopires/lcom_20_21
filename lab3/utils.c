@@ -18,6 +18,7 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb) {
 
 }
 
+
 int (util_sys_inb)(int port, uint8_t *value) {
   unsigned int value32;
 
@@ -32,3 +33,11 @@ int (util_sys_inb)(int port, uint8_t *value) {
 
   return 0;
 }
+
+#ifdef SCAN_COUNTER
+  SCAN_COUNTER += 1;
+#endif
+
+  return 0;
+}
+

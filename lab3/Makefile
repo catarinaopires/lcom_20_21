@@ -2,6 +2,7 @@
 PROG=lab3
 
 # source code files to be compiled
+
 SRCS = lab3.c i8042.c utils.c interrupts.c
 
 # additional compilation flags
@@ -14,3 +15,4 @@ LDADD += -llcf
 
 # include LCOM's makefile that does all the "heavy lifting"
 .include <minix.lcom.mk>
+

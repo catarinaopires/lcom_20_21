@@ -13,6 +13,7 @@
 extern uint8_t OUTPUT_BUFF_DATA;
 extern int SCAN_COUNTER;
 
+
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -36,6 +37,7 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
 
 int(kbd_test_scan)() {
   int ipc_status;
@@ -76,6 +78,7 @@ int(kbd_test_scan)() {
         default:
           break; /* no other notifications expected: do nothing */
       }
+
     }
     else { /* received a standard message, not a notification */
            /* no standard messages expected: do nothing */
@@ -84,6 +87,7 @@ int(kbd_test_scan)() {
 
   if(unsubscribe_int())
     return 1;
+  //kbd_print_no_sysinb(COUNTERIT);
   return 0;
 }
 
