@@ -99,26 +99,52 @@ int(kbd_test_poll)() {
   uint8_t counter = 0;
   uint8_t bytes[2] = {0, 0};
   uint8_t cmd;
+  uint8_t data;
 
-  while( 1 ) {
-    util_sys_inb(KBC_ST_REG, &stat); // assuming it returns OK
-    // loop while 8042 input buffer is not empty
-    if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
+  /*while( 1 ) {
+    if(util_sys_inb(KBC_ST_REG, &stat) != 0){
+      return 1;
+    }
+    // loop while 8042 input buffer is full
+    if( (stat & KBC_INPUT_BUFF_FULL) == 0 ) {
 
-      sys_outb(KBC_CMD_REG, KBC_CMD_READ);
-      util_sys_inb(KBC_OUT_BUF, &cmd);   // Read command byte
+      // Issue read command
+      if(sys_outb(KBC_CMD_REG, KBC_CMD_READ) != OK){
+        return 1;
+      }
+
+      while( 1 ) {
+        if(util_sys_inb(KBC_ST_REG, &stat) != 0){
+          return 1;
+        }
+        //loop while 8042 output buffer is empty
+        if(stat & KBC_OUTPUT_BUFF_FULL){
+          util_sys_inb(KBC_OUT_BUF, &data); //ass. it returns OK
+          if ( (stat &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ) {
+            cmd = data;
+            break;
+          }
+          else
+            return 1;
+        }
+        else
+          tickdelay(micros_to_ticks(WAIT_KBC));
+      }
 
       // Change Bit 0 to 0 to disable keyboard interrupt
       cmd = cmd & 0xfe;
 
       // Write new command
-      sys_outb(KBC_CMD_REG, KBC_OUT_BUF);
-      sys_outb(KBC_OUT_BUF, cmd);
-
+      if(sys_outb(KBC_CMD_WRITE, cmd) != OK){
+        return 1;
+      }
+      if(sys_outb(KBC_CMD_ARGS, cmd) != OK){
+        return 1;
+      }
       break;
     }
     tickdelay(micros_to_ticks(WAIT_KBC));
-  }
+  }*/
 
 
   while(bytes[0] != KBC_ESC_BREAKCODE){
@@ -144,20 +170,45 @@ int(kbd_test_poll)() {
 
 
   while( 1 ) {
-    util_sys_inb(KBC_ST_REG, &stat); /* assuming it returns OK */
-    /* loop while 8042 input buffer is not empty */
-    if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
+    if(util_sys_inb(KBC_ST_REG, &stat) != OK){
+      return 1;
+    }
+    // loop while 8042 input buffer is full
+    if( (stat & KBC_INPUT_BUFF_FULL) == 0 ) {
 
-      sys_outb(KBC_CMD_REG, KBC_CMD_READ);
-      util_sys_inb(KBC_OUT_BUF, &cmd);   // Read command byte
+      if(sys_outb(KBC_CMD_REG, KBC_CMD_READ) != OK){
+        return 1;
+      }
+
+      while( 1 ) {
+        util_sys_inb(KBC_ST_REG, &stat);
+
+        //loop while 8042 output buffer is empty
+        if(stat & KBC_OUTPUT_BUFF_FULL){
+          if(util_sys_inb(KBC_OUT_BUF, &data) != 0){
+            return 1;
+          }
+          if ( (stat &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ) {
+            cmd = data;
+            break;
+          }
+          else
+            return 1;
+        }
+        else
+          tickdelay(micros_to_ticks(WAIT_KBC));
+      }
 
       // Change Bit 0 to 1 to enable keyboard interrupt
       cmd = cmd | BIT(0);
 
       // Write new command
-      sys_outb(KBC_CMD_REG, KBC_OUT_BUF);
-      sys_outb(KBC_OUT_BUF, cmd);
-
+      if(sys_outb(KBC_CMD_REG, KBC_CMD_WRITE) != OK){
+        return 1;
+      }
+      if(sys_outb(KBC_CMD_ARGS, cmd) != OK){
+          return 1;
+      }
       break;
     }
     tickdelay(micros_to_ticks(WAIT_KBC)); 

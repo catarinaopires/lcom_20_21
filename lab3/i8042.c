@@ -31,21 +31,22 @@ int (kbc_read_poll)(){
   uint8_t data = 0;
 
   while( 1 ) {
-    util_sys_inb(KBC_ST_REG, &st); /* assuming it returns OK */
-  /* loop while 8042 output buffer is empty */
+    if(util_sys_inb(KBC_ST_REG, &st) != OK){
+      return 1;
+    } /* loop while 8042 output buffer is empty */
 
-   // Check if OBF is free & if it came from kbd
+   // Check if OBF is full & if it came from kbd
     if(st & (KBC_OUTPUT_BUFF_FULL | !KBC_AUX)) {
       if(util_sys_inb(KBC_OUT_BUF, &data) != OK)
         return 1;
+      if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ){
+        OUTPUT_BUFF_DATA = data;
+        break;
+      }
     }
-    if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ){
-      OUTPUT_BUFF_DATA = data;
-      break;
-    }
+    else
+      tickdelay(micros_to_ticks(WAIT_KBC));
   }
-  tickdelay(micros_to_ticks(WAIT_KBC)); 
-
   return 0;
 
 }
