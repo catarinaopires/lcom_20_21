@@ -10,6 +10,7 @@
 #define KBC_CMD_ARGS 0x60 // Argument register for some commands
 #define KBC_OUT_BUF 0x60  // KBC's Output register
 
+// KBC COMMANDS
 #define KBC_CMD_READ 0x20 
 
 // Define wait time for KBC poll reads
@@ -32,14 +33,13 @@
 
 // Define for variable counter
 #define COUNT_SCAN
-
+#define COUNT_POLL
 
 // Global variables needed
 uint8_t OUTPUT_BUFF_DATA;
 int SCAN_COUNTER;
 int POLL_COUNTER;
 
-#define COUNT_POLL
 
 int is_make_code();
 

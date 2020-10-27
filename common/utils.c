@@ -34,5 +34,9 @@ int (util_sys_inb)(int port, uint8_t *value) {
   SCAN_COUNTER += 1;
 #endif
 
+#ifdef COUNT_POLL
+  POLL_COUNTER += 1;
+#endif
+
   return 0;
 }

@@ -101,8 +101,8 @@ int(kbd_test_poll)() {
   uint8_t cmd;
 
   while( 1 ) {
-    util_sys_inb(KBC_ST_REG, &stat); /* assuming it returns OK */
-    /* loop while 8042 input buffer is not empty */
+    util_sys_inb(KBC_ST_REG, &stat); // assuming it returns OK
+    // loop while 8042 input buffer is not empty
     if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
 
       sys_outb(KBC_CMD_REG, KBC_CMD_READ);
@@ -130,10 +130,12 @@ int(kbd_test_poll)() {
       }
       else {
         bytes[counter] = OUTPUT_BUFF_DATA;
-        if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
-          counter++;
-        else
-          kbd_print_scancode(is_make_code(), 1, bytes);
+        if (OUTPUT_BUFF_DATA != 0){
+          if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+            counter++;
+          else
+            kbd_print_scancode(is_make_code(), 1, bytes);
+        }
       }
      
     }
@@ -146,11 +148,10 @@ int(kbd_test_poll)() {
     /* loop while 8042 input buffer is not empty */
     if( (stat & KBC_OUTPUT_BUFF_FULL) == 0 ) {
 
-      // TODO: ADD KBC_CMD_READ = 0x20 TO MACROS
       sys_outb(KBC_CMD_REG, KBC_CMD_READ);
       util_sys_inb(KBC_OUT_BUF, &cmd);   // Read command byte
 
-       // Change Bit 0 to 1 to enable keyboard interrupt
+      // Change Bit 0 to 1 to enable keyboard interrupt
       cmd = cmd | BIT(0);
 
       // Write new command
