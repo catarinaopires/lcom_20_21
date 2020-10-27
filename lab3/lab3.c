@@ -1,10 +1,11 @@
 #include <lcom/lcf.h>
 
 #include <lcom/lab3.h>
-#include "i8042.h"
-#include "interrupts.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "i8042.h"
+#include "i8254.h"
+#include "interrupts.h"
 
 #ifndef IRQ_SET
 #  define IRQ_SET 1
@@ -13,6 +14,8 @@
 extern uint8_t OUTPUT_BUFF_DATA;
 extern int SCAN_COUNTER;
 extern int POLL_COUNTER;
+
+int TIMER_COUNTER;
 
 
 int main(int argc, char *argv[]) {
@@ -100,8 +103,8 @@ int(kbd_test_poll)() {
   uint8_t bytes[2] = {0, 0};
   uint8_t cmd;
   uint8_t data;
-
-  /*while( 1 ) {
+/*
+  while( 1 ) {
     if(util_sys_inb(KBC_ST_REG, &stat) != 0){
       return 1;
     }
@@ -144,8 +147,8 @@ int(kbd_test_poll)() {
       break;
     }
     tickdelay(micros_to_ticks(WAIT_KBC));
-  }*/
-
+  }
+*/
 
   while(bytes[0] != KBC_ESC_BREAKCODE){
     if (kbc_read_poll() == 0){
@@ -218,8 +221,76 @@ int(kbd_test_poll)() {
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  printf("%s is implemented!\n", __func__);
+
+  int ipc_status;
+  int r;
+  message msg;
+  uint8_t irq_set_kbc = IRQ_SET;
+  uint8_t irq_set_timer = TIMER0_IRQ;
+  uint8_t counter = 0;
+  uint8_t bytes[2] = {0, 0};
+
+  // Subscribe keyboard interruptions
+  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc))
+    return 1;
+
+  // Subscribe timer interruptions
+  if(subscribe_int(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
+    return 1;
+
+  TIMER_COUNTER = 0;
+  while ((bytes[0] != KBC_ESC_BREAKCODE) && (TIMER_COUNTER/60 < n)) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             /* hardware interrupt notification */
+          if (msg.m_notify.interrupts & BIT(irq_set_kbc)) { /* subscribed interrupt */
+            printf("in interruption kbd\n");
+            kbc_ih();
+            TIMER_COUNTER = 0;
+            bytes[counter] = OUTPUT_BUFF_DATA;
+            if (counter == 1) {
+              counter = 0;
+              kbd_print_scancode(is_make_code(), 2, &bytes[0]);
+            }
+            else {
+              if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                counter++;
+              else
+                kbd_print_scancode(is_make_code(), 1,  &bytes[0]);
+            }
+          }
+
+          if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+            /* process it */
+            TIMER_COUNTER++;  // Interrupt handler
+
+            /*if(TIMER_COUNTER % 60 == 0)
+              timer_print_elapsed_time();*/
+                   
+          }
+
+          break;
+        default:
+          break; /* no other notifications expected: do nothing */
+      }
+
+    }
+    else { /* received a standard message, not a notification */
+           /* no standard messages expected: do nothing */
+    }
+  }
+
+  // Unsubscribe both interruptions
+  if(unsubscribe_int())
+    return 1;
+  kbd_print_no_sysinb(SCAN_COUNTER);
+  return 0;
 
   return 1;
 }
