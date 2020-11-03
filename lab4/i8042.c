@@ -26,5 +26,3 @@ int is_make_code(){
   }
   return 1;
 }
-
-

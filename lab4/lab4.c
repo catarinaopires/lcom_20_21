@@ -1,29 +1,29 @@
+// IMPORTANT: you must include the following line in all your C files
 #include <lcom/lcf.h>
 
-#include "i8042.h"
-#include "../common/interrupts.h"
-#include <lcom/lab3.h>
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
+#include "i8042.h"
+#include "interrupts.h"
 
 #ifndef IRQ_SET
-#  define IRQ_SET 1
+#  define IRQ_SET 12
 #endif
+// Any header files included below this line should have been created by you
 
-extern uint8_t OUTPUT_BUFF_DATA;
-extern int SCAN_COUNTER;
+extern int OUTPUT_BUFF_DATA;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
 
   // enables to log function invocations that are being "wrapped" by LCF
-  // [comment this out if you don't want/need it]
-  lcf_trace_calls("/home/lcom/labs/lab3/trace.txt");
+  // [comment this out if you don't want/need/ it]
+  lcf_trace_calls("/home/lcom/labs/lab4/trace.txt");
 
   // enables to save the output of printf function calls on a file
   // [comment this out if you don't want/need it]
-  lcf_log_output("/home/lcom/labs/lab3/output.txt");
+  lcf_log_output("/home/lcom/labs/lab4/output.txt");
 
   // handles control over to LCF
   // [LCF handles command line arguments and invokes the right function]
@@ -37,18 +37,19 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-int(kbd_test_scan)() {
+
+int (mouse_test_packet)(uint32_t cnt) {
   int ipc_status;
   int r;
   message msg;
   uint8_t irq_set = IRQ_SET;
   uint8_t counter = 0;
-  uint8_t bytes[2] = {0, 0};
+  uint8_t bytes[3] = {0, 0, 0};
 
-  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
+  if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
     return 1;
 
-  while (OUTPUT_BUFF_DATA != KBC_ESC_BREAKCODE) {
+  while (cnt) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -58,19 +59,9 @@ int(kbd_test_scan)() {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:                             /* hardware interrupt notification */
           if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
-            kbc_ih();
-            if (counter == 1) {
-              bytes[counter] = OUTPUT_BUFF_DATA;
-              counter = 0;
-              kbd_print_scancode(is_make_code(), 2, &bytes[0]);
-            }
-            else {
-              bytes[counter] = OUTPUT_BUFF_DATA;
-              if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
-                counter++;
-              else
-                kbd_print_scancode(is_make_code(), 1, &bytes[0]);
-            }
+            mouse_ih();
+            cnt--;
+            mouse_print_packet(mouse_process_packet());
           }
           break;
         default:
@@ -78,7 +69,7 @@ int(kbd_test_scan)() {
       }
     }
     else { /* received a standard message, not a notification */
-           /* no standard messages expected: do nothing */
+      /* no standard messages expected: do nothing */
     }
   }
 
@@ -87,16 +78,20 @@ int(kbd_test_scan)() {
   return 0;
 }
 
-int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
-  return 1;
+int (mouse_test_async)(uint8_t idle_time) {
+    /* To be completed */
+    printf("%s(%u): under construction\n", __func__, idle_time);
+    return 1;
 }
 
-int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+int (mouse_test_gesture)() {
+    /* To be completed */
+    printf("%s: under construction\n", __func__);
+    return 1;
+}
 
-  return 1;
+int (mouse_test_remote)(uint16_t period, uint8_t cnt) {
+    /* To be completed */
+    printf("%s(%u, %u): under construction\n", __func__, period, cnt);
+    return 1;
 }

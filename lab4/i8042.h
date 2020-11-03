@@ -1,8 +1,10 @@
 #pragma once
 #include <stdint.h>
 #include <minix/sysutil.h>
+#include "test4.h"
 // Define Keyboard Controller (KBC) IRQ
-#define KBC_IRQ 1
+#define KBC_KB_IRQ 1      // Keyboard IRQ
+#define KBC_MOUSE_IRQ 12  // Mouse IRQ
 
 // Define some useful KBC ports
 #define KBC_ST_REG 0x64   // Status register (ST)
@@ -36,3 +38,9 @@ int SCAN_COUNTER;
 void (kbc_ih)(void);
 
 int is_make_code();
+
+void mouse_ih(void);
+
+int mouse_enable_data_reporting();
+
+packet mouse_process_packet();

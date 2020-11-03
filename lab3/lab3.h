@@ -9,7 +9,7 @@ int kbd_test_poll();
 
 int kbd_test_timed_scan(uint8_t n);
 
-void kbc_ih(void);
+void (kbc_ih)(void);
 
 int kbd_print_scancode(bool make, uint8_t size, uint8_t *bytes);
 
