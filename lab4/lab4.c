@@ -1,17 +1,17 @@
 // IMPORTANT: you must include the following line in all your C files
 #include <lcom/lcf.h>
 
-#include <stdint.h>
-#include <stdio.h>
 #include "i8042.h"
 #include "interrupts.h"
+#include <stdint.h>
+#include <stdio.h>
 
 #ifndef IRQ_SET
 #  define IRQ_SET 12
 #endif
 // Any header files included below this line should have been created by you
 
-extern int OUTPUT_BUFF_DATA;
+extern uint8_t OUTPUT_BUFF_DATA;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -49,6 +49,9 @@ int (mouse_test_packet)(uint32_t cnt) {
   if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
     return 1;
 
+  if(mouse_enable_data_reporting())
+    return 1;
+
   while (cnt) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -58,10 +61,18 @@ int (mouse_test_packet)(uint32_t cnt) {
     if (is_ipc_notify(ipc_status)) { /* received notification */
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:                             /* hardware interrupt notification */
-          if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
+          if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
             mouse_ih();
-            cnt--;
-            mouse_print_packet(mouse_process_packet());
+            bytes[counter] = OUTPUT_BUFF_DATA;
+            if (counter == 2) {
+              counter = 0;
+              cnt--;
+              struct packet toPrint = mouse_process_packet(bytes);
+              mouse_print_packet(&toPrint);
+            }
+            else if (counter == 1 || counter == 0) {
+              counter++;
+            }
           }
           break;
         default:
@@ -73,6 +84,8 @@ int (mouse_test_packet)(uint32_t cnt) {
     }
   }
 
+  if(mouse_disable_data_reporting())
+    return 1;
   if(unsubscribe_int())
     return 1;
   return 0;
@@ -84,7 +97,7 @@ int (mouse_test_async)(uint8_t idle_time) {
     return 1;
 }
 
-int (mouse_test_gesture)() {
+int (mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
     /* To be completed */
     printf("%s: under construction\n", __func__);
     return 1;
