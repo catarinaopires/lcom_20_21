@@ -83,7 +83,6 @@ int (mouse_test_packet)(uint32_t cnt) {
       /* no standard messages expected: do nothing */
     }
   }
-
   if(mouse_disable_data_reporting())
     return 1;
   if(unsubscribe_int())

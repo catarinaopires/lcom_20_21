@@ -18,6 +18,7 @@
 // Mouse commands
 #define KBC_WRITE_MOUSE 0xD4
 #define KBC_ENABLE_DATA_REP_STR 0xF4
+#define KBC_DISABLE_DATA_REP_STR 0xF5
 #define KBC_MOUSE_ACK 0xFA
 #define KBC_MOUSE_NACK 0xFE
 #define KBC_MOUSE_ERR 0xFC
@@ -71,6 +72,8 @@ int is_make_code();
 int (kbc_read_poll)();
 
 int (mouse_enable_data_reporting_ours)();
+
+int (mouse_disable_data_reporting)();
 
 void (mouse_ih)(void);
 
