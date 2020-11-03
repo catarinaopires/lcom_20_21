@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-uint32_t COUNTER;
+uint32_t TIMER_COUNTER;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -59,7 +59,7 @@ int(timer_test_int)(uint8_t time) {
   timer_subscribe_int(&irq_set);
 
   int r;
-  while(counter/60 < time ) { /* You may want to use a different condition */
+  while(TIMER_COUNTER/60 < time ) { /* You may want to use a different condition */
    /* Get a request message. */
      if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) { 
         printf("driver_receive failed with: %d", r);
@@ -73,7 +73,7 @@ int(timer_test_int)(uint8_t time) {
 
                   timer_int_handler();
 
-                  if(counter%60 == 0)
+                  if(TIMER_COUNTER % 60 == 0)
                     timer_print_elapsed_time();
                    
                 }
