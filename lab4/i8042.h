@@ -79,4 +79,4 @@ void (mouse_ih)(void);
 
 struct packet (mouse_process_packet)(uint8_t bytes[]);
 
-uint16_t (to16Cpl2)(uint8_t value);
+uint16_t (to16Cpl2)(uint8_t value, uint8_t msb);

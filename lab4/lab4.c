@@ -46,11 +46,12 @@ int (mouse_test_packet)(uint32_t cnt) {
   uint8_t counter = 0;
   uint8_t bytes[3] = {0, 0, 0};
 
+  if(mouse_enable_data_reporting_ours())
+    return 1;
+
   if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
     return 1;
 
-  if(mouse_enable_data_reporting())
-    return 1;
 
   while (cnt) {
     /* Get a request message. */
@@ -83,10 +84,13 @@ int (mouse_test_packet)(uint32_t cnt) {
       /* no standard messages expected: do nothing */
     }
   }
-  if(mouse_disable_data_reporting())
-    return 1;
+
   if(unsubscribe_int())
     return 1;
+
+  if(mouse_disable_data_reporting() != 0)
+    return 1;
+
   return 0;
 }
 
