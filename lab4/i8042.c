@@ -54,7 +54,7 @@ int (kbc_read_poll)(){
 
 }
 
-int (mouse_enable_data_reporting_ours)(){
+int (mouse_write)(uint8_t cmd){
   uint8_t stat = 0;
   uint8_t ack = 0;
 
@@ -72,7 +72,7 @@ int (mouse_enable_data_reporting_ours)(){
 
       if((stat & KBC_INPUT_BUFF_FULL) == 0){
       
-        if(sys_outb(KBC_CMD_ARGS, KBC_ENABLE_DATA_REP_STR) != OK)
+        if(sys_outb(KBC_CMD_ARGS, cmd) != OK)
           return 1;
 
         if(util_sys_inb(KBC_OUT_BUF, &ack) != 0)
@@ -99,40 +99,6 @@ uint16_t (to16Cpl2)(uint8_t value, uint8_t msb){
   return (rtv | value);
 }
 
-int (mouse_disable_data_reporting)(){
-   uint8_t stat = 0;
-  uint8_t ack = 0;
-
-  while (1){
-    if(util_sys_inb(KBC_ST_REG, &stat) != 0)
-      return 1;
-
-    if((stat & KBC_INPUT_BUFF_FULL) == 0){
-
-      if(sys_outb(KBC_CMD_REG, KBC_WRITE_MOUSE) != OK)
-        return 1;
-
-      if(util_sys_inb(KBC_ST_REG, &stat) != 0)
-        return 1;
-
-      if((stat & KBC_INPUT_BUFF_FULL) == 0){
-      
-        if(sys_outb(KBC_CMD_ARGS, KBC_DISABLE_DATA_REP_STR) != OK)
-          return 1;
-
-        if(util_sys_inb(KBC_OUT_BUF, &ack) != 0)
-          return 1;
-
-        if(ack == KBC_MOUSE_ACK)
-          return 0;
-      }
-    }
-    tickdelay(micros_to_ticks(WAIT_KBC)); 
-  }
-
-}
-
-
 struct packet (mouse_process_packet)(uint8_t bytes[]){
   struct packet processedPacket;
   processedPacket.bytes[0] = bytes[0];
@@ -145,9 +111,6 @@ struct packet (mouse_process_packet)(uint8_t bytes[]){
 
   processedPacket.x_ov = (bytes[0] & MOUSE_X_OVF);
   processedPacket.y_ov = (bytes[0] & MOUSE_Y_OVF);
-
-
-
 
   processedPacket.delta_x = to16Cpl2(bytes[1], (bytes[0] & BIT(4)));
   processedPacket.delta_y = to16Cpl2(bytes[2], (bytes[0] & BIT(5)));

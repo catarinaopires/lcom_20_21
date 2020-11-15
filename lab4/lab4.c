@@ -2,6 +2,7 @@
 #include <lcom/lcf.h>
 
 #include "i8042.h"
+#include "i8254.h"
 #include "interrupts.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -46,7 +47,7 @@ int (mouse_test_packet)(uint32_t cnt) {
   uint8_t counter = 0;
   uint8_t bytes[3] = {0, 0, 0};
 
-  if(mouse_enable_data_reporting_ours())
+  if(mouse_write(KBC_ENABLE_DATA_REP_STR))
     return 1;
 
   if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
@@ -88,16 +89,86 @@ int (mouse_test_packet)(uint32_t cnt) {
   if(unsubscribe_int())
     return 1;
 
-  if(mouse_disable_data_reporting() != 0)
+  if(mouse_write(KBC_DISABLE_DATA_REP_STR))
     return 1;
 
   return 0;
 }
 
 int (mouse_test_async)(uint8_t idle_time) {
-    /* To be completed */
     printf("%s(%u): under construction\n", __func__, idle_time);
+    
+  int ipc_status;
+  int r;
+  message msg;
+  uint8_t irq_set_mouse = IRQ_SET;
+  uint8_t irq_set_timer = TIMER0_IRQ;
+  uint8_t counter = 0;
+  int TIMER_COUNTER = 0;
+  uint8_t bytes[3] = {0, 0, 0};
+
+  if(mouse_write(KBC_STREAM_MODE))
     return 1;
+
+  if(mouse_write(KBC_ENABLE_DATA_REP_STR))
+    return 1;
+
+  // Subscribe keyboard interruptions
+  if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_mouse))
+    return 1;
+
+  // Subscribe timer interruptions
+  if(subscribe_int(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
+    return 1;
+
+  while (TIMER_COUNTER/60 < idle_time) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             /* hardware interrupt notification */
+          if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { /* subscribed interrupt */
+            mouse_ih();
+            TIMER_COUNTER = 0;
+            bytes[counter] = OUTPUT_BUFF_DATA;
+            if (counter == 2) {
+              counter = 0;
+              struct packet toPrint = mouse_process_packet(bytes);
+              mouse_print_packet(&toPrint);
+            }
+            else if (counter == 1 || counter == 0) {
+              counter++;
+            }
+          }
+
+          if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+            /* process it */
+            TIMER_COUNTER++;  // Interrupt handler   
+            //printf("increase counter: %d\n", TIMER_COUNTER);                
+          }
+
+          break;
+        default:
+          break; /* no other notifications expected: do nothing */
+      }
+
+    }
+    else { /* received a standard message, not a notification */
+           /* no standard messages expected: do nothing */
+    }
+  }
+
+  // Unsubscribe both interruptions
+  if(unsubscribe_int())
+    return 1;
+  
+  if(mouse_write(KBC_DISABLE_DATA_REP_STR))
+    return 1;
+
+  return 0;
 }
 
 int (mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
