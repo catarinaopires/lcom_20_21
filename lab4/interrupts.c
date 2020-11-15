@@ -21,7 +21,7 @@ int (subscribe_int)(int irq, int policy, uint8_t *bit_no){
 
 
 int (unsubscribe_int)(){
-    
+        
     for(int i = 0; i < HOOK_ID_COUNTER; i++){
         if(sys_irqrmpolicy(&HOOK_ID[i]) != OK){
             printf("Error in %s!", __func__);

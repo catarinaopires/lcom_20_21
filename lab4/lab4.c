@@ -4,12 +4,17 @@
 #include "i8042.h"
 #include "i8254.h"
 #include "interrupts.h"
+#include "i8254.h"
+#include "timer.h"
 #include <stdint.h>
 #include <stdio.h>
 
 #ifndef IRQ_SET
 #  define IRQ_SET 12
 #endif
+
+int TIMER_COUNTER = 0;
+
 // Any header files included below this line should have been created by you
 
 extern uint8_t OUTPUT_BUFF_DATA;
@@ -142,19 +147,15 @@ int (mouse_test_async)(uint8_t idle_time) {
             else if (counter == 1 || counter == 0) {
               counter++;
             }
-          }
 
-          if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
-            /* process it */
-            TIMER_COUNTER++;  // Interrupt handler   
-            //printf("increase counter: %d\n", TIMER_COUNTER);                
           }
-
+          if(msg.m_notify.interrupts & BIT(timer_irq_set)){
+            timer_int_handler();
+          }
           break;
         default:
           break; /* no other notifications expected: do nothing */
       }
-
     }
     else { /* received a standard message, not a notification */
            /* no standard messages expected: do nothing */
