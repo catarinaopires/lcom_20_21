@@ -118,7 +118,7 @@ int (mouse_test_async)(uint8_t idle_time) {
   if(mouse_write(KBC_ENABLE_DATA_REP_STR))
     return 1;
 
-  // Subscribe keyboard interruptions
+  // Subscribe mouse interruptions
   if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_mouse))
     return 1;
 
@@ -172,8 +172,92 @@ int (mouse_test_async)(uint8_t idle_time) {
   return 0;
 }
 
+struct movement
+{
+  uint16_t delta_x;
+  uint16_t delta_y;
+};
+
 int (mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
-  return 1;
+  int ipc_status;
+  int r;
+  message msg;
+  struct packet toPrint;
+  uint8_t irq_set_mouse = IRQ_SET;
+  uint8_t counter = 0;
+  uint8_t bytes[3] = {0, 0, 0};
+
+  if(mouse_write(KBC_ENABLE_DATA_REP_STR))
+    return 1;
+
+  // Subscribe mouse interruptions
+  if(subscribe_int(KBC_MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_mouse))
+    return 1;
+
+  // TODO: CHANGE CONDITION
+  while (1) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             /* hardware interrupt notification */
+          if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
+            mouse_ih();
+            bytes[counter] = OUTPUT_BUFF_DATA;
+            if (counter == 2) {
+              counter = 0;
+              toPrint = mouse_process_packet(bytes);
+              mouse_print_packet(&toPrint);
+            }
+            else if (counter == 1 || counter == 0) {
+              counter++;
+            }
+          }
+          break;
+        default:
+          break; /* no other notifications expected: do nothing */
+      }
+    }
+    else { /* received a standard message, not a notification */
+      /* no standard messages expected: do nothing */
+    }
+
+
+    
+    /* Now, do application dependent event handling */
+    if ( event & MOUSE_EVT ) {
+      handle_mouse();
+    } else if ( event & )
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // Unsubscribe both interruptions
+  if(unsubscribe_int())
+    return 1;
+  
+  if(mouse_write(KBC_DISABLE_DATA_REP_STR))
+    return 1;
+
+  return 0;
 }
 
 int (mouse_test_remote)(uint16_t period, uint8_t cnt) {
