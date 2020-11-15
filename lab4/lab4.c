@@ -149,7 +149,7 @@ int (mouse_test_async)(uint8_t idle_time) {
             }
 
           }
-          if(msg.m_notify.interrupts & BIT(timer_irq_set)){
+          if(msg.m_notify.interrupts & BIT(irq_set_timer)){
             timer_int_handler();
           }
           break;
@@ -173,13 +173,57 @@ int (mouse_test_async)(uint8_t idle_time) {
 }
 
 int (mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
-    /* To be completed */
-    printf("%s: under construction\n", __func__);
-    return 1;
+  return 1;
 }
 
 int (mouse_test_remote)(uint16_t period, uint8_t cnt) {
-    /* To be completed */
-    printf("%s(%u, %u): under construction\n", __func__, period, cnt);
+  uint8_t stat = 0;
+  uint8_t bytes[3] = {0, 0, 0};
+
+  if(mouse_write(KBC_DISABLE_DATA_REP_STR))
     return 1;
+
+  if(mouse_write(KBC_REMOTE_MODE))
+    return 1;
+
+
+  while(cnt){
+    mouse_write(KBC_READ_DATA);
+    for(int counter = 0; counter < 3; counter++){
+      mouse_ih();
+      bytes[counter] = OUTPUT_BUFF_DATA;
+      if (counter == 2) {
+        cnt--;
+        struct packet toPrint = mouse_process_packet(bytes);
+        mouse_print_packet(&toPrint);
+      }
+    }
+    tickdelay(micros_to_ticks(period * 1000));
+  }
+
+  if(mouse_write(KBC_STREAM_MODE))
+    return 1;
+
+  if(mouse_write(KBC_DISABLE_DATA_REP_STR))
+    return 1;
+
+
+  while( 1 ) {
+    if (util_sys_inb(KBC_ST_REG, &stat) != OK) {
+      return 1;
+    }
+    // loop while 8042 input buffer is full
+    if ((stat & KBC_INPUT_BUFF_FULL) == 0) {
+
+      if (sys_outb(KBC_CMD_REG, KBC_CMD_WRITE) != OK)
+        return 1;
+
+      if (sys_outb(KBC_CMD_ARGS, minix_get_dflt_kbc_cmd_byte()) != 0)
+          return 1;
+      break;
+    }
+    else
+      tickdelay(micros_to_ticks(WAIT_KBC));
+  }
+  return 0;
 }

@@ -18,8 +18,10 @@
 // Mouse commands
 #define KBC_WRITE_MOUSE 0xD4
 #define KBC_STREAM_MODE 0xEA
+#define KBC_REMOTE_MODE 0xF0
 #define KBC_ENABLE_DATA_REP_STR 0xF4
 #define KBC_DISABLE_DATA_REP_STR 0xF5
+#define KBC_READ_DATA 0xEB
 #define KBC_MOUSE_ACK 0xFA
 #define KBC_MOUSE_NACK 0xFE
 #define KBC_MOUSE_ERR 0xFC
