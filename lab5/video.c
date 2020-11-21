@@ -16,7 +16,7 @@ int video_change_mode(uint16_t mode){
   return 0;
 }
 
-struct minix_mem_range vram_map_memory(phys_bytes base, unsigned int size){
+void* vram_map_memory(phys_bytes base, unsigned int size){
 
   int r;
   struct minix_mem_range mr;        /* physical memory range */
@@ -34,6 +34,6 @@ struct minix_mem_range vram_map_memory(phys_bytes base, unsigned int size){
   if (video_mem == MAP_FAILED)
     panic("couldn’t map video memory");
 
-  return mr;
-
+  return video_mem;
 }
+

@@ -6,5 +6,5 @@
 
 int video_change_mode(uint16_t mode);
 
-struct minix_mem_range vram_map_memory(phys_bytes base, unsigned int size);
+void* vram_map_memory(phys_bytes base, unsigned int size);
 
