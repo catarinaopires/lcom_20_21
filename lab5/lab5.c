@@ -37,18 +37,36 @@ int main(int argc, char *argv[]) {
 }
 
 void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, char* video_mem,vbe_mode_info_t vmi_p){
-  char *ptr = (char*)video_mem;  
-  int hres = vmi_p.XResolution;      
+  char *ptr = video_mem;  
+  int step = vmi_p.BitsPerPixel/8;
+  int hres = vmi_p.XResolution;
+  int vres =  vmi_p.YResolution;
 
-  int firstPos = (((x-1) + (y*hres))*vmi_p.BitsPerPixel)/8;
+  int firstPos = ((x + (y*hres))*vmi_p.BitsPerPixel)/8;
   ptr = ptr + firstPos;
 
-  for(int line = 0; line < height + 1; line++) {
 
-    for(int col = 0; col < width + 1; col++, ptr++){
+  for(int line = 0; line < height + 1; line++) {
+    for(int col = 0; col < width + 1; col++){
       *ptr = color;
+
+      if(ptr + step < video_mem + hres*vres*step){
+        ptr += step;
+      }
+      else
+      {
+        break;
+      }
+      
     }
-    ptr = ptr + (hres - width - 1)*vmi_p.BitsPerPixel/8;
+
+    if(ptr + step < video_mem + hres*vres*step){
+        ptr = ptr + (hres - width - step)*step;
+    }
+    else
+    {
+      break;
+    }
   }
 }
 
@@ -78,12 +96,6 @@ int(video_test_init)(uint16_t mode, uint8_t delay) {
 int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
                           uint16_t width, uint16_t height, uint32_t color) {
 
-  if (video_change_mode(mode)){
-      if (vg_exit() != OK)
-        return 1;
-    return 1;
-  }
-
   vbe_mode_info_t vmi_p;
 
   if (vbe_get_mode_info(mode, &vmi_p)){
@@ -93,6 +105,13 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
   }
     
   void* video_mem = vram_map_memory(vmi_p.PhysBasePtr, (vmi_p.XResolution*vmi_p.YResolution*vmi_p.BitsPerPixel)/8);
+
+  if (video_change_mode(mode)){
+      if (vg_exit() != OK)
+        return 1;
+    return 1;
+  }
+
   draw_rectangle(x, y, height, width, color, video_mem, vmi_p);
 
 
@@ -155,11 +174,6 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
 }
 
 int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_t step) {
-  if (video_change_mode(mode)){
-      if (vg_exit() != OK)
-        return 1;
-    return 1;
-  }
 
   vbe_mode_info_t vmi_p;
 
@@ -171,11 +185,17 @@ int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, ui
 
   void* video_mem = vram_map_memory(vmi_p.PhysBasePtr, (vmi_p.XResolution*vmi_p.YResolution*vmi_p.BitsPerPixel)/8);
 
+  if (video_change_mode(mode)){
+      if (vg_exit() != OK)
+        return 1;
+    return 1;
+  }
+
   int verticalStripe = vmi_p.XResolution*vmi_p.BitsPerPixel % no_rectangles;
   int horizontalStripe = vmi_p.YResolution*vmi_p.BitsPerPixel % no_rectangles;
 
-  int width = vmi_p.XResolution*vmi_p.BitsPerPixel / no_rectangles;
-  int height = vmi_p.YResolution*vmi_p.BitsPerPixel / no_rectangles;
+  int width = vmi_p.XResolution / no_rectangles;
+  int height = vmi_p.YResolution / no_rectangles;
 
   for(int lines = 0; lines < vmi_p.YResolution; lines+= height){
     // Check if resolution can be divided equally for the nr of rectangles
@@ -188,10 +208,12 @@ int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, ui
         break;
       }
 
-      uint32_t rcolor = ((first & (BIT(7)|BIT(6)|BIT(5))) >> 5 & vmi_p.RedMaskSize + col*step) % (1 << vmi_p.RedMaskSize); 
+      /* uint32_t rcolor = ((first & (BIT(7)|BIT(6)|BIT(5))) >> 5 & vmi_p.RedMaskSize + col*step) % (1 << vmi_p.RedMaskSize); 
       uint32_t gcolor = ((first & (BIT(2)|BIT(3)|BIT(4))) >> 2 & vmi_p.GreenMaskSize + lines*step) % (1 << vmi_p.GreenMaskSize);
       uint32_t bcolor = (first & (BIT(0)|BIT(1)) + (lines+col)) % (1 << vmi_p.BlueMaskSize);
-      uint32_t color = rcolor << 5 | gcolor << 2 | bcolor;
+      uint32_t color = rcolor << 5 | gcolor << 2 | bcolor; */
+
+      uint32_t color = (first + (lines * no_rectangles + col) * step) % (1 << vmi_p.BitsPerPixel);
       draw_rectangle(col, lines, height, width, color, video_mem, vmi_p);
       
     }
