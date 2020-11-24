@@ -37,3 +37,38 @@ void* vram_map_memory(phys_bytes base, unsigned int size){
   return video_mem;
 }
 
+
+void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, char* video_mem,vbe_mode_info_t vmi_p){
+  uint64_t ptr = (uint64_t)(video_mem);
+  uint32_t step = vmi_p.BitsPerPixel/8;
+  uint32_t hres = vmi_p.XResolution;
+  uint32_t vres =  vmi_p.YResolution;
+
+  int firstPos = ((x + (y*hres))*vmi_p.BitsPerPixel)/8;
+  ptr = ptr + firstPos;
+
+
+  for(int line = 0; line < height; line++) {
+    for(int col = 0; col < width; col++){
+      memset((void*)ptr, color, step);
+
+      if(ptr + step < (uint64_t)(video_mem + hres * vres * step)){
+        ptr += step;
+      }
+      else
+      {
+        break;
+      }
+
+    }
+
+    if(ptr < (uint64_t)(video_mem + hres * vres * step)){
+      ptr = ptr + (hres - width) * step;
+    }
+    else
+    {
+      break;
+    }
+  }
+}
+
