@@ -343,6 +343,42 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
   }
 
+  // Speed: number of pixels between frames
+  uint16_t xspeed, yspeed;
+  int nrFramesBetweenMov = 0;
+
+  // If speed is negative, then it specifies the number of frames required for a 1 pixel displacement
+  // Speed: 1 pixel between frames
+  if(speed < 0){
+      nrFramesBetweenMov = abs(speed);
+      // Vertical movement
+      if(xi == xf){
+          yspeed = 1;
+          xspeed = 0;
+      }
+      // Horizontal movement
+      else{
+          xspeed = 1;
+          yspeed = 0;
+      }
+  }
+  // If speed is positive, then it specifies the displacement in pixels between consecutive frames
+  // Speed: speed pixels between frames
+  else{
+      // Vertical movement
+      if(xi == xf){
+          yspeed = abs(speed);
+          xspeed = 0;
+      }
+          // Horizontal movement
+      else{
+          xspeed = abs(speed);
+          yspeed = 0;
+      }
+  }
+
+  Sprite *sprite = create_sprite(&xpm, xi, yi, xspeed, yspeed);
+
   if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc)){
     if (vg_exit() != OK)
       return 1;
@@ -355,6 +391,7 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
   }
 
+  // TODO: EXIT WHEN ESC PRESSED OR MOVEMENT DONE
   while (bytes[0] != KBC_ESC_BREAKCODE) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -399,10 +436,12 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
   }
 
+  destroy_sprite(sprite);
 
   // Reset to text mode
   if (vg_exit() != OK)
     return 1;
+
   return 0;
 
 }
