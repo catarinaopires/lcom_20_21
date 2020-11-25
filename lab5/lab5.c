@@ -1,7 +1,9 @@
 // IMPORTANT: you must include the following line in all your C files
 #include "video.h"
 #include "i8042.h"
+#include "i8254.h"
 #include "interrupts.h"
+#include "Sprite.h"
 #include <lcom/lab5.h>
 #include <lcom/lcf.h>
 #include <machine/int86.h>
@@ -242,36 +244,21 @@ int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, ui
 int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   vbe_mode_info_t vmi_p;
 
-  if (vbe_get_mode_info(0x105, &vmi_p)){
+  if (vbe_get_mode_info(MODE_1024x768, &vmi_p)){
     if (vg_exit() != OK)
       return 1;
     return 1;
   }
 
   void* video_mem = vram_map_memory(vmi_p.PhysBasePtr, (vmi_p.XResolution*vmi_p.YResolution*vmi_p.BitsPerPixel)/8);
-  uint64_t video_it = (uint64_t)(video_mem);
 
-  if (video_change_mode(0x105)){
+  if (video_change_mode(MODE_1024x768)){
     if (vg_exit() != OK)
       return 1;
     return 1;
   }
-  // goes here
-  video_it = video_it + ((x + (y*1024))*vmi_p.BitsPerPixel)/8;
 
-  xpm_image_t img;
-  xpm_load(xpm, XPM_INDEXED, &img);
-  uint8_t *img_it;
-  img_it = img.bytes;
-
-  for(uint32_t lines = 0; lines < img.height; lines++){
-    for(uint32_t cols = 0; cols < img.width; cols++){
-      memset((void*)(video_it),(int)(img_it[cols + lines * img.width]), 1);
-      video_it += 1;
-    }
-    video_it = video_it + (1024 - img.width);
-  }
-
+  draw_xpm(x, y, (uint64_t)(video_mem), &xpm);
 
   int ipc_status;
   int r;
@@ -331,13 +318,93 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
 
 }
 
-int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf,
-                     int16_t speed, uint8_t fr_rate) {
-  /* To be completed */
-  printf("%s(%8p, %u, %u, %u, %u, %d, %u): under construction\n",
-         __func__, xpm, xi, yi, xf, yf, speed, fr_rate);
+int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, uint16_t speed, uint8_t framerate) {
+  vbe_mode_info_t vmi_p;
+  int ipc_status;
+  int r;
+  message msg;
+  uint8_t irq_set_kbc = KBC_IRQ;
+  uint8_t irq_set_timer = TIMER0_IRQ;
+  uint8_t timer_counter = 0;
+  uint8_t counter_kbc = 0;
+  uint8_t bytes[2] = {0, 0};
 
-  return 1;
+  if (vbe_get_mode_info(MODE_1024x768, &vmi_p)){
+    if (vg_exit() != OK)
+      return 1;
+    return 1;
+  }
+
+  void* video_mem = vram_map_memory(vmi_p.PhysBasePtr, (vmi_p.XResolution*vmi_p.YResolution*vmi_p.BitsPerPixel)/8);
+
+  if (video_change_mode(MODE_1024x768)){
+    if (vg_exit() != OK)
+      return 1;
+    return 1;
+  }
+
+  if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc)){
+    if (vg_exit() != OK)
+      return 1;
+    return 1;
+  }
+
+  if(subscribe_int(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer)){
+    if (vg_exit() != OK)
+      return 1;
+    return 1;
+  }
+
+  while (bytes[0] != KBC_ESC_BREAKCODE) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             /* hardware interrupt notification */
+          if (msg.m_notify.interrupts & BIT(irq_set_kbc)) { /* subscribed interrupt */
+            kbc_ih();
+            bytes[counter_kbc] = OUTPUT_BUFF_DATA;
+            if (counter_kbc == 1) {
+              counter_kbc = 0;
+            }
+            else {
+              if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                counter_kbc++;
+            }
+          }
+
+          if (msg.m_notify.interrupts & BIT(irq_set_timer)) {
+            timer_counter++;
+            if(!(timer_counter % (60 / framerate))){
+
+            }
+          }
+          break;
+        default:
+          break; /* no other notifications expected: do nothing */
+      }
+
+    }
+    else { /* received a standard message, not a notification */
+      /* no standard messages expected: do nothing */
+    }
+  }
+
+  if(unsubscribe_int()){
+    if (vg_exit() != OK)
+      return 1;
+    return 1;
+  }
+
+
+  // Reset to text mode
+  if (vg_exit() != OK)
+    return 1;
+  return 0;
+
 }
 
 int(video_test_controller)() {

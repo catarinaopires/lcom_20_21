@@ -72,3 +72,18 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uin
   }
 }
 
+void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_map_t* xpm){
+  uint64_t video_it = video_mem + ((x + (y*1024)));
+  xpm_image_t img;
+  xpm_load(*xpm, XPM_INDEXED, &img);
+  uint8_t *img_it;
+  img_it = img.bytes;
+
+  for(uint32_t lines = 0; lines < img.height; lines++){
+    for(uint32_t cols = 0; cols < img.width; cols++){
+      memset((void*)(video_it),(int)(img_it[cols + lines * img.width]), 1);
+      video_it += 1;
+    }
+    video_it = video_it + (1024 - img.width);
+  }
+}
