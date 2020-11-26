@@ -1,10 +1,15 @@
 #include "Sprite.h"
+#include "video.h"
 
-/**Creates a new sprite with pixmap "pic", with specified*position (within the screen limits) and speed;*
- * Does not draw the sprite on the screen*Returns NULL on invalid pixmap.*/
+/**
+ * Creates a new sprite with pixmap "pic", with specified*position (within the screen limits) and speed;
+ * Does not draw the sprite on the screen
+ *
+ * Returns NULL on invalid pixmap.
+ */
 Sprite* create_sprite(const uint8_t* pic[], int x, int y,int xspeed, int yspeed) {
 //allocate space for the "object"
-  Sprite*sp = (Sprite*) malloc ( sizeof(Sprite));
+  Sprite* sp = (Sprite*) malloc( sizeof(Sprite));
   xpm_image_t img;
   if( sp == NULL )
     return NULL;
@@ -32,7 +37,23 @@ void destroy_sprite(Sprite*sp){
   sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
-AnimSprite*create_animSprite(uint8_t no_pic,char*pic1[]) {
+int move_sprite(Sprite* sp, xf, yf){
+
+    // TODO: CLEAR SCREEN (transparency color)
+
+    // TODO: DRAW IMAGE IN NEW POSITION
+
+    // TODO: Update positions
+
+
+    return 0;
+
+}
+
+
+
+
+AnimSprite* create_animSprite(uint8_t no_pic,char*pic1[]) {
   AnimSprite *asp = malloc(sizeof(AnimSprite)); // create a standard sprite with first pixmap
   asp->sp = create_sprite(pic1, 0, 0, 0, 0);    // allocate array of pointers to pixmaps
   asp->map = malloc((no_pic) * sizeof(char *)); // initialize the first pixmap

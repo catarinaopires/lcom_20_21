@@ -320,6 +320,7 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
 
 int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, uint16_t speed, uint8_t framerate) {
   vbe_mode_info_t vmi_p;
+  int movementFinished = 1;
   int ipc_status;
   int r;
   message msg;
@@ -391,8 +392,8 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
   }
 
-  // TODO: EXIT WHEN ESC PRESSED OR MOVEMENT DONE
-  while (bytes[0] != KBC_ESC_BREAKCODE) {
+  // EXIT WHEN ESC PRESSED OR MOVEMENT DONE
+  while (bytes[0] != KBC_ESC_BREAKCODE || !movementFinished) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -416,6 +417,8 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
           if (msg.m_notify.interrupts & BIT(irq_set_timer)) {
             timer_counter++;
             if(!(timer_counter % (60 / framerate))){
+                // TODO: DRAW
+                movementFinished = move_sprite(sp, xf, yf);
 
             }
           }
