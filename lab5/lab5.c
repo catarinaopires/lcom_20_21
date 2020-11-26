@@ -418,7 +418,7 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
             timer_counter++;
             if(!(timer_counter % (60 / framerate))){
                 // TODO: DRAW
-                movementFinished = move_sprite(sp, xf, yf);
+                movementFinished = move_sprite(sprite, xf, yf);
 
             }
           }
