@@ -258,7 +258,10 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
     return 1;
   }
 
-  draw_xpm(x, y, (uint64_t)(video_mem), &xpm);
+  xpm_image_t img;
+  xpm_load(xpm, XPM_INDEXED, &img);
+
+  draw_xpm(x, y, (uint64_t)(video_mem), &img);
 
   int ipc_status;
   int r;
@@ -318,9 +321,9 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
 
 }
 
-int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, uint16_t speed, uint8_t framerate) {
+int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, int16_t speed, uint8_t fr_rate) {
   vbe_mode_info_t vmi_p;
-  int movementFinished = 1;
+  int movementFinished = 0;
   int ipc_status;
   int r;
   message msg;
@@ -346,7 +349,8 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
 
   // Speed: number of pixels between frames
   uint16_t xspeed, yspeed;
-  int nrFramesBetweenMov = 0;
+  int nrFramesBetweenMov = -1;
+  int frameCounter = 0;
 
   // If speed is negative, then it specifies the number of frames required for a 1 pixel displacement
   // Speed: 1 pixel between frames
@@ -378,7 +382,9 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
       }
   }
 
-  Sprite *sprite = create_sprite(&xpm, xi, yi, xspeed, yspeed);
+  xpm_image_t img;
+  Sprite* sprite = create_sprite(xpm, xi, yi, xspeed, yspeed, &img);
+  draw_xpm(xi,yi, (uint64_t)video_mem, sprite->map);
 
   if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc)){
     if (vg_exit() != OK)
@@ -393,16 +399,16 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
   }
 
   // EXIT WHEN ESC PRESSED OR MOVEMENT DONE
-  while (bytes[0] != KBC_ESC_BREAKCODE || !movementFinished) {
-    /* Get a request message. */
+  while ((bytes[0] != KBC_ESC_BREAKCODE) && !movementFinished) {
+    // Get a request message.
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
       continue;
     }
-    if (is_ipc_notify(ipc_status)) { /* received notification */
+    if (is_ipc_notify(ipc_status)) {  // Received notification
       switch (_ENDPOINT_P(msg.m_source)) {
-        case HARDWARE:                             /* hardware interrupt notification */
-          if (msg.m_notify.interrupts & BIT(irq_set_kbc)) { /* subscribed interrupt */
+        case HARDWARE:                              // Hardware interrupt notification
+          if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {  // Subscribed interrupt
             kbc_ih();
             bytes[counter_kbc] = OUTPUT_BUFF_DATA;
             if (counter_kbc == 1) {
@@ -416,20 +422,28 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
 
           if (msg.m_notify.interrupts & BIT(irq_set_timer)) {
             timer_counter++;
-            if(!(timer_counter % (60 / framerate))){
-                // TODO: DRAW
-                movementFinished = move_sprite(sprite, xf, yf);
-
+            if(!(timer_counter % (60 / fr_rate))){
+                // DRAW
+                if(nrFramesBetweenMov == -1){
+                    movementFinished = move_sprite(sprite, xf, yf, video_mem, vmi_p);
+                }
+                else{
+                    frameCounter++;
+                    if(frameCounter == nrFramesBetweenMov){
+                        movementFinished = move_sprite(sprite, xf, yf, video_mem, vmi_p);
+                        frameCounter = 0;
+                    }
+                }
             }
           }
           break;
         default:
-          break; /* no other notifications expected: do nothing */
+          break;  // no other notifications expected: do nothing
       }
 
     }
-    else { /* received a standard message, not a notification */
-      /* no standard messages expected: do nothing */
+    else { //  received a standard message, not a notification
+      // no standard messages expected: do nothing
     }
   }
 

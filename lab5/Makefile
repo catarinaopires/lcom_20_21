@@ -2,7 +2,7 @@
 PROG=lab5
 
 # source code files to be compiled
-SRCS = lab5.c video.c i8042.c interrupts.c utils.c
+SRCS = lab5.c video.c i8042.c interrupts.c utils.c Sprite.c
 
 
 # additional compilation flags
