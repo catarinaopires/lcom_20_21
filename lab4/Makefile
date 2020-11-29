@@ -2,7 +2,7 @@
 PROG=lab4
 
 # source code files to be compiled
-SRCS = lab4.c i8042.c utils.c interrupts.c timer.c
+SRCS = lab4.c i8042.c utils.c interrupts.c timer.c test4.c
 
 
 # additional compilation flags

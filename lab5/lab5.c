@@ -399,7 +399,7 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
   }
 
   // EXIT WHEN ESC PRESSED OR MOVEMENT DONE
-  while ((bytes[0] != KBC_ESC_BREAKCODE) && !movementFinished) {
+  while ((bytes[0] != KBC_ESC_BREAKCODE)) {
     // Get a request message.
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);

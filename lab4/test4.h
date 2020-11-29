@@ -1,16 +1,14 @@
 #pragma once
-
-struct packet {
-  uint8_t bytes[3];
-  bool rb;
-  bool mb;
-  bool lb;
-  int16_t delta_x;
-  int16_t delta_y;
-  bool x_ov;
-  bool y_ov;
-};
+#include <stdint.h>
+#include <lcom/lcf.h>
 
 
-void mouse_print_packet(struct packet *pp);
- 
+typedef enum { INIT1,
+  DRAW1,
+  INIT2,
+  DRAW2,
+  COMP } state_t;
+
+void draw_process_state(state_t* drawState, struct mouse_ev* mouseState,uint8_t x_len, uint8_t tolerance);
+
+void (mouse_detect_event_ours)(struct packet *pp, struct mouse_ev* current);
