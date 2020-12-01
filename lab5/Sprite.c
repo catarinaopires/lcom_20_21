@@ -44,7 +44,7 @@ void destroy_sprite(Sprite* sp){
 
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_info_t vmi_p){
 
-    // CLEAR SCREEN (transparency color)
+    // Clear screen (transparency color)
     draw_rectangle(sp->x, sp->y, sp->height, sp->width, xpm_transparency_color(XPM_INDEXED), video_mem, vmi_p);
 
     // Update positions
@@ -55,13 +55,11 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_
         sp->y += sp->yspeed;
     }
 
-    // DRAW IMAGE IN NEW POSITION
-    printf("drawing  \n");
-    draw_xpm(sp->x, sp->y, (uint64_t)video_mem, sp->map);
+    // Draw image in new position
+    draw_xpm(sp->x, sp->y, (uint64_t)video_mem, sp->map, vmi_p);
 
     // If in the end, draw again and return (Movement finished)
     if(sp->x >= xf && sp->y >= yf){
-        printf("end  \n");
         return 1;
     }
     else

@@ -9,10 +9,15 @@
 #include <machine/int86.h>
 #include <stdint.h>
 #include <stdio.h>
+#include "virus.xpm"
+#include "ball.xpm"
+#include "player1.xpm"
+
 
 uint8_t OUTPUT_BUFF_DATA;
 
 // Any header files included below this line should have been created by you
+int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y);
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -41,7 +46,7 @@ int main(int argc, char *argv[]) {
 int(video_test_init)(uint16_t mode, uint8_t delay) {
   struct reg86 r;
 
-  memset(&r, 0, sizeof(r)); /* zero the structure */
+  memset(&r, 0, sizeof(r));  // zero the structure
 
   r.ax = 0x4F02;         // VBE call, function 02 -- set VBE mode
   r.bx = 1 << 14 | mode; // set bit 14: linear framebuffer
@@ -261,7 +266,7 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   xpm_image_t img;
   xpm_load(xpm, XPM_INDEXED, &img);
 
-  draw_xpm(x, y, (uint64_t)(video_mem), &img);
+  draw_xpm(x, y, (uint64_t)(video_mem), &img, vmi_p);
 
   int ipc_status;
   int r;
@@ -384,7 +389,7 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 
   xpm_image_t img;
   Sprite* sprite = create_sprite(xpm, xi, yi, xspeed, yspeed, &img);
-  draw_xpm(xi,yi, (uint64_t)video_mem, sprite->map);
+  draw_xpm(xi,yi, (uint64_t)video_mem, sprite->map, vmi_p);
 
   if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc)){
     if (vg_exit() != OK)
@@ -458,7 +463,6 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
   // Reset to text mode
   if (vg_exit() != OK)
     return 1;
-
   return 0;
 
 }

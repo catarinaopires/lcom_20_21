@@ -72,7 +72,7 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uin
   }
 }
 
-void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img){
+/*void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img){
   uint64_t video_it = video_mem + ((x + (y*1024)));
 
   uint8_t *img_it;
@@ -85,4 +85,33 @@ void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img){
     }
     video_it = video_it + (1024 - img->width);
   }
+}*/
+
+void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img,vbe_mode_info_t vmi_p){
+
+    int nrBytes = vmi_p.BytesPerScanLine/vmi_p.XResolution;     // Number of bytes of color
+    uint8_t *img_it;
+    img_it = img->bytes;
+
+    for(uint32_t lines = 0; lines < img->height; lines++){
+        for(uint32_t cols = 0; cols < img->width; cols++){
+
+            uint32_t  color = 0;
+            for(int i = 0; i < nrBytes; i++){
+                color |= (img_it[(cols * nrBytes + lines * nrBytes * img->width) + i] << 8*i);
+            }
+
+            draw_pixel(cols+x, lines+y, video_mem, vmi_p, color);
+        }
+    }
+}
+
+void draw_pixel(uint32_t cols, uint32_t lines, uint64_t video_mem, vbe_mode_info_t vmi_p, uint32_t color){
+    int nrBytes = vmi_p.BytesPerScanLine/vmi_p.XResolution;
+    uint8_t* video_it = (uint8_t*) video_mem + (cols + lines * vmi_p.XResolution)*nrBytes;
+
+    // Handle every byte of color
+    for(int i = 0; i < nrBytes; i++){
+        video_it[i] = (uint8_t) (color >> 8*i);
+    }
 }
