@@ -9,49 +9,50 @@
  * Returns NULL on invalid pixmap.
  */
 Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed, xpm_image_t* img) {
-  // Allocate space for the "object"
-  Sprite* sp = (Sprite*) malloc( sizeof(Sprite));
-  if( sp == NULL )
-    return NULL;
+    // Allocate space for the "object"
+    Sprite* sp = (Sprite*) malloc( sizeof(Sprite));
+    if( sp == NULL )
+        return NULL;
 
-  // Read the sprite pixmap
-  xpm_load(pic, XPM_INDEXED, img);
+    // Read the sprite pixmap
+    xpm_load(pic, XPM_8_8_8_8, img);
 
-  sp->map = img;
+    sp->map = img;
 
-  if( sp->map == NULL ) {
-    free(sp);
-    return NULL;
-  }
+    if( sp->map == NULL ) {
+        free(sp);
+        return NULL;
+    }
 
-  sp->width = img->width;
-  sp->height = img->height;
-  sp->x = x;
-  sp->y = y;
-  sp->xspeed = xspeed;
-  sp->yspeed = yspeed;
-  return sp;
+    sp->width = img->width;
+    sp->height = img->height;
+    sp->x = x;
+    sp->y = y;
+    sp->xspeed = xspeed;
+    sp->yspeed = yspeed;
+
+    return sp;
 }
 
 void destroy_sprite(Sprite* sp){
-  if( sp == NULL )
-    return;
-  if( sp ->map )
-    free(sp->map);
-  free(sp);
-  sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
+    if( sp == NULL )
+        return;
+    if( sp ->map )
+        free(sp->map);
+    free(sp);
+    sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_info_t vmi_p){
 
     // Clear screen (transparency color)
-    draw_rectangle(sp->x, sp->y, sp->height, sp->width, xpm_transparency_color(XPM_INDEXED), video_mem, vmi_p);
+    draw_rectangle(sp->x, sp->y, sp->height, sp->width, xpm_transparency_color(XPM_8_8_8_8), video_mem, vmi_p);
 
     // Update positions
-    if(sp->x < xf){
+    if(((sp->x < xf) && (sp->xspeed > 0)) || ((sp->x > xf) && (sp->xspeed < 0))){
         sp->x += sp->xspeed;
     }
-    if(sp->y < yf){
+    if(((sp->y < yf) && (sp->yspeed > 0)) || ((sp->y > yf) && (sp->yspeed < 0))){
         sp->y += sp->yspeed;
     }
 
@@ -59,7 +60,9 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_
     draw_xpm(sp->x, sp->y, (uint64_t)video_mem, sp->map, vmi_p);
 
     // If in the end, draw again and return (Movement finished)
-    if(sp->x >= xf && sp->y >= yf){
+
+    if(((sp->x >= xf && sp->xspeed > 0) || (sp->x <= xf && sp->xspeed < 0)) &&
+       ((sp->y >= yf && sp->yspeed > 0) || (sp->y <= yf && sp->yspeed < 0))){
         return 1;
     }
     else

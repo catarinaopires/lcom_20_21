@@ -1,9 +1,9 @@
  #pragma once
   
- #include "pixmap.h"
- #include "xpm.h"
- #include "vbe.h"
- #include "video_gr.h"
+//#include "pixmap.h"
+//#include "xpm.h"
+//#include "vbe.h"
+//#include "video_gr.h"
   
  int (video_test_init)(uint16_t mode, uint8_t delay);
   
@@ -16,6 +16,8 @@
   
  int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf,
                        int16_t speed, uint8_t fr_rate);
-  
+
+ int (video_move_every_direction)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, int16_t xspeed, int16_t yspeed, uint8_t fr_rate);
+
  int (video_test_controller)();
-  
+

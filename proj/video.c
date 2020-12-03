@@ -37,9 +37,8 @@ void* vram_map_memory(phys_bytes base, unsigned int size){
   return video_mem;
 }
 
-
 void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, char* video_mem,vbe_mode_info_t vmi_p){
-  /*uint64_t ptr = (uint64_t)(video_mem);
+  uint64_t ptr = (uint64_t)(video_mem);
   uint32_t step = vmi_p.BitsPerPixel/8;
   uint32_t hres = vmi_p.XResolution;
   uint32_t vres =  vmi_p.YResolution;
@@ -69,31 +68,7 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uin
     {
       break;
     }
-  }*/
-
-    uint64_t video_it;
-    int x_max ;
-    int y_max ;
-
-    if(x+width > vmi_p.XResolution)
-        x_max =  vmi_p.XResolution;
-    else
-        x_max =x+width;
-    if(y+height > vmi_p.YResolution)
-        y_max = vmi_p.YResolution;
-    else
-        y_max = y+height;
-
-
-
-    for(int i = x; i < x_max; i++){
-        for(int j = y; j < y_max; j++){
-
-            video_it = (uint64_t)video_mem + (i+ j*vmi_p.XResolution)*(vmi_p.BitsPerPixel/8);
-            memset((void*)video_it, color, (vmi_p.BitsPerPixel/8));
-
-        }
-    }
+  }
 }
 
 /*void draw_xpm(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img){

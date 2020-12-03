@@ -4,6 +4,7 @@
 #include <machine/int86.h>
 
 #define MODE_1024x768 0x105
+#define MODE_1152x864 0X14C
 
 int video_change_mode(uint16_t mode);
 

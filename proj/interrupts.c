@@ -1,5 +1,4 @@
 #include <lcom/lcf.h>
-
 #include <stdint.h>
 
 // Using int global variable to obey minix SYS_IRQCTL calls
