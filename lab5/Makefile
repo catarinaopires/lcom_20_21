@@ -1,8 +1,8 @@
 # name of the program (Minix service)
-PROG=lab3
+PROG=lab5
 
 # source code files to be compiled
-SRCS = lab3.c i8042.c utils.c interrupts.c
+SRCS = lab5.c video.c i8042.c interrupts.c utils.c Sprite.c
 
 
 # additional compilation flags

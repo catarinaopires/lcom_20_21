@@ -10,7 +10,7 @@
 typedef char const *const xpm_row_t;
 
 // ensure that neither the pointer nor the content of an XPM pixmap can be changed
-typedef xpm_row_t *const xpm_map_t;
+typedef xpm_row_t * const xpm_map_t;
 
 /**
  * @brief Transparency color macros
@@ -48,14 +48,14 @@ enum xpm_image_type {
  * width is the number of horizontal pixels
  * height is the number of vertical pixels
  * size is the number of bytes [width * height * bytes_per_pixel]
- * data is the pointer to the start of the image data
+ * bytes is the pointer to the start of the image data
  */
 typedef struct {
   enum xpm_image_type type;
   uint16_t width;
   uint16_t height;
   size_t size;
-  uint8_t *data;
+  uint8_t *bytes;
 } xpm_image_t;
 
 /**
@@ -73,19 +73,13 @@ typedef struct {
  *   xpm_image_t img;
  *   uint8_t *sprite = xpm_load(my_xpm, type, &img);
  * </pre>
- */
-uint8_t *xpm_load(xpm_map_t map, enum xpm_image_type type, xpm_image_t *img);
-
-/**
- * Frees the dynamically allocated data pointed by data field.
- * Returns false on error.
- */
-bool xpm_free_data(xpm_image_t *img);
+*/
+uint8_t *(xpm_load)(xpm_map_t map, enum xpm_image_type type, xpm_image_t *img);
 
 /**
  * Returns the color used as transparency for a given XPM image type or 0 if the type
  * is not valid.
  */
-uint32_t xpm_transparency_color(enum xpm_image_type type);
+uint32_t(xpm_transparency_color)(enum xpm_image_type type);
 
 /** @} end of xpm */

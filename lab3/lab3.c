@@ -13,6 +13,7 @@
 
 extern uint8_t OUTPUT_BUFF_DATA;
 extern int SCAN_COUNTER;
+
 extern int POLL_COUNTER;
 
 int TIMER_COUNTER;

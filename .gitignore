@@ -1,1 +1,6 @@
-.minix-src
+/lab3/.gitignore
+/lab3/.idea
+/lab2/.idea
+/.idea
+/.vscode
+*.[oa]
