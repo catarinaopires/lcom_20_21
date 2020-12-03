@@ -9,37 +9,37 @@
  * Returns NULL on invalid pixmap.
  */
 Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed, xpm_image_t* img) {
-    // Allocate space for the "object"
-    Sprite* sp = (Sprite*) malloc( sizeof(Sprite));
-    if( sp == NULL )
-        return NULL;
+  // Allocate space for the "object"
+  Sprite* sp = (Sprite*) malloc( sizeof(Sprite));
+  if( sp == NULL )
+    return NULL;
 
-    // Read the sprite pixmap
-    xpm_load(pic, XPM_INDEXED, img);
+  // Read the sprite pixmap
+  xpm_load(pic, XPM_INDEXED, img);
 
-    sp->map = img;
+  sp->map = img;
 
-    if( sp->map == NULL ) {
-        free(sp);
-        return NULL;
-    }
+  if( sp->map == NULL ) {
+    free(sp);
+    return NULL;
+  }
 
-    sp->width = img->width;
-    sp->height = img->height;
-    sp->x = x;
-    sp->y = y;
-    sp->xspeed = xspeed;
-    sp->yspeed = yspeed;
-    return sp;
+  sp->width = img->width;
+  sp->height = img->height;
+  sp->x = x;
+  sp->y = y;
+  sp->xspeed = xspeed;
+  sp->yspeed = yspeed;
+  return sp;
 }
 
 void destroy_sprite(Sprite* sp){
-    if( sp == NULL )
-        return;
-    if( sp ->map )
-        free(sp->map);
-    free(sp);
-    sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
+  if( sp == NULL )
+    return;
+  if( sp ->map )
+    free(sp->map);
+  free(sp);
+  sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_info_t vmi_p){
