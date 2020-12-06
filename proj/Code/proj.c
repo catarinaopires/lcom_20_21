@@ -7,8 +7,8 @@
 
 // Any header files included below this line should have been created by you
 //#include "lab5.h"
-#include "video.h"
-#include "ball.xpm"
+#include "video/video.h"
+#include "video/images/ball.xpm"
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)

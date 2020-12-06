@@ -43,6 +43,36 @@ void destroy_sprite(Sprite* sp){
     sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
+int draw_sprite(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img,vbe_mode_info_t vmi_p){
+
+    int nrBytes = vmi_p.BytesPerScanLine/vmi_p.XResolution;     // Number of bytes of color
+    uint8_t *img_it;
+    img_it = img->bytes;
+
+    // Check collisions
+    for(uint32_t lines = 0; lines < img->height; lines++){
+        for(uint32_t cols = 0; cols < img->width; cols++){
+
+            if(img_it[cols * nrBytes + lines * nrBytes * img->width] != xpm_transparency_color(XPM_8_8_8_8)){
+                return 1;
+            }
+        }
+    }
+
+    for(uint32_t lines = 0; lines < img->height; lines++){
+        for(uint32_t cols = 0; cols < img->width; cols++){
+
+            uint32_t  color = 0;
+            for(int i = 0; i < nrBytes; i++){
+                color |= (img_it[(cols * nrBytes + lines * nrBytes * img->width) + i] << 8*i);
+            }
+
+            draw_pixel(cols+x, lines+y, video_mem, vmi_p, color);
+        }
+    }
+    return 0;
+}
+
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_info_t vmi_p){
 
     // Clear screen (transparency color)
@@ -57,10 +87,12 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, void* video_mem, vbe_mode_
     }
 
     // Draw image in new position
-    draw_xpm(sp->x, sp->y, (uint64_t)video_mem, sp->map, vmi_p);
+    // If collision
+    if(draw_sprite(sp->x, sp->y, (uint64_t)video_mem, sp->map, vmi_p)){
+        return -1;
+    }
 
     // If in the end, draw again and return (Movement finished)
-
     if(((sp->x >= xf && sp->xspeed > 0) || (sp->x <= xf && sp->xspeed < 0)) &&
        ((sp->y >= yf && sp->yspeed > 0) || (sp->y <= yf && sp->yspeed < 0))){
         return 1;
