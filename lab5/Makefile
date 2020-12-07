@@ -7,7 +7,7 @@ SRCS = lab5.c video.c i8042.c interrupts.c utils.c Sprite.c
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
-CPPFLAGS += -pedantic -DLAB3
+CPPFLAGS += -pedantic -DLAB5
 
 # list of library dependencies (for Lab 2, only LCF library)
 DPADD += ${LIBLCF}

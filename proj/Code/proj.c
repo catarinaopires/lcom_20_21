@@ -7,7 +7,7 @@
 
 // Any header files included below this line should have been created by you
 //#include "lab5.h"
-#include "video/video.h"
+#include "video.h"
 #include "video/images/ball.xpm"
 
 int main(int argc, char *argv[]) {
@@ -34,22 +34,24 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-/*static int print_usage() {
+/*
+static int print_usage() {
   printf("Usage: <mode - hex>\n");
 
   return 1;
-}*/
+}
+*/
 
 int(proj_main_loop)(int argc, char *argv[]) {
   /* 
-   * Substitute the code below by your own
-   */
+  Substitute the code below by your own
+   
 
   //
   // if you're interested, try to extend the command line options so that the usage becomes:
   // <mode - hex> <minix3 logo  - true|false> <grayscale - true|false> <delay (secs)>
   //
-  /*bool const minix3_logo = true;
+  bool const minix3_logo = true;
   bool const grayscale = false;
   uint8_t const delay = 5;
   uint16_t mode;
@@ -66,28 +68,31 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-    vbe_mode_info_t vmi_p;
+  printf("In proj main loop");
+  video_instance instance = video_init_empty();
+  instance.mode = 0x14C;
+  instance.video_get_mode_info = video_get_mode_info;
+  instance.video_change_mode = video_change_mode;
+  instance.video_map_vram_mem = video_map_vram_mem;
+  //instance.video_flip_page = video_flip_page;
+  instance.video_get_current_buffer = video_get_current_buffer; 
+  printf("out1\n");
+  video_get_mode_info(&instance);
+  //vbe_get_mode_info(MODE_1152x864, &instance.mode_info);
+  instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
+  printf("out2 %d \n", instance.bytesPerPixel);
+  video_map_vram_mem(&instance, 1);
+  printf("out3\n");
+  video_change_mode(&instance, MODE_1152x864);
+  printf("out4\n");
+  video_change_mode(&instance, MODE_1152x864);
 
-    if (vbe_get_mode_info(0x14C, &vmi_p)){
-        if (vg_exit() != OK)
-            return 1;
-        return 1;
-    }
+  draw_rectangle(20,20,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
+  //draw_xpm(150, 20, ball_xpm, &instance);
 
-    void* video_mem = vram_map_memory(vmi_p.PhysBasePtr, (vmi_p.XResolution*vmi_p.YResolution*vmi_p.BitsPerPixel)/8);
-
-    if (video_change_mode(0x14C)){
-        if (vg_exit() != OK)
-            return 1;
-        return 1;
-    }
-
-    xpm_image_t img;
-    xpm_load(ball_xpm, XPM_8_8_8_8, &img);
-
-
-  draw_xpm(0, 0, (uint64_t)(video_mem), &img, vmi_p);
-
-  vg_exit();
+  sleep(10);
+  
+  instance.video_change_mode(&instance, MODE_TEXT);
+  
   return 0;
 }
