@@ -323,11 +323,9 @@ void draw_xpm(uint16_t x, uint16_t y, xpm_image_t* img, video_instance* instance
 }
 
 void draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
-    uint8_t* video_it = (uint8_t*) instance->video_get_current_buffer(instance) + (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
-
-    // Handle every byte of color
-    for(int i = 0; i < instance->bytesPerPixel; i++){
-        video_it[i] = (uint8_t) (color >> 8*i);
-    }
+  
+  void* video_it = instance->video_get_current_buffer(instance) + (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
+    
+  memcpy(video_it, (const void*)(&color), instance->bytesPerPixel);  // Set Pixel color
 }
 
