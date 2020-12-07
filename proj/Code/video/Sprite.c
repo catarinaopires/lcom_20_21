@@ -43,13 +43,12 @@ void destroy_sprite(Sprite* sp){
     sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
-int draw_sprite(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img,vbe_mode_info_t vmi_p){
-
-    int nrBytes = vmi_p.BytesPerScanLine/vmi_p.XResolution;     // Number of bytes of color
+int check_collisions_sprite(xpm_image_t* img, int nrBytes){
     uint8_t *img_it;
     img_it = img->bytes;
 
     // Check collisions
+    // Check if in new position of sprite there are non-transparent pixels
     for(uint32_t lines = 0; lines < img->height; lines++){
         for(uint32_t cols = 0; cols < img->width; cols++){
 
@@ -57,6 +56,19 @@ int draw_sprite(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img,vbe
                 return 1;
             }
         }
+    }
+    return 0;
+}
+
+int draw_sprite(uint16_t x, uint16_t y, uint64_t video_mem, xpm_image_t* img,vbe_mode_info_t vmi_p){
+
+    int nrBytes = vmi_p.BytesPerScanLine/vmi_p.XResolution;     // Number of bytes of color
+    uint8_t *img_it;
+    img_it = img->bytes;
+
+    // Check collisions
+    if(check_collisions_sprite(img, nrBytes)){
+        return 1;
     }
 
     for(uint32_t lines = 0; lines < img->height; lines++){
