@@ -1,6 +1,5 @@
 // IMPORTANT: you must include the following line in all your C files
 #include <lcom/lcf.h>
-#include <lcom/liblm.h>
 #include <lcom/proj.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -68,7 +67,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-  printf("In proj main loop");
   video_instance instance = video_init_empty();
   instance.mode = 0x14C;
   instance.video_get_mode_info = video_get_mode_info;
@@ -76,19 +74,17 @@ int(proj_main_loop)(int argc, char *argv[]) {
   instance.video_map_vram_mem = video_map_vram_mem;
   //instance.video_flip_page = video_flip_page;
   instance.video_get_current_buffer = video_get_current_buffer; 
-  printf("out1\n");
   video_get_mode_info(&instance);
   //vbe_get_mode_info(MODE_1152x864, &instance.mode_info);
   instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
-  printf("out2 %d \n", instance.bytesPerPixel);
   video_map_vram_mem(&instance, 1);
-  printf("out3\n");
   video_change_mode(&instance, MODE_1152x864);
-  printf("out4\n");
   video_change_mode(&instance, MODE_1152x864);
 
   draw_rectangle(20,20,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
-  //draw_xpm(150, 20, ball_xpm, &instance);
+  xpm_image_t ball;
+  xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
+  draw_xpm(150, 20, &ball, &instance);
 
   sleep(10);
   

@@ -1,7 +1,6 @@
 #include "video.h"
 
 int video_get_mode_info(video_instance *instance){
-  printf("In get mode info");
   struct reg86 reg;
   memset(&reg, 0, sizeof(reg));
 
@@ -96,26 +95,7 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
     printf("Invalid number of buffers\n");
     return 1;
   }
-
-  int r;
-  struct minix_mem_range mr;        /* physical memory range */
-  unsigned int vram_base = instance->mode_info.PhysBasePtr;    /* VRAM’s physical addresss */
-  unsigned int vram_size = instance->bytesPerPixel * instance->mode_info.XResolution * instance->mode_info.YResolution;    /* VRAM’s size, but you can use the frame-buffer size, instead */
-  void *video_mem;                  /* frame-buffer VM address */
-
-  /* Allow memory mapping */
-  mr.mr_base = (phys_bytes) vram_base;
-  mr.mr_limit = mr.mr_base + vram_size;
-  if (OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
-    panic("sys_privctl (ADD_MEM) failed: %d\n", r);
-  /* Map memory */
-  video_mem = vm_map_phys(SELF, (void *) mr.mr_base, vram_size);
-  if (video_mem == MAP_FAILED)
-    panic("couldn’t map video memory");
-
-  instance->mapped_vram_addr[0] = video_mem;
   
-  /*
   int r;
   struct minix_mem_range mem_range; // physical memory range 
   void *video_mem;                  // frame-buffer VM address 
@@ -147,7 +127,6 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
       instance->mapped_vram_addr[buffer] = NULL;
     }
   }
-  */
 
   return 0;
 }
@@ -202,7 +181,6 @@ int video_flip_page(video_instance *instance){
 }
 
 void* video_get_current_buffer(video_instance *instance){
-  //printf("In get current buffer\n");
   return instance->mapped_vram_addr[instance->page];
 }
 
