@@ -90,7 +90,6 @@ int video_change_mode(video_instance *instance, uint16_t mode){
 }
 
 int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
-  printf("In map memory\n");
   if(bufferNr < 1 || bufferNr > 2){
     printf("Invalid number of buffers\n");
     return 1;
@@ -259,49 +258,27 @@ video_instance video_init_empty(){
   return instance;
 }
 
-void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, video_instance *instance){
+void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, video_instance *instance){
 
-  uint32_t hres = instance->mode_info.XResolution;
-  uint32_t vres = instance->mode_info.YResolution;
-
-  for(uint32_t line = y; line < height + y; line++) {
-    for(uint32_t col = x; col < width + x; col++){
-      if(col < hres){
-        draw_pixel(col, line, color, instance);
-      }
-      else
-      {
-        break;
-      }
-      
-    }
-    if(line >= vres){
-      break;
+  uint16_t hres = instance->mode_info.XResolution;
+  uint16_t vres = instance->mode_info.YResolution;
+  uint16_t min_x = utils_min(x + width, hres);
+  uint16_t min_y = utils_min(y + height, vres);
+  
+  for(uint32_t line = y; line < min_y; line++) {
+    for(uint32_t col = x; col < min_x; col++){
+      draw_pixel(col, line, color, instance);
     }
   }
-}
 
-void draw_xpm(uint16_t x, uint16_t y, xpm_image_t* img, video_instance* instance){
-
-    int nrBytes = instance->mode_info.BytesPerScanLine/instance->mode_info.XResolution;     // Number of bytes of color
-    uint8_t *img_it;
-    img_it = img->bytes;
-
-    for(uint32_t lines = 0; lines < img->height; lines++){
-        for(uint32_t cols = 0; cols < img->width; cols++){
-
-            uint32_t  color = 0;
-            for(int i = 0; i < nrBytes; i++){
-                color |= (img_it[(cols * nrBytes + lines * nrBytes * img->width) + i] << 8*i);
-            }
-
-            draw_pixel(cols+x, lines+y, color, instance);
-        }
-    }
 }
 
 void draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
   
+  if(col >= instance->mode_info.XResolution || line >= instance->mode_info.YResolution){
+    return;
+  }
+
   void* video_it = instance->video_get_current_buffer(instance) + (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
     
   memcpy(video_it, (const void*)(&color), instance->bytesPerPixel);  // Set Pixel color

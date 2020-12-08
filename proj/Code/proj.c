@@ -7,6 +7,7 @@
 // Any header files included below this line should have been created by you
 //#include "lab5.h"
 #include "video/video.h"
+#include "video/extImages.h"
 #include "video/images/ball.xpm"
 
 int main(int argc, char *argv[]) {
@@ -72,20 +73,19 @@ int(proj_main_loop)(int argc, char *argv[]) {
   instance.video_get_mode_info = video_get_mode_info;
   instance.video_change_mode = video_change_mode;
   instance.video_map_vram_mem = video_map_vram_mem;
-  //instance.video_flip_page = video_flip_page;
+  instance.video_flip_page = NULL;
   instance.video_get_current_buffer = video_get_current_buffer; 
   video_get_mode_info(&instance);
-  //vbe_get_mode_info(MODE_1152x864, &instance.mode_info);
   instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
   video_map_vram_mem(&instance, 1);
   video_change_mode(&instance, MODE_1152x864);
-  video_change_mode(&instance, MODE_1152x864);
 
-  draw_rectangle(20,20,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
+  draw_rectangle(1100,755,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
+  
   xpm_image_t ball;
   xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
   draw_xpm(150, 20, &ball, &instance);
-
+  
   sleep(10);
   
   instance.video_change_mode(&instance, MODE_TEXT);

@@ -18,7 +18,7 @@
 
 #pragma pack(1)
 
-typedef struct {
+typedef struct vbe_mode_info_t{
   /*  Mandatory information for all VBE revisions */
   uint16_t ModeAttributes;   /**< @brief mode attributes */
   uint8_t WinAAttributes;    /**< @brief window A attributes */

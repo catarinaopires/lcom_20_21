@@ -6,6 +6,7 @@
 #include <lcom/vbe.h>
 #include <lcom/liblm.h>
 #include <machine/int86.h>
+#include "../common/utils.h"
 
 
 #define BIOS_VIDEO_FUNCTION 0x10                           // BIOS video function        
@@ -42,11 +43,11 @@ struct video_instance{
         page2
     }page;
     void* mapped_vram_addr[2];
-    int (*video_get_mode_info)(video_instance *thisInstance);
-    int (*video_change_mode)(video_instance *thisInstance, uint16_t mode);
-    int (*video_map_vram_mem)(video_instance *thisInstance, uint8_t bufferNr);
-    int (*video_flip_page)(video_instance *thisInstance);
-    void* (*video_get_current_buffer)(video_instance *thisInstance);
+    int (*video_get_mode_info)(video_instance *thisInstance);                   // Same as video_get_mode_info      
+    int (*video_change_mode)(video_instance *thisInstance, uint16_t mode);      // Same as video_change_mode
+    int (*video_map_vram_mem)(video_instance *thisInstance, uint8_t bufferNr);  // Same as video_map_vram_mem
+    int (*video_flip_page)(video_instance *thisInstance);                       // Same as video_flip_page
+    void* (*video_get_current_buffer)(video_instance *thisInstance);            // Same as video_get_current_buffer
 };
 
 /** @brief Function to retrieve informations about the graphics card, changing the content of the struct
@@ -102,7 +103,5 @@ video_instance video_init_empty();
 
 
 void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, video_instance *instance);
-
-void draw_xpm(uint16_t x, uint16_t y, xpm_image_t* img, video_instance* instance);
 
 void draw_pixel(uint32_t cols, uint32_t lines, uint32_t color, video_instance* instance);

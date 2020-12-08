@@ -50,7 +50,7 @@ enum xpm_image_type {
  * size is the number of bytes [width * height * bytes_per_pixel]
  * bytes is the pointer to the start of the image data
  */
-typedef struct {
+typedef struct xpm_image_t{
   enum xpm_image_type type;
   uint16_t width;
   uint16_t height;
