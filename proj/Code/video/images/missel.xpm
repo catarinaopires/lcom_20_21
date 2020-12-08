@@ -1,5 +1,5 @@
 /* XPM */
-static char * missel_xpm[] = {
+static const char * missel_xpm[] = {
 "70 70 259 2",
 "  	c None",
 ". 	c #4C4C4C",

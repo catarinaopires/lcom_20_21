@@ -1,5 +1,5 @@
 /* XPM */
-static char * desafio_teclas_p_xpm[] = {
+static const char * desafio_teclas_p_xpm[] = {
 "100 56 7 1",
 " 	c #FFFFFF",
 ".	c #E6E6E6",
