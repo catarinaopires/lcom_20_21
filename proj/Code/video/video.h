@@ -101,7 +101,21 @@ void* video_get_current_buffer(video_instance *instance);
 */
 video_instance video_init_empty();
 
-
+/** @brief Draws rectangle starting in position (x,y) with width and height specified in parameters.
+ * @param x Horizontal position of the beginning of the image
+ * @param y Vetical position of the beginning of the image
+ * @param height Height of the rectangle
+ * @param width WIdth of the rectangle
+ * @param color Color to fill the rectangle
+ * @param instance Struct video instance
+ */
 void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uint32_t color, video_instance *instance);
 
-void draw_pixel(uint32_t cols, uint32_t lines, uint32_t color, video_instance* instance);
+/** @brief Colors pixel in certain position of certain color.
+ * @param cols Horizontal position of the beginning of the image
+ * @param lines Vetical position of the beginning of the image
+ * @param color Color to fill the rectangle
+ * @param instance Struct video instance
+ * @return Returns 0 upon sucess, 1 with failiure
+ */
+int draw_pixel(uint32_t cols, uint32_t lines, uint32_t color, video_instance* instance);

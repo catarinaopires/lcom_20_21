@@ -270,17 +270,18 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
       draw_pixel(col, line, color, instance);
     }
   }
-
 }
 
-void draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
+int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
   
   if(col >= instance->mode_info.XResolution || line >= instance->mode_info.YResolution){
-    return;
+    return 1;
   }
 
   void* video_it = instance->video_get_current_buffer(instance) + (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
     
   memcpy(video_it, (const void*)(&color), instance->bytesPerPixel);  // Set Pixel color
+
+  return 0;
 }
 

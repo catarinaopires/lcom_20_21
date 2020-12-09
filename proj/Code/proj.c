@@ -9,6 +9,8 @@
 #include "video/video.h"
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
+#include "video/images/bomb.xpm"
+#include "video/images/clock.xpm"
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -80,13 +82,61 @@ int(proj_main_loop)(int argc, char *argv[]) {
   video_map_vram_mem(&instance, 1);
   video_change_mode(&instance, MODE_1152x864);
 
-  draw_rectangle(1100,755,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
+  // draw_rectangle(1100,755,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
   
-  xpm_image_t ball;
-  xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
-  draw_xpm(150, 20, &ball, &instance);
+  // xpm_image_t ball;
+  // xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
+  // draw_xpm(150, 20, &ball, &instance);
+
+  xpm_image_t img;
+  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 1, 0, &img);
+  draw_xpm(0,0, &img, &instance);
+
+  xpm_image_t img1;
+  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -1, 0, &img1);
+  draw_xpm(1000,0, &img1, &instance);
+
+  Sprite* arr[]={sprite, sprite1};
+  sleep(5);
+  int status =0;
+  int st = 0;
+  while (st != 1 && status != 1)
+  {  
+    sleep(0.5);
+
+    if(check_collisions_sprite(arr)){
+      printf("collision2\n");
+      break;
+    }
+    else{
+      st = move_sprite(sprite1,12,0, &instance);
+    }
+
+    if(check_collisions_sprite(arr)){
+      printf("collision1\n");
+      break;
+    }
+    else{
+      status = move_sprite(sprite,500,0, &instance);
+    }
+    
+    if(status == 1){
+      printf("movement finished\n");
+      if(st == 1)
+        break;
+    }
+
+    if(st == 1)
+      printf("movement finished2\n");
+      if(status ==1)
+        break;
+
+  }
   
-  sleep(10);
+  destroy_sprite(sprite);
+  destroy_sprite(sprite1);
+  
+  sleep(2);
   
   instance.video_change_mode(&instance, MODE_TEXT);
   
