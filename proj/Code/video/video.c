@@ -96,8 +96,8 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
   }
   
   int r;
-  struct minix_mem_range mem_range; // physical memory range 
-  void *video_mem;                  // frame-buffer VM address 
+  struct minix_mem_range mem_range; // Physical memory range 
+  void *video_mem;                  // Frame-buffer VM address 
   unsigned int vram_size = ((instance->mode_info.XResolution * instance->mode_info.YResolution * instance->mode_info.BitsPerPixel) / 8);
   
   // Allow memory mapping

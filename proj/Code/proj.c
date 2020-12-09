@@ -88,13 +88,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
   // draw_xpm(150, 20, &ball, &instance);
 
-  xpm_image_t img;
-  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 1, 0, &img);
-  draw_xpm(0,0, &img, &instance);
+  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 1, 0);
+  image_draw(sprite->drawing, &instance);
 
-  xpm_image_t img1;
-  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -1, 0, &img1);
-  draw_xpm(1000,0, &img1, &instance);
+  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -1, 0);
+  image_draw(sprite1->drawing, &instance);
 
   Sprite* arr[]={sprite, sprite1};
   sleep(5);
