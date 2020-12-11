@@ -22,7 +22,7 @@ int video_get_mode_info(video_instance *instance){
 
   switch(reg.ah){
     case 0:
-      // everything runs as expected
+      // Everything runs as expected
       if(reg.al == 0x4f){
         instance->mode_info = *(vbe_mode_info_t*)phys_lm_to_virt.virt;
         lm_free(&phys_lm_to_virt);
@@ -66,7 +66,7 @@ int video_change_mode(video_instance *instance, uint16_t mode){
   switch(reg.ah){
     case 0:
       if(reg.al == 0x4f){
-        // everything runs as expected
+        // Everything runs as expected
         instance->mode = mode;
         return 0;
       }
@@ -156,7 +156,7 @@ int video_flip_page(video_instance *instance){
   switch(reg.ah){
     case 0:
       if(reg.al == 0x4f){
-        // everything runs as expected
+        // Everything runs as expected
          return 0;
       }
     
