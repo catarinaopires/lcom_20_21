@@ -1,17 +1,16 @@
 #include "extImages.h"
 
 int image_draw(Image* this, video_instance* instance){
-
     int nrBytes = instance->mode_info.BytesPerScanLine/instance->mode_info.XResolution;     // Number of bytes of color
     uint8_t *img_it;
-    img_it = this->img->bytes;
+    img_it = this->img.bytes;
 
-    for(uint32_t lines = 0; lines < this->img->height; lines++){
-        for(uint32_t cols = 0; cols < this->img->width; cols++){
+    for(uint32_t lines = 0; lines < this->img.height; lines++){
+        for(uint32_t cols = 0; cols < this->img.width; cols++){
 
             uint32_t  color = 0;
             for(int i = 0; i < nrBytes; i++){
-                color |= (img_it[(cols * nrBytes + lines * nrBytes * this->img->width) + i] << 8*i);
+                color |= (img_it[(cols * nrBytes + lines * nrBytes * this->img.width) + i] << 8*i);
             }
 
             if(draw_pixel(cols + this->x, lines + this->y, color, instance))
@@ -21,10 +20,13 @@ int image_draw(Image* this, video_instance* instance){
     return 0;
 }
 
-Image image_construct(xpm_map_t map, enum xpm_image_type type){
+Image image_construct(xpm_map_t map, enum xpm_image_type type, int x, int y){
     Image image;
     image.load = xpm_load;
-    image.load(map, type, image.img); 
+
+    image.load(map, type, &image.img);
+    image.x = x;
+    image.y = y;
     image.draw = image_draw;
 
     return image; 
@@ -37,18 +39,17 @@ Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed) {
         return NULL;
 
     // Read the sprite pixmap
-    xpm_load(pic, XPM_8_8_8_8, sp->drawing.img);
+    sp->drawing = image_construct(pic, XPM_8_8_8_8,x,y);
 
-    if( sp->drawing.img == NULL ) {
+   /* if( sp->drawing.img == NULL ) {
         free(sp);
         return NULL;
-    }
+    }*/
 
     sp->drawing.x = x;
     sp->drawing.y = y;
     sp->xspeed = xspeed;
     sp->yspeed = yspeed;
-
 
     sp->destroy_sprite = destroy_sprite;
     sp->check_collisions_sprite = check_collisions_sprite;
@@ -61,8 +62,6 @@ Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed) {
 void destroy_sprite(Sprite* sp){
     if( sp == NULL )
         return;
-    if( sp->drawing.img )
-        free(sp->drawing.img);
     free(sp);
     sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
@@ -72,9 +71,9 @@ int check_collisions_sprite(Sprite** arr){
 
     for(size_t i = 0; i < sz; i++){
 
-        if((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img->width >= arr[i + 1]->drawing.x) || 
-        (arr[i]->drawing.x <= arr[i + 1]->drawing.x+arr[i + 1]->drawing.img->width && 
-        arr[i]->drawing.x+arr[i]->drawing.img->width >=  arr[i + 1]->drawing.x+arr[i + 1]->drawing.img->width)){
+        if((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) ||
+        (arr[i]->drawing.x <= arr[i + 1]->drawing.x+arr[i + 1]->drawing.img.width &&
+        arr[i]->drawing.x+arr[i]->drawing.img.width >=  arr[i + 1]->drawing.x+arr[i + 1]->drawing.img.width)){
       
             return 1;
         }
@@ -89,7 +88,7 @@ int draw_sprite(Sprite* this, video_instance* instance){
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
 
     // Clear screen (transparency color)
-    draw_rectangle(sp->drawing.x, sp->drawing.y, sp->drawing.img->height, sp->drawing.img->width, xpm_transparency_color(XPM_8_8_8_8), instance);
+    draw_rectangle(sp->drawing.x, sp->drawing.y, sp->drawing.img.height, sp->drawing.img.width, xpm_transparency_color(XPM_8_8_8_8), instance);
 
     // Update positions
     if(((sp->drawing.x < xf) && (sp->xspeed > 0)) || ((sp->drawing.x > xf) && (sp->xspeed < 0))){

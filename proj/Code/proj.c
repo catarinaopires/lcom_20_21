@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 // Any header files included below this line should have been created by you
-//#include "lab5.h"
 #include "video/video.h"
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
@@ -82,17 +81,22 @@ int(proj_main_loop)(int argc, char *argv[]) {
   video_map_vram_mem(&instance, 1);
   video_change_mode(&instance, MODE_1152x864);
 
-  // draw_rectangle(1100,755,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
+   //draw_rectangle(100,100,100,100, (ENG_RED|ENG_GREEN|ENG_BLUE), &instance);
   
   // xpm_image_t ball;
   // xpm_load(ball_xpm, XPM_8_8_8_8, &ball);
   // draw_xpm(150, 20, &ball, &instance);
 
-  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 1, 0);
-  image_draw(sprite->drawing, &instance);
+/* Image i = image_construct(ball_xpm, XPM_8_8_8_8,0,0);
+  printf("draw: %d\n", image_draw(&i, &instance));
+  sleep(2);*/
 
-  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -1, 0);
-  image_draw(sprite1->drawing, &instance);
+  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 5, 0);
+  image_draw(&sprite->drawing, &instance);
+  sleep(2);
+
+  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -5, 0);
+  image_draw(&sprite1->drawing, &instance);
 
   Sprite* arr[]={sprite, sprite1};
   sleep(5);
@@ -100,7 +104,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   int st = 0;
   while (st != 1 && status != 1)
   {  
-    sleep(0.5);
+    sleep(1);
 
     if(check_collisions_sprite(arr)){
       printf("collision2\n");
@@ -131,8 +135,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   }
   
-  destroy_sprite(sprite);
   destroy_sprite(sprite1);
+  destroy_sprite(sprite);
   
   sleep(2);
   

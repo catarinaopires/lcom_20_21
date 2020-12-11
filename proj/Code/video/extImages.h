@@ -2,10 +2,13 @@
 #include <lcom/lcf.h>
 #include "video.h"
 
+/**
+ * @brief Struct to save information of images.
+*/
 typedef struct Image Image;
 struct Image{
   int x, y;             // current position
-  xpm_image_t* img;      // the image data
+  xpm_image_t img;      // the image data
   uint8_t * (*load)(xpm_map_t map, enum xpm_image_type type, xpm_image_t *img);
   int (*draw)(Image* this, video_instance* instance);
 
@@ -14,15 +17,20 @@ struct Image{
 /** @brief Draws image starting in position (x,y).
  * @param this Image
  * @param instance Struct video instance
+ * @return Returns 0 upon sucess, 1 with failiure
  */
 int image_draw(Image* this, video_instance* instance);
 
 /** @brief Constructor of Image.
  * @param map Xpm file
  * @param type Xpm type
+ * @return Image
  */
-Image image_construct(xpm_map_t map, enum xpm_image_type type);
+Image image_construct(xpm_map_t map, enum xpm_image_type type, int x, int y);
 
+/**
+ * @brief Struct to save information of Sprites.
+*/
 typedef struct Sprite Sprite;
 struct Sprite{
   Image drawing;
@@ -50,13 +58,14 @@ void destroy_sprite(Sprite* sp);
 
 /** @brief Checks if sprite can be drawn in new position without colliding with other images.
  * @param arr Array os sprites to check if each other collide
+ * @return returns 0 upon success (no collisions), 1 if there was a collision
  */ 
 int check_collisions_sprite(Sprite**arr);
 
 /** @brief Draws sprite starting in position (x,y).
  * @param this Image
  * @param instance Struct video instance
- * @return returns 0 uppon success (image drawn), 1 with failiure (not possible to draw)
+ * @return returns 0 upon success (image drawn), 1 with failiure (not possible to draw)
  */
 int draw_sprite(Sprite* this, video_instance* instance);
 
