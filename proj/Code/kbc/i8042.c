@@ -51,3 +51,79 @@ int (kbc_read_poll)(){
   return 0;
 
 }
+
+void check_movement(uint8_t bytes[], direction* dir){
+    // TODO: NONE (SAME DIRECTION EX UP+DOWN) - THEN RELEASE - ERROR
+
+    switch (*dir) {
+        case right:
+            if(bytes[1] == KBC_RIGHT_BREAKCODE || bytes[1] == KBC_LEFT_MAKECODE)
+                *dir = none;
+            else if (bytes[1] == KBC_UP_MAKECODE)
+                *dir = right_up;
+            else if (bytes[1] == KBC_DOWN_MAKECODE)
+                *dir = right_down;
+            break;
+        case right_down:
+            if(bytes[1] == KBC_RIGHT_BREAKCODE)
+                *dir = down;
+            else if(bytes[1] == KBC_DOWN_BREAKCODE)
+                *dir = right;
+            break;
+        case right_up:
+            if(bytes[1] == KBC_RIGHT_BREAKCODE)
+                *dir = up;
+            else if(bytes[1] == KBC_UP_BREAKCODE)
+                *dir = right;
+            break;
+        case left:
+            if(bytes[1] == KBC_LEFT_BREAKCODE || bytes[1] == KBC_RIGHT_MAKECODE)
+                *dir = none;
+            else if (bytes[1] == KBC_UP_MAKECODE)
+                *dir = left_up;
+            else if (bytes[1] == KBC_DOWN_MAKECODE)
+                *dir = left_down;
+            break;
+        case left_down:
+            if(bytes[1] == KBC_LEFT_BREAKCODE)
+                *dir = down;
+            else if(bytes[1] == KBC_DOWN_BREAKCODE)
+                *dir = left;
+            break;
+        case left_up:
+            if(bytes[1] == KBC_LEFT_BREAKCODE)
+                *dir = up;
+            else if(bytes[1] == KBC_UP_BREAKCODE)
+                *dir = left;
+            break;
+        case up:
+            if(bytes[1] == KBC_UP_BREAKCODE || bytes[1] == KBC_DOWN_MAKECODE)
+                *dir = none;
+            else if (bytes[1] == KBC_RIGHT_MAKECODE)
+                *dir = right_up;
+            else if (bytes[1] == KBC_LEFT_MAKECODE)
+                *dir = left_up;
+            break;
+        case down:
+            if(bytes[1] == KBC_DOWN_BREAKCODE || bytes[1] == KBC_UP_MAKECODE)
+                *dir = none;
+            else if (bytes[1] == KBC_RIGHT_MAKECODE)
+                *dir = right_down;
+            else if (bytes[1] == KBC_LEFT_MAKECODE)
+                *dir = left_down;
+            break;
+        default:
+            if(bytes[1] == KBC_UP_MAKECODE)
+                *dir = up;
+            else if(bytes[1] == KBC_DOWN_MAKECODE)
+                *dir = down;
+            else if(bytes[1] == KBC_RIGHT_MAKECODE)
+                *dir = right;
+            else if(bytes[1] == KBC_LEFT_MAKECODE)
+                *dir = left;
+            else
+                *dir = none;
+            break;
+
+    }
+}

@@ -39,6 +39,7 @@ struct Sprite{
   int (*check_collisions_sprite)(Sprite**arr);
   int (*draw_sprite)(Sprite* this, video_instance* instance);
   int (*move_sprite)(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
+  void (*change_speed)(Sprite* this, int xspeed, int yspeed);
 };
 
 /** @brief Creates a new sprite with pixmap "pic", with specified position (within the screen limits) and speed;
@@ -78,3 +79,10 @@ int draw_sprite(Sprite* this, video_instance* instance);
  * and -1 if it was not possible to draw in next position
  */
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
+
+/** @brief Changes speed of the sprite.
+ * @param this Sprite
+ * @param xspeed Horizontal speed (Number of pixels between frames)
+ * @param yspeed Vertical speed (Number of pixels between frames)
+ */
+void change_speed(Sprite* this, int xspeed, int yspeed);

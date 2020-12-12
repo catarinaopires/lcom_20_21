@@ -10,6 +10,8 @@
 #include "video/images/ball.xpm"
 #include "video/images/bomb.xpm"
 #include "video/images/clock.xpm"
+#include "kbc/i8042.h"
+#include "common/interrupts.h"
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -91,10 +93,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
   printf("draw: %d\n", image_draw(&i, &instance));
   sleep(2);*/
 
-  Sprite* sprite = create_sprite(bomb_xpm, 0, 0, 5, 0);
+  Sprite* sprite = create_sprite(bomb_xpm, 101, 101, 0, 0);
   image_draw(&sprite->drawing, &instance);
   sleep(2);
 
+  /*
   Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -5, 0);
   image_draw(&sprite1->drawing, &instance);
 
@@ -138,8 +141,98 @@ int(proj_main_loop)(int argc, char *argv[]) {
   destroy_sprite(sprite1);
   destroy_sprite(sprite);
   
-  sleep(2);
-  
+  sleep(2);*/
+
+
+
+
+    // TEST KBD DIRECTIONS
+    int ipc_status;
+    int r;
+    message msg;
+    uint8_t irq_set = KBC_IRQ;
+    uint8_t counter = 0;
+    uint8_t bytes[2] = {0, 0};
+    static direction d = none;
+
+    if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
+        return 1;
+
+    while (bytes[0] != KBC_ESC_BREAKCODE) {
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d", r);
+            continue;
+        }
+        if (is_ipc_notify(ipc_status)) {
+            switch (_ENDPOINT_P(msg.m_source)) {
+                case HARDWARE:
+                    if (msg.m_notify.interrupts & BIT(irq_set)) {
+                        kbc_ih();
+                        bytes[counter] = OUTPUT_BUFF_DATA;
+                        if (counter == 1) {
+                            counter = 0;
+                            check_movement(&bytes[0], &d);
+                            switch (d) {
+                                case right:
+                                    change_speed(sprite, 5,0);
+                                    move_sprite(sprite, 1152, 0, &instance);
+                                    break;
+                                case right_up:
+                                    change_speed(sprite, 5,-5);
+                                    move_sprite(sprite, 1152, 0, &instance);
+                                    break;
+                                case right_down:
+                                    change_speed(sprite, 5,5);
+                                    move_sprite(sprite, 1152, 863, &instance);
+                                    break;
+                                case left:
+                                    change_speed(sprite, -5,0);
+                                    move_sprite(sprite, 0, 0, &instance);
+                                    break;
+                                case left_up:
+                                    change_speed(sprite, -5,-5);
+                                    move_sprite(sprite, 0, 0, &instance);
+                                    break;
+                                case left_down:
+                                    change_speed(sprite, -5,5);
+                                    move_sprite(sprite, 1152, 863, &instance);
+                                    break;
+                                case up:
+                                    change_speed(sprite, 0,-5);
+                                    move_sprite(sprite, 0, 0, &instance);
+                                    break;
+                                case down:
+                                    change_speed(sprite, 0,5);
+                                    move_sprite(sprite, 0, 864, &instance);
+                                    break;
+                                default:
+                                    change_speed(sprite, 0,0);
+                                    move_sprite(sprite, 1152, 864, &instance);
+                                    break;
+                            }
+                        }
+                        else {
+                            if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                                counter++;
+                            else
+                                kbd_print_scancode(is_make_code(), 1,  &bytes[0]);
+                        }
+                    }
+                    break;
+                default:
+            }
+        }
+        else {
+        }
+    }
+    if(unsubscribe_int())
+        return 1;
+
+
+    destroy_sprite(sprite);
+    sleep(2);
+
+
   instance.video_change_mode(&instance, MODE_TEXT);
   
   return 0;

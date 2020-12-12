@@ -55,6 +55,7 @@ Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed) {
     sp->check_collisions_sprite = check_collisions_sprite;
     sp->draw_sprite = draw_sprite;
     sp->move_sprite = move_sprite;
+    sp->change_speed = change_speed;
 
     return sp;
 }
@@ -110,5 +111,10 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
     }
     else
         return 0;
+}
+
+void change_speed(Sprite* this, int xspeed, int yspeed){
+    this->xspeed = xspeed;
+    this->yspeed = yspeed;
 }
 
