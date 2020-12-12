@@ -1,6 +1,7 @@
 #pragma once
-#include <lcom/lcf.h>
 #include "video.h"
+#include <lcom/lcf.h>
+
 
 /**
  * @brief Struct to save information of images.
