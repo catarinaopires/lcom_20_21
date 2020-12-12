@@ -1,11 +1,11 @@
 // IMPORTANT: you must include the following line in all your C files
+#include "video/video.h"
 #include <lcom/lcf.h>
 #include <lcom/proj.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 // Any header files included below this line should have been created by you
-#include "video/video.h"
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
 #include "video/images/bomb.xpm"
@@ -98,7 +98,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -5, 0);
   image_draw(&sprite1->drawing, &instance);
 
-  Sprite* arr[]={sprite, sprite1};
+  Sprite* arr[] = {sprite, sprite1};
   sleep(5);
   int status =0;
   int st = 0;

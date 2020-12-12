@@ -39,7 +39,7 @@ enum xpm_image_type {
   XPM_GRAY_8_8_8,
   XPM_GRAY_8_8_8_8,
   INVALID_XPM
-};
+} xpm_image_type;
 
 /**
  * @brief Struct that stores the information about an image.
