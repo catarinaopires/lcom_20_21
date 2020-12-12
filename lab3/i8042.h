@@ -51,4 +51,3 @@ void (kbc_ih)(void);
 int is_make_code();
 
 int (kbc_read_poll)();
-
