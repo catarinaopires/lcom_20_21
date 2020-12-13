@@ -72,10 +72,18 @@ int check_collisions_sprite(Sprite** arr){
 
     for(size_t i = 0; i < sz; i++){
 
-        if((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) ||
-        (arr[i]->drawing.x <= arr[i + 1]->drawing.x+arr[i + 1]->drawing.img.width &&
-        arr[i]->drawing.x+arr[i]->drawing.img.width >=  arr[i + 1]->drawing.x+arr[i + 1]->drawing.img.width)){
-      
+        if(((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) &&
+            (arr[i]->drawing.y <= arr[i + 1]->drawing.y && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i + 1]->drawing.y)) ||
+
+            ((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) &&
+            (arr[i]->drawing.y <= arr[i + 1]->drawing.y + arr[i + 1]->drawing.img.height && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height)) ||
+
+            ((arr[i]->drawing.x <= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i+1]->drawing.x+arr[i + 1]->drawing.img.width) &&
+            (arr[i]->drawing.y <= arr[i + 1]->drawing.y && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y)) ||
+
+            ((arr[i]->drawing.x <= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width) &&
+            (arr[i]->drawing.y <= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height))){
+
             return 1;
         }
     } 
