@@ -1,6 +1,7 @@
 #pragma once
 #include <lcom/lcf.h>
 #include <stdint.h>
+
 // Define Keyboard Controller (KBC) IRQ
 #define KBC_IRQ 1
 
@@ -41,10 +42,6 @@
 // Define 'Esc' breakcode for loop termination
 #define KBC_ESC_BREAKCODE 0x81      // Breakcode for ESC
 
-// Global variable to store output data of the kbc
-uint8_t OUTPUT_BUFF_DATA;
-
-
 typedef enum direction{
     none,
     right,
@@ -56,6 +53,9 @@ typedef enum direction{
     left_up,
     left_down
 } direction;
+
+/*void check_movement_array_idea(uint8_t* bytes, direction* dir, uint8_t* keys);*/
+void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys);
 
 void check_movement(uint8_t bytes[], direction* dir);
 

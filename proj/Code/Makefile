@@ -10,7 +10,7 @@ SRCS += kbc/i8042.c
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
 CPPFLAGS += -pedantic -DPROJ
-CPPFLAGS += -D __LCOM_OPTIMIZED__
+#CPPFLAGS += -D __LCOM_OPTIMIZED__
 
 # list of library dependencies
 DPADD += ${LIBLCF}
