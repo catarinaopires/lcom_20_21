@@ -8,7 +8,9 @@
 // Any header files included below this line should have been created by you
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
+#include "video/images/bomb1.xpm"
 #include "video/images/bomb.xpm"
+#include "video/images/hearts.xpm"
 #include "video/images/clock.xpm"
 #include "kbc/i8042.h"
 #include "common/interrupts.h"
@@ -93,7 +95,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   printf("draw: %d\n", image_draw(&i, &instance));
   sleep(2);*/
 
-  Sprite* sprite = create_sprite(bomb_xpm, 101, 101, 0, 0);
+  Sprite* sprite = create_sprite(hearts_xpm, 101, 101, 0, 0);
   image_draw(&sprite->drawing, &instance);
   sleep(2);
 

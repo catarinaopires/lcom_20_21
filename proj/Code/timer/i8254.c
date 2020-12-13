@@ -1,7 +1,9 @@
 #include <lcom/lcf.h>
 #include <lcom/timer.h>
-#include "i8254.h"
+
 #include <stdint.h>
+
+#include "i8254.h"
 
 extern uint32_t TIMER_COUNTER;
 int HOOK_ID = 0;
