@@ -312,16 +312,26 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         counter_sec++;
 
                         collision = check_collisions_sprite(arr, 3);
-                        if(!collision){
-                            if(move_sprite(sprite1, 350, 863, &instance) != 0){
-                                collision = 1;
+                        if(!collision) {
+                            if (move_sprite(sprite1, 350, 863, &instance) != 0) {
+                                draw_rectangle(350, 863 - sprite1->drawing.img.height, sprite1->drawing.img.width,
+                                               sprite1->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
+                                               &instance);
+                                sprite1->drawing.x = 350;
+                                sprite1->drawing.y = 0;
                             }
-                            if(counter_sec >= 3*60){
-                                if(move_sprite(sprite2, 600, 863, &instance) != 0){
-                                    collision = 1;
+                        }
+                        if(counter_sec >= 3*60){
+                            collision = check_collisions_sprite(arr, 3);
+                            if(!collision) {
+                                if (move_sprite(sprite2, 700, 863, &instance) != 0) {
+                                    draw_rectangle(700, 863-sprite2->drawing.img.height, sprite2->drawing.img.width,
+                                                   sprite2->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
+                                                   &instance);
+                                    sprite2->drawing.x = 700;
+                                    sprite2->drawing.y = 0;
                                 }
                             }
-
                         }
                     }
 

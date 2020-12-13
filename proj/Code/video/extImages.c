@@ -71,29 +71,10 @@ int check_collisions_sprite(Sprite** arr, size_t sz){
     for(size_t i = 0; i < sz - 1; i++){
         for(size_t j = i+1; j < sz; j++) {
 
-            if (((arr[i]->drawing.x <= arr[j]->drawing.x &&
-                  arr[i]->drawing.x + arr[i]->drawing.img.width >= arr[j]->drawing.x) &&
-                 (arr[i]->drawing.y <= arr[j]->drawing.y &&
-                  arr[i]->drawing.y + arr[i]->drawing.img.height >= arr[j]->drawing.y)) ||
-
-                ((arr[i]->drawing.x <= arr[j]->drawing.x &&
-                  arr[i]->drawing.x + arr[i]->drawing.img.width >= arr[j]->drawing.x) &&
-                 (arr[i]->drawing.y <= arr[j]->drawing.y + arr[j]->drawing.img.height &&
-                  arr[i]->drawing.y + arr[i]->drawing.img.height >=
-                  arr[j]->drawing.y + arr[j]->drawing.img.height)) ||
-
-                ((arr[i]->drawing.x <= arr[j]->drawing.x + arr[j]->drawing.img.width &&
-                  arr[i]->drawing.x + arr[i]->drawing.img.width >=
-                  arr[j]->drawing.x + arr[j]->drawing.img.width) &&
-                 (arr[i]->drawing.y <= arr[j]->drawing.y &&
-                  arr[i]->drawing.y + arr[i]->drawing.img.height >= arr[j]->drawing.y)) ||
-
-                ((arr[i]->drawing.x <= arr[j]->drawing.x + arr[j]->drawing.img.width &&
-                  arr[i]->drawing.x + arr[i]->drawing.img.width >=
-                  arr[i + 1]->drawing.x + arr[j]->drawing.img.width) &&
-                 (arr[i]->drawing.y <= arr[j]->drawing.y + arr[j]->drawing.img.height &&
-                  arr[i]->drawing.y + arr[i]->drawing.img.height >=
-                  arr[j]->drawing.y + arr[j]->drawing.img.height))) {
+            if ((arr[i]->drawing.x <= arr[j]->drawing.x + arr[j]->drawing.img.width) &&
+            (arr[i]->drawing.x + arr[j]->drawing.img.width >=  arr[j]->drawing.x) &&
+            (arr[i]->drawing.y <= arr[j]->drawing.y + arr[j]->drawing.img.height) &&
+            (arr[i]->drawing.y + arr[j]->drawing.img.height >=  arr[j]->drawing.y)){
 
                 return 1;
             }
@@ -127,6 +108,7 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
     // If in the end, draw again and return (Movement finished)
     if(((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&
        ((sp->drawing.y >= yf && sp->yspeed >= 0) || (sp->drawing.y <= yf && sp->yspeed <= 0))){
+
         return 1;
     }
     else
