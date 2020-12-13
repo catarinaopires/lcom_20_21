@@ -67,24 +67,36 @@ void destroy_sprite(Sprite* sp){
     sp = NULL;     // XXX: pointer is passed by value should do this @ the caller
 }
 
-int check_collisions_sprite(Sprite** arr){
-    size_t sz = sizeof(arr)/sizeof(arr[0]);
+int check_collisions_sprite(Sprite** arr, size_t sz){
+    for(size_t i = 0; i < sz - 1; i++){
+        for(size_t j = i+1; j < sz; j++) {
 
-    for(size_t i = 0; i < sz; i++){
+            if (((arr[i]->drawing.x <= arr[j]->drawing.x &&
+                  arr[i]->drawing.x + arr[i]->drawing.img.width >= arr[j]->drawing.x) &&
+                 (arr[i]->drawing.y <= arr[j]->drawing.y &&
+                  arr[i]->drawing.y + arr[i]->drawing.img.height >= arr[j]->drawing.y)) ||
 
-        if(((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) &&
-            (arr[i]->drawing.y <= arr[i + 1]->drawing.y && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i + 1]->drawing.y)) ||
+                ((arr[i]->drawing.x <= arr[j]->drawing.x &&
+                  arr[i]->drawing.x + arr[i]->drawing.img.width >= arr[j]->drawing.x) &&
+                 (arr[i]->drawing.y <= arr[j]->drawing.y + arr[j]->drawing.img.height &&
+                  arr[i]->drawing.y + arr[i]->drawing.img.height >=
+                  arr[j]->drawing.y + arr[j]->drawing.img.height)) ||
 
-            ((arr[i]->drawing.x <= arr[i + 1]->drawing.x && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i + 1]->drawing.x) &&
-            (arr[i]->drawing.y <= arr[i + 1]->drawing.y + arr[i + 1]->drawing.img.height && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height)) ||
+                ((arr[i]->drawing.x <= arr[j]->drawing.x + arr[j]->drawing.img.width &&
+                  arr[i]->drawing.x + arr[i]->drawing.img.width >=
+                  arr[j]->drawing.x + arr[j]->drawing.img.width) &&
+                 (arr[i]->drawing.y <= arr[j]->drawing.y &&
+                  arr[i]->drawing.y + arr[i]->drawing.img.height >= arr[j]->drawing.y)) ||
 
-            ((arr[i]->drawing.x <= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i+1]->drawing.x+arr[i + 1]->drawing.img.width) &&
-            (arr[i]->drawing.y <= arr[i + 1]->drawing.y && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y)) ||
+                ((arr[i]->drawing.x <= arr[j]->drawing.x + arr[j]->drawing.img.width &&
+                  arr[i]->drawing.x + arr[i]->drawing.img.width >=
+                  arr[i + 1]->drawing.x + arr[j]->drawing.img.width) &&
+                 (arr[i]->drawing.y <= arr[j]->drawing.y + arr[j]->drawing.img.height &&
+                  arr[i]->drawing.y + arr[i]->drawing.img.height >=
+                  arr[j]->drawing.y + arr[j]->drawing.img.height))) {
 
-            ((arr[i]->drawing.x <= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width && arr[i]->drawing.x+arr[i]->drawing.img.width >= arr[i+1]->drawing.x + arr[i + 1]->drawing.img.width) &&
-            (arr[i]->drawing.y <= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height && arr[i]->drawing.y+arr[i]->drawing.img.height >= arr[i+1]->drawing.y + arr[i + 1]->drawing.img.height))){
-
-            return 1;
+                return 1;
+            }
         }
     } 
     return 0;

@@ -37,7 +37,7 @@ struct Sprite{
   Image drawing;
   int xspeed, yspeed;   // Current speed
   void (*destroy_sprite)(Sprite* sp);
-  int (*check_collisions_sprite)(Sprite**arr);
+  int (*check_collisions_sprite)(Sprite** arr, size_t sz);
   int (*draw_sprite)(Sprite* this, video_instance* instance);
   int (*move_sprite)(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
   void (*change_speed)(Sprite* this, int xspeed, int yspeed);
@@ -60,9 +60,10 @@ void destroy_sprite(Sprite* sp);
 
 /** @brief Checks if sprite can be drawn in new position without colliding with other images.
  * @param arr Array os sprites to check if each other collide
+ * @param sz Size of array
  * @return returns 0 upon success (no collisions), 1 if there was a collision
  */ 
-int check_collisions_sprite(Sprite**arr);
+int check_collisions_sprite(Sprite**arr, size_t sz);
 
 /** @brief Draws sprite starting in position (x,y).
  * @param this Image

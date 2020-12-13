@@ -10,8 +10,9 @@
 #include "video/images/ball.xpm"
 #include "video/images/bomb1.xpm"
 #include "video/images/bomb.xpm"
-#include "video/images/hearts.xpm"
+#include "video/images/player_green.xpm"
 #include "kbc/i8042.h"
+#include "timer/i8254.h"
 #include "common/interrupts.h"
 
 uint8_t OUTPUT_BUFF_DATA;
@@ -97,23 +98,21 @@ int(proj_main_loop)(int argc, char *argv[]) {
   sleep(2);*/
 
 
-  Sprite* sprite = create_sprite(ball_xpm, 101, 101, 0, 0);
-
+  Sprite* sprite = create_sprite(player_green_xpm, 0,755, 0, 0);
   image_draw(&sprite->drawing, &instance);
   sleep(2);
 
-  /*
-  Sprite* sprite1 = create_sprite(ball_xpm, 1000, 0, -5, 0);
-  image_draw(&sprite1->drawing, &instance);
 
-  Sprite* arr[] = {sprite, sprite1};
-  sleep(5);
+  Sprite* sprite1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
+  Sprite* sprite2 = create_sprite(bomb_xpm, 700, 0, 0, 1);
+
+  Sprite* arr[] = {sprite, sprite1, sprite2};
+
+/*
   int status =0;
   int st = 0;
   while (st != 1 && status != 1)
-  {  
-    sleep(1);
-
+  {
     if(check_collisions_sprite(arr)){
       printf("collision2\n");
       break;
@@ -129,7 +128,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     else{
       status = move_sprite(sprite,500,0, &instance);
     }
-    
+
     if(status == 1){
       printf("movement finished\n");
       if(st == 1)
@@ -141,17 +140,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
       if(status ==1)
         break;
 
-  }
-  
-  destroy_sprite(sprite1);
-  destroy_sprite(sprite);
-  
-  sleep(2);*/
-  
-    uint8_t keys[2] = {0,0};
+  }*/
+
 
     // TEST KBD DIRECTIONS
-    int ipc_status;
+    /*int ipc_status;
     int r;
     message msg;
     uint8_t irq_set = KBC_IRQ;
@@ -176,6 +169,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         if (counter == 1) {
                             counter = 0;
 
+                            if(check_collisions_sprite(arr)){
+                                printf("COLLISION\n");
+                                break;
+                            }
                             check_movement_r_l(&bytes[0], &d, &keys[0]);
                             switch (d) {
                                 case right:
@@ -188,7 +185,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                                     break;
                                 default:
                                     change_speed(sprite, 0, 0);
-                                    move_sprite(sprite, 1152, 863, &instance);
+                                    move_sprite(sprite, 1152, 863-sprite->drawing.img.width, &instance);
                                     break;
                             }
 
@@ -210,7 +207,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                                         break;
                                     default:
                                         change_speed(sprite, 0, 0);
-                                        move_sprite(sprite, 1152, 863, &instance);
+                                        move_sprite(sprite, 1152, 863-sprite->drawing.img.width, &instance);
                                         break;
                                 }
                             }
@@ -225,9 +222,126 @@ int(proj_main_loop)(int argc, char *argv[]) {
         }
     }
     if(unsubscribe_int())
+        return 1;*/
+
+    //-------------------------------------------------------
+    int ipc_status;
+    int r;
+    message msg;
+    uint8_t irq_set_kbc = KBC_IRQ;
+    uint8_t irq_set_timer = TIMER0_IRQ;
+    uint8_t counter = 0;
+    uint8_t bytes[2] = {0, 0};
+
+    uint8_t keys[2] = {0,0};
+    static direction d = none;
+    int collision = 0;
+    int counter_sec = 0;
+
+    // Subscribe keyboard interruptions
+    if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc))
         return 1;
 
+    // Subscribe timer interruptions
+    if(subscribe_int(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
+        return 1;
 
+    while (!collision) {
+        /* Get a request message. */
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d", r);
+            continue;
+        }
+        if (is_ipc_notify(ipc_status)) { /* received notification */
+            switch (_ENDPOINT_P(msg.m_source)) {
+                case HARDWARE:                             /* hardware interrupt notification */
+                    if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
+                        kbc_ih();
+                        bytes[counter] = OUTPUT_BUFF_DATA;
+
+                        if (counter == 1) {
+                            counter = 0;
+
+                            collision = check_collisions_sprite(arr,3);
+                            if(!collision){
+                                check_movement_r_l(&bytes[0], &d, &keys[0]);
+                                switch (d) {
+                                    case right:
+                                        change_speed(sprite, 5, 0);
+                                        move_sprite(sprite, 1152, 0, &instance);
+                                        break;
+                                    case left:
+                                        change_speed(sprite, -5, 0);
+                                        move_sprite(sprite, 0, 0, &instance);
+                                        break;
+                                    default:
+                                        change_speed(sprite, 0, 0);
+                                        move_sprite(sprite, 1152, 863 - sprite->drawing.img.width, &instance);
+                                        break;
+                                }
+                            }
+                        }
+                        else {
+                            if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                                counter++;
+                            else {
+                                collision = check_collisions_sprite(arr,3);
+                                if(!collision){
+                                    check_movement_r_l(&bytes[0], &d, &keys[0]);
+
+                                    switch (d) {
+                                        case right:
+                                            change_speed(sprite, 5, 0);
+                                            move_sprite(sprite, 1152, 0, &instance);
+                                            break;
+                                        case left:
+                                            change_speed(sprite, -5, 0);
+                                            move_sprite(sprite, 0, 0, &instance);
+                                            break;
+                                        default:
+                                            change_speed(sprite, 0, 0);
+                                            move_sprite(sprite, 1152, 863-sprite->drawing.img.width, &instance);
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                        counter_sec++;
+
+                        collision = check_collisions_sprite(arr, 3);
+                        if(!collision){
+                            if(move_sprite(sprite1, 350, 863, &instance) != 0){
+                                collision = 1;
+                            }
+                            if(counter_sec >= 3*60){
+                                if(move_sprite(sprite2, 600, 863, &instance) != 0){
+                                    collision = 1;
+                                }
+                            }
+
+                        }
+                    }
+
+                    break;
+                default:
+                    break; /* no other notifications expected: do nothing */
+            }
+
+        }
+        else { /* received a standard message, not a notification */
+            /* no standard messages expected: do nothing */
+        }
+    }
+
+    // Unsubscribe both interruptions
+    if(unsubscribe_int())
+        return 1;
+
+    destroy_sprite(sprite1);
+    destroy_sprite(sprite2);
     destroy_sprite(sprite);
     sleep(2);
 
