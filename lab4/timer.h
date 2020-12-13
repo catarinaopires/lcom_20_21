@@ -28,7 +28,7 @@ enum timer_status_field {
   tsf_initial, /*!< timer initialization mode */
   tsf_mode,    /*!< timer counting mode */
   tsf_base     /*!< timer counting base */
-};
+}timer_status_field;
 
 /**
  * @brief Union for storing values of timer status fields, including the full status byte
@@ -38,7 +38,7 @@ union timer_status_field_val {
   enum timer_init in_mode; /*!< initialization mode */
   uint8_t count_mode;      /*!< counting mode: 0, 1,.., 5 */
   bool bcd;                /*!< counting base, true if BCD */
-};
+}timer_status_field_val;
 
 /**
  * @brief Changes the operating frequency of a timer
