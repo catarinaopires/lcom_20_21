@@ -31,6 +31,7 @@ video/extImages.o: video/extImages.c video/extImages.h
 
 kbc/i8042.o: kbc/i8042.c kbc/i8042.h
 	cc $(CFLAGS) -o kbc/i8042.o -c kbc/i8042.c
+	
 
 # include LCOM's makefile that does all the "heavy lifting"
 .include <minix.lcom.mk>

@@ -1,5 +1,5 @@
 /* XPM */
-static char * player_red_xpm[] = {
+static const char * player_red_xpm[] = {
 "77 129 8 1",
 " 	c None",
 ".	c #FF0000",

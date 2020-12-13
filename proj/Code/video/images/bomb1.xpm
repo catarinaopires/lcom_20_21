@@ -1,5 +1,5 @@
 /* XPM */
-static char * bomb1_xpm[] = {
+static const char * bomb1_xpm[] = {
 "46 46 358 2",
 "  	c None",
 ". 	c #900909",
