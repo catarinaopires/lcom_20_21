@@ -15,6 +15,7 @@
 #include "video/images/background3.xpm"
 #include "kbc/i8042.h"
 #include "timer/i8254.h"
+#include "timer/timer.h"
 
 
 uint8_t OUTPUT_BUFF_DATA;
@@ -52,7 +53,7 @@ static int print_usage() {
 */
 
 
-int jogo_reaçao(void){
+int jogo_reacao(void){
     video_instance instance = video_init_empty();
     instance.mode = 0x14C;
     instance.video_get_mode_info = video_get_mode_info;
@@ -77,6 +78,13 @@ int jogo_reaçao(void){
     Sprite* sprite2 = create_sprite(bomb_xpm, 700, 0, 0, 1);
     image_draw(&sprite2->drawing, &instance);
     Sprite* arr[] = {sprite, sprite1, sprite2};
+
+    // Start timers
+    timers* timers1 = timer_timers_initialize();
+    time_delta* counter1 = timer_counter_init();
+    if(counter1 == NULL){
+        return 1;
+    }
 
 
     int ipc_status;
@@ -164,7 +172,7 @@ int jogo_reaçao(void){
 
                     if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
                         counter_sec++;
-
+                        timer_counter_increase(counter1);
                         collision = check_collisions_sprite(arr, 3);
                         if (!collision) {
                             if (move_sprite(sprite1, 350, 863, &instance) != 0) {
@@ -198,6 +206,14 @@ int jogo_reaçao(void){
             /* no standard messages expected: do nothing */
         }
     }
+
+    //Use of the timers
+    timer_counter_stop(timers1, counter1);
+    float a = timer_counter_seconds(counter1, 60);
+    printf("%d seconds\n", (int)a);
+    timer_counter_destructor(timers1, counter1);
+    timer_timers_destructor(timers1);
+    timers1 = NULL;
 
     // Unsubscribe both interruptions
     if (interrupt_unsubscribe_all())
@@ -238,5 +254,5 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-    return jogo_reaçao();
+    return jogo_reacao();
 }

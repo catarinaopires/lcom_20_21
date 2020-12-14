@@ -49,8 +49,8 @@ int i8254_parse_irq(timer_nr timer){
 uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode, timer_format format){
   uint8_t ctrlWord = 0;
 
-  int8_t timerCtrlSel = i8242_parse_selection(timer);
-  int timerPort = i8042_parse_port(timer);
+  int8_t timerCtrlSel = i8254_parse_selection(timer);
+  int timerPort = i8254_parse_port(timer);
   if(timerPort == -1 || timerCtrlSel == -1){
     printf("Invalid port number in i8042_set_frequency");
     return 1;
@@ -60,9 +60,9 @@ uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode,
   return ctrlWord;
 }
 
-int i8252_get_conf(timer_nr timer, uint8_t *st) {
+int i8254_get_conf(timer_nr timer, uint8_t *st) {
     uint8_t rbword = 0;
-    uint8_t port = i8042_parse_port(timer);
+    int8_t port = i8254_parse_port(timer);
 
     if(port == -1){
       printf("Invalid timer port!");
@@ -96,24 +96,19 @@ int i8254_write_command(uint8_t ctrlwd){
   return 0;
 }
 
-int i8042_set_frequency(timer_nr timer, uint32_t freq) {
-  
-  // Invalid timer
-  if(!(timer >= 0 && timer <= 2))
-    return 1;
-
+int i8254_set_frequency(timer_nr timer, uint32_t freq) {
   // Change the operating frequency of a timer
   uint16_t freqValue = TIMER_FREQ / freq;
 
   // Get current configuration, and keep LSB
   uint8_t maskMSB = 0x0F;
   uint8_t controlWord = 0;
-  i8042_get_conf(timer, &controlWord);
+  i8254_get_conf(timer, &controlWord);
   controlWord = (controlWord & maskMSB);
 
   // Assemble new control word and write it to ctrl register
-  int8_t timerCtrlSel = i8242_parse_selection(timer);
-  int timerPort = i8042_parse_port(timer);
+  int8_t timerCtrlSel = i8254_parse_selection(timer);
+  int timerPort = i8254_parse_port(timer);
   if(timerPort == -1 || timerCtrlSel == -1){
     printf("Invalid port number in i8042_set_frequency");
     return 1;

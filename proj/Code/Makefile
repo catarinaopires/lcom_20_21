@@ -6,6 +6,7 @@ SRCS = proj.c
 SRCS += common/utils.c common/interrupts.c
 SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
+SRCS += timer/i8254.c timer/timer.c 
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
@@ -31,7 +32,12 @@ video/extImages.o: video/extImages.c video/extImages.h
 
 kbc/i8042.o: kbc/i8042.c kbc/i8042.h
 	cc $(CFLAGS) -o kbc/i8042.o -c kbc/i8042.c
-	
+
+timer/i8254.o: timer/i8254.c timer/i8254.h
+	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c
+
+timer/timer.o: timer/timer.c timer/timer.h
+	cc $(CFLAGS) -o timer/timer.o -c timer/timer.c	
 
 # include LCOM's makefile that does all the "heavy lifting"
 .include <minix.lcom.mk>

@@ -7,7 +7,7 @@ typedef struct interrupt_info{
     int irq_line;
 }interrupt_info;
 
-interrupt_info INTERRUPTS[INTERRUPTS_ARR_SIZE];
+interrupt_info INTERRUPTS[INTERRUPTS_SIMULTANEOUSLY_SUBSCRIBED];
 
 void interrupt_arr_initializer(interrupt_info* arr);
 
