@@ -58,6 +58,18 @@ typedef enum timer_nr{
     timerCtrl
 }timer_nr;
 
+/**
+ * @brief Enum with available modes 
+*/
+typedef enum timer_mode{
+    mode0,
+    mode1,
+    mode2,
+    mode3,
+    mode4,
+    mode5
+}timer_mode;
+
 /** @brief Function to parse the timer_nr to the correspondent port
  * @param timer Number of the timer 
  * @return The correspondent timer port, -1 if invalid
@@ -86,23 +98,14 @@ int i8254_parse_irq(timer_nr timer);
  * @param freq Timer operating frequency
  * @return Return 0 upon success and non-zero otherwise
  */
-int i8042_set_frequency(timer_nr timer, uint32_t freq);
+int i8254_set_frequency(timer_nr timer, uint32_t freq);
 
-/**
- * @brief Subscribes and enables Timer 0 interrupts
- *
- * @param bit_no address of memory to be initialized with the
- *         bit number to be set in the mask returned upon an interrupt
- * @return Return 0 upon success and non-zero otherwise
- */
-//int(timer_subscribe_int)(uint8_t *bit_no);
-
-/**
- * @brief Unsubscribes Timer 0 interrupts
- *
- * @return Return 0 upon success and non-zero otherwise
- */
-//int(timer_unsubscribe_int)();
+/** @brief Function to assemble control word with the desired mode
+ * @param timer Timer to configure
+ * @param mode Mode to configure the timer
+ * @return Control word for the i8254
+*/
+uint8_t i8254_get_control_word(timer_nr timer, timer_mode mode, uint8_t rd_wrt, uint8_t bcd);
 
 /**
  * @brief Timer 0 interrupt handler
@@ -119,26 +122,6 @@ int i8042_set_frequency(timer_nr timer, uint32_t freq);
  * @return Return 0 upon success and non-zero otherwise
  */
 int i8042_get_conf(timer_nr timer, uint8_t *st);
-
-/**
- * @brief Shows timer configuration
- * 
- * Displays, in a human friendly way, the specified field of a 
- *  timer status, which was read via the read-back command
- *
- * @param timer timer whose configuration should be displayed (Ranges from 0 to 2)
- * @param st status read via the read-back command
- * @param field status field to display in human friendly way
- * @return Return 0 upon success and non-zero otherwise
- */
-//int(timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field field);
-
-/**
- * @brief Prints a timer config field value
- * 
- * @return Returns 0 upon success and non-zero otherwise 
- */
-//int(timer_print_config)(uint8_t timer, enum timer_status_field field, union timer_status_field_val val);
 
 /**
  * @brief Increments elapsed time count

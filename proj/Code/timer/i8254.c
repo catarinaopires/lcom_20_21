@@ -20,16 +20,6 @@ int i8254_parse_port(timer_nr timer){
   };
 }
 
-int i8254_parse_irq(timer_nr timer){
-  switch (timer){
-  case timer0:
-    return TIMER0_IRQ;
-
-  default:
-    return -1;    
-  }
-}
-
 int8_t i8254_parse_selection(timer_nr timer){
   switch(timer){
     case timer0:
@@ -44,6 +34,21 @@ int8_t i8254_parse_selection(timer_nr timer){
     default:
       return -1;      
   };
+}
+
+int i8254_parse_irq(timer_nr timer){
+  switch (timer){
+  case timer0:
+    return TIMER0_IRQ;
+
+  default:
+    return -1;    
+  }
+}
+
+uint8_t i8254_get_control_word(timer_nr timer, timer_mode mode, uint8_t rd_wrt, uint8_t bcd){
+  //
+  return -1;
 }
 
 int i8042_get_conf(timer_nr timer, uint8_t *st) {
@@ -125,63 +130,3 @@ int i8042_set_frequency(timer_nr timer, uint32_t freq) {
 
   return 1;
 }
-
-/*
-int (timer_display_conf)(uint8_t timer, uint8_t st,
-                         enum timer_status_field field) {
-
-  union timer_status_field_val timer_conf;
-
-  // Invalid timer
-  if(!(timer >= 0 && timer <= 2))
-    return 1;
-
-  uint8_t maskInit = 0x30;
-  uint8_t maskMode = 0x0E;
-
-  switch(field){
-    case(tsf_all):
-      timer_conf.byte = st;
-      break;
-
-    case(tsf_initial):
-
-      maskInit = st & maskInit;
-
-      if(maskInit == TIMER_LSB_MSB){
-          timer_conf.in_mode = MSB_after_LSB;
-        }
-      else if (maskInit == TIMER_MSB){
-          timer_conf.in_mode = MSB_only;
-        }
-      else if (maskInit == TIMER_LSB){
-          timer_conf.in_mode = LSB_only;
-        }
-      else
-        timer_conf.in_mode = INVAL_val;
-      break;
-
-    case(tsf_mode):
-
-      maskMode = st & maskMode;
-      maskMode = maskMode >> 1;
-
-      // Handle DC bit
-      if(maskMode > 5){
-          timer_conf.count_mode = maskMode - 4;
-        }
-      else {
-          timer_conf.count_mode = maskMode;
-        }
-      break;
-
-    case(tsf_base):
-      timer_conf.bcd = (st & TIMER_BCD);
-      break;
-  };
-
-  timer_print_config(timer, field, timer_conf);
-
-  return 0;
-}
-*/
