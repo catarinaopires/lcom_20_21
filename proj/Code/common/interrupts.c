@@ -17,7 +17,7 @@ interrupt_info interrupt_info_collector(const int* irq, const uint8_t* bit_no){
     return info;
 }
 
-int (interrupt_subscribe)(int irq, int policy, uint8_t *bit_no){
+int interrupt_subscribe(int irq, int policy, uint8_t *bit_no){
     int8_t temp = -1;
     for(uint8_t i = 0; i < INTERRUPTS_ARR_SIZE; i++){
         if(INTERRUPTS[i].irq_line == -1){
