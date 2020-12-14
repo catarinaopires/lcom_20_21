@@ -7,6 +7,7 @@
 
 // Any header files included below this line should have been created by you
 #include "common/interrupts.h"
+#include "common/counters.h"
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
 #include "video/images/bomb1.xpm"
@@ -15,7 +16,6 @@
 #include "video/images/background3.xpm"
 #include "kbc/i8042.h"
 #include "timer/i8254.h"
-#include "timer/timer.h"
 
 
 uint8_t OUTPUT_BUFF_DATA;
@@ -92,8 +92,8 @@ int jogo_reacao(void){
     Sprite* arr[] = {player, bomb1, bomb};
 
     // Start timers
-    timers* timers1 = timer_timers_initialize();
-    time_delta* counter1 = timer_counter_init();
+    counters* counters1 = counters_counters_initialize();
+    counter_type* counter1 = counters_counter_init();
     if(counter1 == NULL){
         return 1;
     }
@@ -158,7 +158,7 @@ int jogo_reacao(void){
                         assemble_directions_r_l(player, &d, &instance);
 
                         counter_sec++;
-                        timer_counter_increase(counter1);
+                        counters_counter_increase(counter1);
 
                         collision = check_collisions_sprite(arr, 3);
                         if (!collision) {
@@ -197,12 +197,12 @@ int jogo_reacao(void){
     }
 
     // Use of the timers
-    timer_counter_stop(timers1, counter1);
-    float a = timer_counter_seconds(counter1, 60);
+    counters_counter_stop(counters1, counter1);
+    float a = counters_get_seconds(counter1, 60);
     printf("%d seconds\n", (int)a);
-    timer_counter_destructor(timers1, counter1);
-    timer_timers_destructor(timers1);
-    timers1 = NULL;
+    counters_counter_destructor(counters1, counter1);
+    counters_counters_destructor(counters1);
+     counters1 = NULL;
 
     // Unsubscribe both interruptions
     if (interrupt_unsubscribe_all())
