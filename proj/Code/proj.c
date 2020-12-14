@@ -68,7 +68,7 @@ int jogo_reaçao(void){
     /*Image i = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
     image_draw(&i, &instance);*/
 
-    Sprite* sprite = create_sprite(player_green_xpm, 0,733, 0, 0);
+    Sprite* sprite = create_sprite(player_green_xpm, 0,650, 0, 0);
     image_draw(&sprite->drawing, &instance);
 
 

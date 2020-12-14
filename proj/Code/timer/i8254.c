@@ -46,12 +46,21 @@ int i8254_parse_irq(timer_nr timer){
   }
 }
 
-uint8_t i8254_get_control_word(timer_nr timer, timer_mode mode, uint8_t rd_wrt, uint8_t bcd){
-  //
-  return -1;
+uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode, timer_format format){
+  uint8_t ctrlWord = 0;
+
+  int8_t timerCtrlSel = i8242_parse_selection(timer);
+  int timerPort = i8042_parse_port(timer);
+  if(timerPort == -1 || timerCtrlSel == -1){
+    printf("Invalid port number in i8042_set_frequency");
+    return 1;
+  }
+
+  ctrlWord = ctrlWord | timerCtrlSel | rw | mode | format;
+  return ctrlWord;
 }
 
-int i8042_get_conf(timer_nr timer, uint8_t *st) {
+int i8252_get_conf(timer_nr timer, uint8_t *st) {
     uint8_t rbword = 0;
     uint8_t port = i8042_parse_port(timer);
 
@@ -65,8 +74,7 @@ int i8042_get_conf(timer_nr timer, uint8_t *st) {
 
 
     // Write Read-Back word to control regiter (0x43)
-    if (sys_outb(TIMER_CTRL, rbword) != OK) {
-      printf("Error in sys_outb() in i8042_get_conf()");
+    if(i8254_write_command(rbword)){
       return 1;
     }
 
@@ -80,7 +88,13 @@ int i8042_get_conf(timer_nr timer, uint8_t *st) {
     return 0;
 }
 
-
+int i8254_write_command(uint8_t ctrlwd){
+  if(sys_outb(TIMER_CTRL, ctrlwd) != OK) {
+    printf("Error in sys_outb() for timer");
+    return 1;
+  }
+  return 0;
+}
 
 int i8042_set_frequency(timer_nr timer, uint32_t freq) {
   
@@ -107,8 +121,7 @@ int i8042_set_frequency(timer_nr timer, uint32_t freq) {
 
   controlWord = controlWord | timerCtrlSel | TIMER_LSB_MSB;
 
-  if(sys_outb(TIMER_CTRL, controlWord) != OK) {
-    printf("Error in sys_outb() timer_set_frequency()");
+  if(i8254_write_command(controlWord)){
     return 1;
   }
 
