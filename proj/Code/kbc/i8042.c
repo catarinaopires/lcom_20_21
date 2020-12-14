@@ -2,8 +2,6 @@
 
 // Global variable to store output data of the kbc
 extern uint8_t OUTPUT_BUFF_DATA;
-
-//static uint8_t setas[4] = {KBC_UP_MAKECODE, KBC_DOWN_MAKECODE, KBC_LEFT_MAKECODE, KBC_RIGHT_MAKECODE};
 static uint8_t r_l_arrows[2] = {KBC_LEFT_MAKECODE, KBC_RIGHT_MAKECODE};
 
 void(kbc_ih)(void) {
@@ -29,35 +27,41 @@ int is_make_code(){
   return 1;
 }
 
-/*
-int (kbc_read_poll)(){
-
-  uint8_t st;
-  uint8_t data = 0;
-
-  while( 1 ) {
-    if(util_sys_inb(KBC_ST_REG, &st) != OK){
-      return 1;
-    } // loop while 8042 output buffer is empty
-
-   // Check if OBF is full & if it came from kbd
-    if(st & (KBC_OUTPUT_BUFF_FULL | !KBC_AUX)) {
-      if(util_sys_inb(KBC_OUT_BUF, &data) != OK)
-        return 1;
-      if ( (st &(KBC_PAR_ERR | KBC_TO_ERR)) == 0 ){
-        OUTPUT_BUFF_DATA = data;
-        break;
-      }
+void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys){
+    for(size_t i = 0; i < 2; i++){
+        // If breakcode of some arrow, remove it from array of keys
+        if((keys[i] | BIT(7)) == bytes[1]){
+            keys[i] = 0;
+            break;
+        }
     }
-    else
-      tickdelay(micros_to_ticks(WAIT_KBC));
-  }
-  return 0;
 
+    // If makecode of some arrow, add it in array of keys
+    for(size_t j = 0; j < 2; j++){
+        if(bytes[1] == r_l_arrows[j]){
+            keys[j] = bytes[1];
+            break;
+        }
+    }
+
+    if(keys[0] != 0 && keys[1] != 0){
+        *dir = none;
+    }
+    else if (keys[0]){
+        *dir = left;
+    }
+    else if (keys[1]){
+        *dir = right;
+    }
+    else{
+        *dir = none;
+    }
 }
-*/
 
-void check_movement(uint8_t bytes[], direction* dir){
+
+/*static uint8_t setas[4] = {KBC_UP_MAKECODE, KBC_DOWN_MAKECODE, KBC_LEFT_MAKECODE, KBC_RIGHT_MAKECODE};*/
+
+/*void check_movement(uint8_t bytes[], direction* dir){
     // TODO: NONE (SAME DIRECTION EX UP+DOWN) - THEN RELEASE - ERROR
 
     switch (*dir) {
@@ -131,7 +135,7 @@ void check_movement(uint8_t bytes[], direction* dir){
             break;
 
     }
-}
+}*/
 
 /*void check_movement_array_idea(uint8_t* bytes, direction* dir, uint8_t* keys){
 
@@ -222,35 +226,3 @@ void check_movement(uint8_t bytes[], direction* dir){
         *dir = *dir;
     }
 }*/
-
-void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys){
-    for(size_t i = 0; i < 2; i++){
-        // If breakcode of some arrow, remove it from array of keys
-        if((keys[i] | BIT(7)) == bytes[1]){
-            keys[i] = 0;
-            break;
-        }
-    }
-
-    // If makecode of some arrow, add it in array of keys
-    for(size_t j = 0; j < 2; j++){
-        if(bytes[1] == r_l_arrows[j]){
-            keys[j] = bytes[1];
-            break;
-        }
-    }
-
-    if(keys[0] != 0 && keys[1] != 0){
-        *dir = none;
-    }
-    else if (keys[0]){
-        *dir = left;
-    }
-    else if (keys[1]){
-        *dir = right;
-    }
-    else{
-        *dir = none;
-    }
-}
-

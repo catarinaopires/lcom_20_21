@@ -85,15 +85,11 @@ int jogo_reacao(void){
     /*Image i = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
     image_draw(&i, &instance);*/
 
-    Sprite* sprite = create_sprite(player_green_xpm, 0,650, 0, 0);
-    image_draw(&sprite->drawing, &instance);
+    Sprite* player = create_sprite(player_green_xpm, 0,650, 0, 0);
 
-
-    Sprite* sprite1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
-    image_draw(&sprite1->drawing, &instance);
-    Sprite* sprite2 = create_sprite(bomb_xpm, 700, 0, 0, 1);
-    image_draw(&sprite2->drawing, &instance);
-    Sprite* arr[] = {sprite, sprite1, sprite2};
+    Sprite* bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
+    Sprite* bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
+    Sprite* arr[] = {player, bomb1, bomb};
 
     // Start timers
     timers* timers1 = timer_timers_initialize();
@@ -145,6 +141,7 @@ int jogo_reacao(void){
                             if (!collision) {
                                 check_movement_r_l(&bytes[0], &d, &keys[0]);
                             }
+
                         } else {
                             if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
                                 counter++;
@@ -158,29 +155,32 @@ int jogo_reacao(void){
                     }
 
                     if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
-                        assemble_directions_r_l(sprite, &d, &instance);
+                        assemble_directions_r_l(player, &d, &instance);
 
                         counter_sec++;
                         timer_counter_increase(counter1);
+
                         collision = check_collisions_sprite(arr, 3);
                         if (!collision) {
-                            if (move_sprite(sprite1, 350, 863, &instance) != 0) {
-                                draw_rectangle(350, 863 - sprite1->drawing.img.height, sprite1->drawing.img.width,
-                                               sprite1->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
+                            if (move_sprite(bomb1, 0, instance.mode_info.YResolution, &instance) != 0) {
+                                draw_rectangle(bomb1->drawing.x, 863 - bomb1->drawing.img.height, bomb1->drawing.img.width,
+                                               bomb1->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
                                                &instance);
-                                sprite1->drawing.x = 350;
-                                sprite1->drawing.y = 0;
+                                bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
+                                bomb1->drawing.y = 0;
+
                             }
                         }
+                        // Adds bomb with delay comparing to the other bomb
                         if (counter_sec >= 3 * 60) {
                             collision = check_collisions_sprite(arr, 3);
                             if (!collision) {
-                                if (move_sprite(sprite2, 700, 863, &instance) != 0) {
-                                    draw_rectangle(700, 863 - sprite2->drawing.img.height, sprite2->drawing.img.width,
-                                                   sprite2->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
+                                if (move_sprite(bomb, 0, instance.mode_info.YResolution, &instance) != 0) {
+                                    draw_rectangle(bomb->drawing.x, 863 - bomb->drawing.img.height, bomb->drawing.img.width,
+                                                   bomb->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
                                                    &instance);
-                                    sprite2->drawing.x = 700;
-                                    sprite2->drawing.y = 0;
+                                    bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
+                                    bomb->drawing.y = 0;
                                 }
                             }
                         }
@@ -208,10 +208,9 @@ int jogo_reacao(void){
     if (interrupt_unsubscribe_all())
         return 1;
 
-    destroy_sprite(sprite1);
-    destroy_sprite(sprite2);
-    destroy_sprite(sprite);
-
+    destroy_sprite(bomb1);
+    destroy_sprite(bomb);
+    destroy_sprite(player);
 
     instance.video_change_mode(&instance, MODE_TEXT);
 

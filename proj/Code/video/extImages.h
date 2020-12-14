@@ -2,7 +2,6 @@
 #include "video.h"
 #include <lcom/lcf.h>
 
-
 /**
  * @brief Struct to save information of images.
 */

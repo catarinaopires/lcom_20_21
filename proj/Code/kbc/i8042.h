@@ -42,6 +42,36 @@
 // Define 'Esc' breakcode for loop termination
 #define KBC_ESC_BREAKCODE 0x81      // Breakcode for ESC
 
+/** @brief Possible directions based on arrows' keys.
+*/
+typedef enum direction{
+    none,
+    right,
+    left,
+    up,
+    down,
+} direction;
+
+/** @brief Parses scancode and changes direction based on it.
+ * If given scancode if a makecode or breakcode of the keys in the array 'keys', direction changes.
+ * Else, discards it.
+*/
+void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys);
+
+/** @brief Keyboard interruption handler.
+*/
+void (kbc_ih)();
+
+/** @brief Keyboard interruption handler.
+ * @return Returns 1 if scancode is makecode, 0 if is breakcode.
+*/
+int is_make_code();
+
+
+/*void check_movement_array_idea(uint8_t* bytes, direction* dir, uint8_t* keys);*/
+/*void check_movement(uint8_t bytes[], direction* dir);*/
+
+/*
 typedef enum direction{
     none,
     right,
@@ -52,16 +82,4 @@ typedef enum direction{
     right_down,
     left_up,
     left_down
-} direction;
-
-/*void check_movement_array_idea(uint8_t* bytes, direction* dir, uint8_t* keys);*/
-void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys);
-
-void check_movement(uint8_t bytes[], direction* dir);
-
-void (kbc_ih)();
-
-int is_make_code();
-
-int (kbc_read_poll)();
-
+} direction;*/
