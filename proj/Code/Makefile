@@ -3,10 +3,10 @@ PROG=proj
 
 # source code files to be compiled
 SRCS = proj.c
-SRCS += common/utils.c common/interrupts.c
+SRCS += common/utils.c common/interrupts.c common/counters
 SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
-SRCS += timer/i8254.c timer/timer.c 
+SRCS += timer/i8254.c
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
@@ -24,6 +24,9 @@ common/utils.o: common/utils.c common/utils.h
 common/interrupts.o: common/interrupts.c common/interrupts.h
 	cc $(CFLAGS) -o common/interrupts.o -c common/interrupts.c
 
+common/counters.o: common/counters.c common/counters.h
+	cc $(CFLAGS) -o common/counters.o -c common/counters.c
+
 video/video.o: video/video.c video/video.h
 	cc $(CFLAGS) -o video/video.o -c video/video.c
 
@@ -35,9 +38,6 @@ kbc/i8042.o: kbc/i8042.c kbc/i8042.h
 
 timer/i8254.o: timer/i8254.c timer/i8254.h
 	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c
-
-timer/timer.o: timer/timer.c timer/timer.h
-	cc $(CFLAGS) -o timer/timer.o -c timer/timer.c	
 
 # include LCOM's makefile that does all the "heavy lifting"
 .include <minix.lcom.mk>
