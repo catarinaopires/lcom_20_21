@@ -56,7 +56,7 @@ void assemble_directions_r_l(Sprite* sprite, direction* dir, video_instance* ins
     switch (*dir) {
         case right:
             change_speed(sprite, 5, 0);
-            move_sprite(sprite, instance->mode_info.XResolution, 0, instance);
+            move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, instance);
             break;
         case left:
             change_speed(sprite, -5, 0);
@@ -64,7 +64,7 @@ void assemble_directions_r_l(Sprite* sprite, direction* dir, video_instance* ins
             break;
         default:
             change_speed(sprite, 0, 0);
-            move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.width, instance);
+            move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.height, instance);
             break;
     }
 }

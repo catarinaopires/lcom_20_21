@@ -5,6 +5,10 @@ int image_draw(Image* this, video_instance* instance){
     uint8_t *img_it;
     img_it = this->img.bytes;
 
+    if(this->img.height + this->y >= instance->mode_info.YResolution ||
+    this->img.width + this->x >= instance->mode_info.XResolution)
+        return 1;
+
     for(uint32_t lines = 0; lines < this->img.height; lines++){
         for(uint32_t cols = 0; cols < this->img.width; cols++){
 
@@ -92,11 +96,11 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
     // Clear screen (transparency color)
     draw_rectangle(sp->drawing.x, sp->drawing.y, sp->drawing.img.height, sp->drawing.img.width, xpm_transparency_color(XPM_8_8_8_8), instance);
 
-    // Update positions
-    if(((sp->drawing.x < xf) && (sp->xspeed > 0)) || ((sp->drawing.x > xf) && (sp->xspeed < 0))){
+    // Update positions if possible
+    if(((sp->drawing.x + sp->xspeed < xf) && (sp->xspeed > 0)) || ((sp->drawing.x + sp->xspeed> xf) && (sp->xspeed < 0))){
         sp->drawing.x += sp->xspeed;
     }
-    if(((sp->drawing.y < yf) && (sp->yspeed > 0)) || ((sp->drawing.y > yf) && (sp->yspeed < 0))){
+    if(((sp->drawing.y + sp->yspeed < yf) && (sp->yspeed > 0)) || ((sp->drawing.y + sp->yspeed > yf) && (sp->yspeed < 0))){
         sp->drawing.y += sp->yspeed;
     }
 
@@ -105,7 +109,7 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
         return -1;
     }
 
-    // If in the end, draw again and return (Movement finished)
+    // Movement finished
     if(((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&
        ((sp->drawing.y >= yf && sp->yspeed >= 0) || (sp->drawing.y <= yf && sp->yspeed <= 0))){
 
