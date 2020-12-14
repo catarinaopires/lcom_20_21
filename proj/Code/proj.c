@@ -144,7 +144,6 @@ int jogo_reacao(void){
                             collision = check_collisions_sprite(arr, 3);
                             if (!collision) {
                                 check_movement_r_l(&bytes[0], &d, &keys[0]);
-                                assemble_directions_r_l(sprite, &d, &instance);
                             }
                         } else {
                             if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
@@ -153,13 +152,14 @@ int jogo_reacao(void){
                                 collision = check_collisions_sprite(arr, 3);
                                 if (!collision) {
                                     check_movement_r_l(&bytes[0], &d, &keys[0]);
-                                    assemble_directions_r_l(sprite, &d, &instance);
                                 }
                             }
                         }
                     }
 
                     if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                        assemble_directions_r_l(sprite, &d, &instance);
+
                         counter_sec++;
                         timer_counter_increase(counter1);
                         collision = check_collisions_sprite(arr, 3);
@@ -196,7 +196,7 @@ int jogo_reacao(void){
         }
     }
 
-    //Use of the timers
+    // Use of the timers
     timer_counter_stop(timers1, counter1);
     float a = timer_counter_seconds(counter1, 60);
     printf("%d seconds\n", (int)a);
