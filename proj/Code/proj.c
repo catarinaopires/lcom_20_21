@@ -52,6 +52,22 @@ static int print_usage() {
 }
 */
 
+void assemble_directions_r_l(Sprite* sprite, direction* dir, video_instance* instance){
+    switch (*dir) {
+        case right:
+            change_speed(sprite, 5, 0);
+            move_sprite(sprite, instance->mode_info.XResolution, 0, instance);
+            break;
+        case left:
+            change_speed(sprite, -5, 0);
+            move_sprite(sprite, 0, 0, instance);
+            break;
+        default:
+            change_speed(sprite, 0, 0);
+            move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.width, instance);
+            break;
+    }
+}
 
 int jogo_reacao(void){
     video_instance instance = video_init_empty();
@@ -128,20 +144,7 @@ int jogo_reacao(void){
                             collision = check_collisions_sprite(arr, 3);
                             if (!collision) {
                                 check_movement_r_l(&bytes[0], &d, &keys[0]);
-                                switch (d) {
-                                    case right:
-                                        change_speed(sprite, 5, 0);
-                                        move_sprite(sprite, 1152, 0, &instance);
-                                        break;
-                                    case left:
-                                        change_speed(sprite, -5, 0);
-                                        move_sprite(sprite, 0, 0, &instance);
-                                        break;
-                                    default:
-                                        change_speed(sprite, 0, 0);
-                                        move_sprite(sprite, 1152, 863 - sprite->drawing.img.width, &instance);
-                                        break;
-                                }
+                                assemble_directions_r_l(sprite, &d, &instance);
                             }
                         } else {
                             if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
@@ -150,21 +153,7 @@ int jogo_reacao(void){
                                 collision = check_collisions_sprite(arr, 3);
                                 if (!collision) {
                                     check_movement_r_l(&bytes[0], &d, &keys[0]);
-
-                                    switch (d) {
-                                        case right:
-                                            change_speed(sprite, 5, 0);
-                                            move_sprite(sprite, 1152, 0, &instance);
-                                            break;
-                                        case left:
-                                            change_speed(sprite, -5, 0);
-                                            move_sprite(sprite, 0, 0, &instance);
-                                            break;
-                                        default:
-                                            change_speed(sprite, 0, 0);
-                                            move_sprite(sprite, 1152, 863 - sprite->drawing.img.width, &instance);
-                                            break;
-                                    }
+                                    assemble_directions_r_l(sprite, &d, &instance);
                                 }
                             }
                         }
