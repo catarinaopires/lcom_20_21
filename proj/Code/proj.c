@@ -6,13 +6,14 @@
 #include <stdint.h>
 
 // Any header files included below this line should have been created by you
+#include "common/interrupts.h"
 #include "video/extImages.h"
 #include "video/images/ball.xpm"
 #include "video/images/bomb1.xpm"
 #include "video/images/bomb.xpm"
-#include "video/images/hearts.xpm"
+#include "video/images/player_red.xpm"
 #include "kbc/i8042.h"
-#include "common/interrupts.h"
+
 
 uint8_t OUTPUT_BUFF_DATA;
 
@@ -97,7 +98,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   sleep(2);*/
 
 
-  Sprite* sprite = create_sprite(ball_xpm, 101, 101, 0, 0);
+  Sprite* sprite = create_sprite(bomb_xpm, 101, 101, 0, 0);
 
   image_draw(&sprite->drawing, &instance);
   sleep(2);
@@ -151,6 +152,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint8_t keys[2] = {0,0};
 
     // TEST KBD DIRECTIONS
+    interrupt_arr_initializer(INTERRUPTS);
     int ipc_status;
     int r;
     message msg;
@@ -159,7 +161,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint8_t bytes[2] = {0, 0};
     static direction d = none;
 
-    if(subscribe_int(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
+    if(interrupt_subscribe(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
         return 1;
 
     while (bytes[0] != KBC_ESC_BREAKCODE) {
@@ -175,7 +177,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         bytes[counter] = OUTPUT_BUFF_DATA;
                         if (counter == 1) {
                             counter = 0;
-
                             check_movement_r_l(&bytes[0], &d, &keys[0]);
                             switch (d) {
                                 case right:
@@ -224,7 +225,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
         else {
         }
     }
-    if(unsubscribe_int())
+    if(interrupt_unsubscribe_all())
         return 1;
 
 
