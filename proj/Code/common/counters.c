@@ -48,7 +48,7 @@ counter_type* counters_counter_init(counters* timers){
     return timer_counter;
 }
 
-void counters_counter_increase(counter_type* counter){
+inline void counters_counter_increase(counter_type* counter){
     *counter = *counter + 1;
 }
 

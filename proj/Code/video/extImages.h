@@ -87,3 +87,8 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
  * @param yspeed Vertical speed (Number of pixels between frames)
  */
 void change_speed(Sprite* this, int xspeed, int yspeed);
+
+/** @brief Function to load an image directly to the buffer
+ * @param reference for the buffer
+*/
+void fill_buffer(video_instance* instance, void* buffer, Image* img);

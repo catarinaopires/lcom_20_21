@@ -79,11 +79,11 @@ int jogo_reacao(void){
     instance.video_get_current_buffer = video_get_current_buffer;
     video_get_mode_info(&instance);
     instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
-    video_map_vram_mem(&instance, 1);
+    video_map_vram_mem(&instance, 2);
     video_change_mode(&instance, MODE_1152x864);
 
-    /*Image i = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
-    image_draw(&i, &instance);*/
+    Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
+
 
     Sprite* player = create_sprite(player_green_xpm, 0,650, 0, 0);
 
@@ -155,6 +155,7 @@ int jogo_reacao(void){
                     }
 
                     if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                        fill_buffer(&instance, video_get_next_buffer(&instance), &background);
                         assemble_directions_r_l(player, &d, &instance);
 
                         counter_sec++;
@@ -184,6 +185,7 @@ int jogo_reacao(void){
                                 }
                             }
                         }
+                        video_flip_page(&instance);
                     }
 
                     break;
@@ -212,6 +214,7 @@ int jogo_reacao(void){
     destroy_sprite(bomb);
     destroy_sprite(player);
 
+    video_default_page(&instance);
     instance.video_change_mode(&instance, MODE_TEXT);
 
     return 0;

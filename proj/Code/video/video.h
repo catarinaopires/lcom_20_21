@@ -70,17 +70,34 @@ int video_change_mode(video_instance *instance, uint16_t mode);
  * */
 int video_map_vram_mem(video_instance *instance, uint8_t bufferNr);
 
+/** @brief Function to clear the desired video buffer
+ * @param reference for the buffer
+*/
+void video_clear_buffer(video_instance* instance, void* buffer);
+
+/** @brief Function to flip to the default page with the 0x07's bios function subfuction 0x80
+ * @param instance Reference to struct video instance
+ * @return Returns 0 uppon success, 1 with failiure
+*/
+int video_default_page(video_instance *instance);
+
 /** @brief Function to flip pages with the 0x07's bios function subfuction 0x80
  * @param instance Reference to struct video instance
  * @return Returns 0 uppon success, 1 with failiure
 */
-//static int video_flip_page(video_instance *instance);
+int video_flip_page(video_instance *instance);
 
 /** @brief Returns the current buffer in use
  * @param instance Reference to struct video instance
  * @return Pointer to the current buffer in use
 */
 void* video_get_current_buffer(video_instance *instance);
+
+/** @brief Returns the next buffer to use
+ * @param instance Reference to struct video instance
+ * @return Pointer to the next buffer to use
+*/
+void* video_get_next_buffer(video_instance *instance);
 
 /** @brief Populates mode, mode_info, mapps memory and changes mode
  * @param instance Reference to struct video instance

@@ -96,31 +96,26 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
   }
   
   int r;
-  struct minix_mem_range mem_range; // Physical memory range 
-  void *video_mem;                  // Frame-buffer VM address 
-  unsigned int vram_size = ((instance->mode_info.XResolution * instance->mode_info.YResolution * instance->mode_info.BitsPerPixel) / 8);
+  struct minix_mem_range mem_range; // Physical memory range
+  unsigned int vram_size = instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution;
   
   // Allow memory mapping
   mem_range.mr_base = (phys_bytes) instance->mode_info.PhysBasePtr;
-  mem_range.mr_limit = mem_range.mr_base + vram_size;
+  mem_range.mr_limit = mem_range.mr_base + 2 * vram_size;
+
+  if (OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mem_range))){
+      printf("sys_privctl (ADD_MEM) failed: %d\n", r);
+      return 1;
+  }
+
   for(uint8_t buffer = 0; buffer < 2; buffer++){
     if(buffer < bufferNr){
-     if (OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mem_range))){
-       printf("sys_privctl (ADD_MEM) failed: %d\n", r);
-       return 1;
+      // Map memory
+      instance->mapped_vram_addr[buffer] = vm_map_phys(SELF, (void *) (phys_bytes)(mem_range.mr_base + buffer * vram_size), vram_size);
+      if (instance->mapped_vram_addr[buffer] == MAP_FAILED) {
+          printf("couldn’t map video memory\n");
+          return 1;
       }
-    
-      // Map memory 
-      video_mem = vm_map_phys(SELF, (void *) mem_range.mr_base, vram_size);
-      if (video_mem == MAP_FAILED){
-        printf("couldn’t map video memory\n");
-       return 1;
-      }
-
-      instance->mapped_vram_addr[buffer] = video_mem;
-
-      mem_range.mr_base = mem_range.mr_limit;
-      mem_range.mr_limit = mem_range.mr_base + vram_size;
     }
     else{
       instance->mapped_vram_addr[buffer] = NULL;
@@ -128,6 +123,60 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
   }
 
   return 0;
+}
+
+void video_clear_buffer(video_instance* instance, void* buffer) {
+    memset(buffer, 0, instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution);
+}
+
+int video_default_page(video_instance *instance){
+
+    if(instance->mapped_vram_addr[1] == NULL){
+        printf("Double buffer not in use\n");
+        return 1;
+    }
+
+    struct reg86 reg;
+    memset(&reg, 0, sizeof(reg));
+
+    reg.ax = VBE_SET_GET_DISPLAY_START;
+    reg.bh = 0x00;
+    reg.bl = VBE_SET_GET_DISPLAY_START_VR;
+    reg.dx = 0;
+    reg.intno = BIOS_VIDEO_FUNCTION;
+
+    instance->page = (instance->page + 1) % 2;
+
+    if(sys_int86(&reg) != OK){
+        printf("Call to sys_int failled\n");
+        return 1;
+    }
+
+    switch(reg.ah){
+        case 0:
+            if(reg.al == 0x4f){
+                // Everything runs as expected
+                memset(video_get_next_buffer(instance), 0, instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution);
+                return 0;
+            }
+
+        case 1:
+            // Function call failed
+            printf("Funtion call failed\n");
+            break;
+
+        case 2:
+            // Not supported by hardware
+            printf("Function not supported by hardware\n");
+            break;
+
+        case 3:
+            // Function invalid in current video mode
+            printf("Function invalid for the current video mode\n");
+            break;
+    }
+
+    return 1;
 }
 
 int video_flip_page(video_instance *instance){
@@ -142,8 +191,8 @@ int video_flip_page(video_instance *instance){
   
   reg.ax = VBE_SET_GET_DISPLAY_START;
   reg.bh = 0x00;
-  reg.bl = VBE_SET_GET_DISPLAY_START_VR;
-  reg.dx = instance->page * instance->mode_info.XResolution;
+  reg.bl = 0x00; //VBE_SET_GET_DISPLAY_START_VR;
+  reg.dx = instance->page * instance->mode_info.YResolution;
   reg.intno = BIOS_VIDEO_FUNCTION;
 
   instance->page = (instance->page + 1) % 2; 
@@ -157,7 +206,8 @@ int video_flip_page(video_instance *instance){
     case 0:
       if(reg.al == 0x4f){
         // Everything runs as expected
-         return 0;
+        //memset(video_get_next_buffer(instance), 0, instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution);
+        return 0;
       }
     
     case 1:
@@ -179,8 +229,12 @@ int video_flip_page(video_instance *instance){
   return 1;
 }
 
-void* video_get_current_buffer(video_instance *instance){
+inline void* video_get_current_buffer(video_instance *instance){
   return instance->mapped_vram_addr[instance->page];
+}
+
+inline void* video_get_next_buffer(video_instance *instance){
+    return instance->mapped_vram_addr[(instance->page + 1) % 2];
 }
 
 /*
@@ -278,9 +332,9 @@ int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* inst
     return 1;
   }
 
-  void* video_it = instance->video_get_current_buffer(instance) + (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
-    
-  memcpy(video_it, (const void*)(&color), instance->bytesPerPixel);  // Set Pixel color
+  void* video_it = video_get_next_buffer(instance)+ (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
+  if (color != xpm_transparency_color(XPM_8_8_8_8))
+    memcpy(video_it, (const void*)(&color), instance->bytesPerPixel);  // Set Pixel color
 
   return 0;
 }
