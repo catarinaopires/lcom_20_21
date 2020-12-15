@@ -15,6 +15,7 @@
 #include "video/images/player_green.xpm"
 #include "video/images/background3.xpm"
 #include "kbc/i8042.h"
+#include "kbc/keyboard.h"
 #include "timer/i8254.h"
 
 
@@ -121,7 +122,7 @@ int jogo_reacao(void){
     if (interrupt_subscribe(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
         return 1;
 
-    while (!collision && bytes[0] != KBC_ESC_BREAKCODE) {
+    while (!collision && bytes[0] != KEYBOARD_ESC_BREAKCODE) {
         /* Get a request message. */
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
             printf("driver_receive failed with: %d", r);
