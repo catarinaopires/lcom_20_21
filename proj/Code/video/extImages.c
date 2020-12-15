@@ -5,8 +5,8 @@ int image_draw(Image* this, video_instance* instance){
     uint8_t *img_it;
     img_it = this->img.bytes;
 
-    if(this->img.height + this->y >= instance->mode_info.YResolution ||
-    this->img.width + this->x >= instance->mode_info.XResolution)
+    if(this->img.height + this->y > instance->mode_info.YResolution ||
+    this->img.width + this->x > instance->mode_info.XResolution)
         return 1;
 
     for(uint32_t lines = 0; lines < this->img.height; lines++){
@@ -88,7 +88,7 @@ int check_collisions_sprite(Sprite** arr, size_t sz){
 }
 
 int draw_sprite(Sprite* this, video_instance* instance){
-    return image_draw(&this->drawing, instance);;
+    return image_draw(&this->drawing, instance);
 }
 
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
