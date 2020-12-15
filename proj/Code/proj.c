@@ -119,11 +119,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
     int collision = 0;
     int counter_sec = 0;
 
-    Sprite* player = create_sprite(player_green_xpm, 0,670, 0, 0);
+    Sprite* player_jogo_reacao = create_sprite(player_green_xpm, 0,670, 0, 0);
 
     Sprite* bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
     Sprite* bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
-    Sprite* arr[] = {player, bomb1, bomb};
+    Sprite* arr_jogo_reacao[] = {player_jogo_reacao, bomb1, bomb};
 
     uint8_t keys[2] = {0, 0};
 
@@ -174,7 +174,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             if (counter == 1) {
                                 counter = 0;
 
-                                collision = check_collisions_sprite(arr, 3);
+                                collision = check_collisions_sprite(arr_jogo_reacao, 3);
                                 if (!collision) {
                                     check_movement_r_l(&bytes[0], &d, &keys[0]);
                                 }
@@ -183,7 +183,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                                 if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
                                     counter++;
                                 else {
-                                    collision = check_collisions_sprite(arr, 3);
+                                    collision = check_collisions_sprite(arr_jogo_reacao, 3);
                                     if (!collision) {
                                         check_movement_r_l(&bytes[0], &d, &keys[0]);
                                     }
@@ -195,12 +195,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
 
                             fill_buffer(&instance, video_get_next_buffer(&instance), &background);
-                            assemble_directions_r_l(player, &d, &instance);
+                            assemble_directions_r_l(player_jogo_reacao, &d, &instance);
 
                             counter_sec++;
                             counters_counter_increase(counter1);
 
-                            collision = check_collisions_sprite(arr, 3);
+                            collision = check_collisions_sprite(arr_jogo_reacao, 3);
                             if (!collision) {
                               if (move_sprite(bomb1, 0, 725, &instance) != 0) {
                                 bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
@@ -209,7 +209,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             }
                             // Adds bomb with delay comparing to the other bomb
                             if (counter_sec >= 3 * 60) {
-                              collision = check_collisions_sprite(arr, 3);
+                              collision = check_collisions_sprite(arr_jogo_reacao, 3);
                               if (!collision) {
                                 if (move_sprite(bomb, 0, 725, &instance) != 0) {
                                   bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
@@ -251,7 +251,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     destroy_sprite(bomb1);
     destroy_sprite(bomb);
-    destroy_sprite(player);
+    destroy_sprite(player_jogo_reacao);
 
 
     video_default_page(&instance);
