@@ -1,4 +1,5 @@
 /*	$NetBSD: stdio.h,v 1.96 2015/03/24 07:44:52 wiz Exp $	*/
+/*	$NetBSD: stdio.h,v 1.96 2015/03/24 07:44:52 wiz Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993

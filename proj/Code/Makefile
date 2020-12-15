@@ -6,6 +6,7 @@ SRCS = proj.c
 SRCS += common/utils.c common/interrupts.c common/counters
 SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
+SRCS += kbc/keyboard.c
 SRCS += timer/i8254.c
 
 # additional compilation flags
@@ -21,11 +22,11 @@ LDADD += -llcf
 common/utils.o: common/utils.c common/utils.h
 	cc $(CFLAGS) -o common/utils.o -c common/utils.c
 
-common/interrupts.o: common/interrupts.c common/interrupts.h
-	cc $(CFLAGS) -o common/interrupts.o -c common/interrupts.c
-
 common/counters.o: common/counters.c common/counters.h
 	cc $(CFLAGS) -o common/counters.o -c common/counters.c
+
+common/interrupts.o: common/interrupts.c common/interrupts.h
+	cc $(CFLAGS) -o common/interrupts.o -c common/interrupts.c
 
 video/video.o: video/video.c video/video.h
 	cc $(CFLAGS) -o video/video.o -c video/video.c
@@ -35,6 +36,9 @@ video/extImages.o: video/extImages.c video/extImages.h
 
 kbc/i8042.o: kbc/i8042.c kbc/i8042.h
 	cc $(CFLAGS) -o kbc/i8042.o -c kbc/i8042.c
+
+kbc/keyboard.o: kbc/keyboard.c kbc/keyboard.h
+	cc $(CFLAGS) -o kbc/keyboard.o -c kbc/keyboard.c
 
 timer/i8254.o: timer/i8254.c timer/i8254.h
 	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c
