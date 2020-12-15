@@ -69,151 +69,6 @@ void assemble_directions_r_l(Sprite* sprite, direction* dir, video_instance* ins
     }
 }
 
-int jogo_reacao(void){
-    video_instance instance = video_init_empty();
-    instance.mode = 0x14C;
-    instance.video_get_mode_info = video_get_mode_info;
-    instance.video_change_mode = video_change_mode;
-    instance.video_map_vram_mem = video_map_vram_mem;
-    instance.video_flip_page = NULL;
-    instance.video_get_current_buffer = video_get_current_buffer;
-    video_get_mode_info(&instance);
-    instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
-    video_map_vram_mem(&instance, 3);
-    video_change_mode(&instance, MODE_1152x864);
-
-    Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
-
-
-    Sprite* player = create_sprite(player_green_xpm, 0,670, 0, 0);
-
-    Sprite* bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
-    Sprite* bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
-    Sprite* arr[] = {player, bomb1, bomb};
-
-    // Start timers
-    counters* counters1 = counters_counters_initialize();
-    counter_type* counter1 = counters_counter_init();
-    if(counter1 == NULL){
-        return 1;
-    }
-
-
-    int ipc_status;
-    int r;
-    message msg;
-    uint8_t irq_set_kbc = KBC_IRQ;
-    uint8_t irq_set_timer = TIMER0_IRQ;
-    uint8_t counter = 0;
-    uint8_t bytes[2] = {0, 0};
-
-    uint8_t keys[2] = {0, 0};
-    static direction d = none;
-    int collision = 0;
-    int counter_sec = 0;
-
-    // Subscribe keyboard interruptions
-    interrupt_arr_initializer(INTERRUPTS);
-    if (interrupt_subscribe(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc))
-        return 1;
-
-    // Subscribe timer interruptions
-    if (interrupt_subscribe(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
-        return 1;
-
-    while (!collision && bytes[0] != KBC_ESC_BREAKCODE) {
-        /* Get a request message. */
-        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-            printf("driver_receive failed with: %d", r);
-            continue;
-        }
-        if (is_ipc_notify(ipc_status)) { /* received notification */
-            switch (_ENDPOINT_P(msg.m_source)) {
-                case HARDWARE:                             /* hardware interrupt notification */
-                    if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
-                        kbc_ih();
-                        bytes[counter] = OUTPUT_BUFF_DATA;
-
-                        if (counter == 1) {
-                            counter = 0;
-
-                            collision = check_collisions_sprite(arr, 3);
-                            if (!collision) {
-                                check_movement_r_l(&bytes[0], &d, &keys[0]);
-                            }
-
-                        } else {
-                            if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
-                                counter++;
-                            else {
-                                collision = check_collisions_sprite(arr, 3);
-                                if (!collision) {
-                                    check_movement_r_l(&bytes[0], &d, &keys[0]);
-                                }
-                            }
-                        }
-                    }
-
-                    if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
-                        fill_buffer(&instance, video_get_next_buffer(&instance), &background);
-                        assemble_directions_r_l(player, &d, &instance);
-
-                        counter_sec++;
-                        counters_counter_increase(counter1);
-
-                        collision = check_collisions_sprite(arr, 3);
-                        if (!collision) {
-                            if (move_sprite(bomb1, 0, 725, &instance) != 0) {
-                                bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
-                                bomb1->drawing.y = 0;
-                            }
-                        }
-                        // Adds bomb with delay comparing to the other bomb
-                        if (counter_sec >= 3 * 60) {
-                            collision = check_collisions_sprite(arr, 3);
-                            if (!collision) {
-                                if (move_sprite(bomb, 0, 725, &instance) != 0) {
-                                    bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
-                                    bomb->drawing.y = 0;
-                                }
-                            }
-                        }
-                        video_flip_page(&instance);
-                    }
-
-                    break;
-                default:
-                    break; /* no other notifications expected: do nothing */
-            }
-
-        } else { /* received a standard message, not a notification */
-            /* no standard messages expected: do nothing */
-        }
-    }
-
-    // Use of the timers
-    counters_counter_stop(counters1, counter1);
-    float a = counters_get_seconds(counter1, 60);
-    printf("%d seconds\n", (int)a);
-    counters_counter_destructor(counters1, counter1);
-    counters_counters_destructor(counters1);
-     counters1 = NULL;
-
-    // Unsubscribe both interruptions
-    if (interrupt_unsubscribe_all())
-        return 1;
-
-    destroy_sprite(bomb1);
-    destroy_sprite(bomb);
-    destroy_sprite(player);
-
-    video_default_page(&instance);
-    instance.video_change_mode(&instance, MODE_TEXT);
-
-    return 0;
-}
-
-
 int(proj_main_loop)(int argc, char *argv[]) {
   /* 
   Substitute the code below by your own
@@ -238,5 +93,168 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-    return jogo_reacao();
+  typedef enum modules{
+      MENU,
+      JOGO_REACAO,
+      JOGO_DESENHO
+  }modules;
+
+  static modules module = JOGO_REACAO;
+
+    video_instance instance = video_init_empty();
+    instance.mode = MODE_1152x864;
+    instance.video_get_mode_info = video_get_mode_info;
+    instance.video_change_mode = video_change_mode;
+    instance.video_map_vram_mem = video_map_vram_mem;
+    instance.video_flip_page = NULL;
+    instance.video_get_current_buffer = video_get_current_buffer;
+    video_get_mode_info(&instance);
+    instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
+    video_map_vram_mem(&instance, 3);
+    video_change_mode(&instance, MODE_1152x864);
+
+    Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);;
+    static direction d = none;
+    int collision = 0;
+    int counter_sec = 0;
+
+    Sprite* player = create_sprite(player_green_xpm, 0,670, 0, 0);
+
+    Sprite* bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
+    Sprite* bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
+    Sprite* arr[] = {player, bomb1, bomb};
+
+    uint8_t keys[2] = {0, 0};
+
+
+    // Start timers
+    counters* counters1 = counters_counters_initialize();
+    counter_type* counter1 = counters_counter_init();
+
+    if(counter1 == NULL){
+        return 1;
+    }
+
+    int ipc_status;
+    int r;
+    message msg;
+    uint8_t irq_set_kbc = KBC_IRQ;
+    uint8_t irq_set_timer = TIMER0_IRQ;
+    uint8_t counter = 0;
+    uint8_t bytes[2] = {0, 0};
+
+
+    // Subscribe keyboard interruptions
+    interrupt_arr_initializer(INTERRUPTS);
+    if (interrupt_subscribe(KBC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_kbc))
+        return 1;
+
+    // Subscribe timer interruptions
+    if (interrupt_subscribe(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
+        return 1;
+
+    while (!collision && bytes[0] != KBC_ESC_BREAKCODE) {
+        /* Get a request message. */
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d", r);
+            continue;
+        }
+        if (is_ipc_notify(ipc_status)) { /* received notification */
+
+            switch (module) {
+                case(JOGO_REACAO):
+
+                  switch (_ENDPOINT_P(msg.m_source)) {
+                    case HARDWARE:                             /* hardware interrupt notification */
+                        if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
+                            kbc_ih();
+                            bytes[counter] = OUTPUT_BUFF_DATA;
+
+                            if (counter == 1) {
+                                counter = 0;
+
+                                collision = check_collisions_sprite(arr, 3);
+                                if (!collision) {
+                                    check_movement_r_l(&bytes[0], &d, &keys[0]);
+                                }
+
+                            } else {
+                                if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                                    counter++;
+                                else {
+                                    collision = check_collisions_sprite(arr, 3);
+                                    if (!collision) {
+                                        check_movement_r_l(&bytes[0], &d, &keys[0]);
+                                    }
+
+                                }
+                            }
+                        }
+
+                        if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+
+                            fill_buffer(&instance, video_get_next_buffer(&instance), &background);
+                            assemble_directions_r_l(player, &d, &instance);
+
+                            counter_sec++;
+                            counters_counter_increase(counter1);
+
+                            collision = check_collisions_sprite(arr, 3);
+                            if (!collision) {
+                              if (move_sprite(bomb1, 0, 725, &instance) != 0) {
+                                bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
+                                bomb1->drawing.y = 0;
+                              }
+                            }
+                            // Adds bomb with delay comparing to the other bomb
+                            if (counter_sec >= 3 * 60) {
+                              collision = check_collisions_sprite(arr, 3);
+                              if (!collision) {
+                                if (move_sprite(bomb, 0, 725, &instance) != 0) {
+                                  bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
+                                  bomb->drawing.y = 0;
+                                }
+                              }
+                            }
+                            video_flip_page(&instance);
+                            break;
+
+                            }
+                        }
+                        break;
+                    default:
+                        break; /* no other notifications expected: do nothing */
+
+                case MENU:
+                  break;
+                case JOGO_DESENHO:
+                  break;
+
+            }
+        } else { /* received a standard message, not a notification */
+            /* no standard messages expected: do nothing */
+        }
+    }
+
+    // Use of the timers
+    counters_counter_stop(counters1, counter1);
+    float a = counters_get_seconds(counter1, 60);
+    printf("%d seconds\n", (int)a);
+    counters_counter_destructor(counters1, counter1);
+    counters_counters_destructor(counters1);
+    counters1 = NULL;
+
+    // Unsubscribe both interruptions
+    if (interrupt_unsubscribe_all())
+        return 1;
+
+    destroy_sprite(bomb1);
+    destroy_sprite(bomb);
+    destroy_sprite(player);
+
+
+    video_default_page(&instance);
+    instance.video_change_mode(&instance, MODE_TEXT);
+
+    return 0;
 }
