@@ -42,7 +42,7 @@ struct video_instance{
         page1,
         page2
     }page;
-    void* mapped_vram_addr[2];
+    void* mapped_vram_addr[3];
     int (*video_get_mode_info)(video_instance *thisInstance);                   // Same as video_get_mode_info      
     int (*video_change_mode)(video_instance *thisInstance, uint16_t mode);      // Same as video_change_mode
     int (*video_map_vram_mem)(video_instance *thisInstance, uint8_t bufferNr);  // Same as video_map_vram_mem

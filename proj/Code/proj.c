@@ -79,13 +79,13 @@ int jogo_reacao(void){
     instance.video_get_current_buffer = video_get_current_buffer;
     video_get_mode_info(&instance);
     instance.bytesPerPixel = instance.mode_info.BitsPerPixel / 8;
-    video_map_vram_mem(&instance, 2);
+    video_map_vram_mem(&instance, 3);
     video_change_mode(&instance, MODE_1152x864);
 
     Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
 
 
-    Sprite* player = create_sprite(player_green_xpm, 0,650, 0, 0);
+    Sprite* player = create_sprite(player_green_xpm, 0,670, 0, 0);
 
     Sprite* bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
     Sprite* bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
@@ -163,23 +163,17 @@ int jogo_reacao(void){
 
                         collision = check_collisions_sprite(arr, 3);
                         if (!collision) {
-                            if (move_sprite(bomb1, 0, instance.mode_info.YResolution, &instance) != 0) {
-                                draw_rectangle(bomb1->drawing.x, 863 - bomb1->drawing.img.height, bomb1->drawing.img.width,
-                                               bomb1->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
-                                               &instance);
+                            if (move_sprite(bomb1, 0, 725, &instance) != 0) {
+                                printf("aaaaa\n");
                                 bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
                                 bomb1->drawing.y = 0;
-
                             }
                         }
                         // Adds bomb with delay comparing to the other bomb
                         if (counter_sec >= 3 * 60) {
                             collision = check_collisions_sprite(arr, 3);
                             if (!collision) {
-                                if (move_sprite(bomb, 0, instance.mode_info.YResolution, &instance) != 0) {
-                                    draw_rectangle(bomb->drawing.x, 863 - bomb->drawing.img.height, bomb->drawing.img.width,
-                                                   bomb->drawing.img.height, xpm_transparency_color(XPM_8_8_8_8),
-                                                   &instance);
+                                if (move_sprite(bomb, 0, 725, &instance) != 0) {
                                     bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
                                     bomb->drawing.y = 0;
                                 }

@@ -90,7 +90,7 @@ int video_change_mode(video_instance *instance, uint16_t mode){
 }
 
 int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
-  if(bufferNr < 1 || bufferNr > 2){
+  if(bufferNr < 1 || bufferNr > 3){
     printf("Invalid number of buffers\n");
     return 1;
   }
@@ -101,14 +101,14 @@ int video_map_vram_mem(video_instance *instance, uint8_t bufferNr){
   
   // Allow memory mapping
   mem_range.mr_base = (phys_bytes) instance->mode_info.PhysBasePtr;
-  mem_range.mr_limit = mem_range.mr_base + 2 * vram_size;
+  mem_range.mr_limit = mem_range.mr_base + 3 * vram_size;
 
   if (OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mem_range))){
       printf("sys_privctl (ADD_MEM) failed: %d\n", r);
       return 1;
   }
 
-  for(uint8_t buffer = 0; buffer < 2; buffer++){
+  for(uint8_t buffer = 0; buffer < 3; buffer++){
     if(buffer < bufferNr){
       // Map memory
       instance->mapped_vram_addr[buffer] = vm_map_phys(SELF, (void *) (phys_bytes)(mem_range.mr_base + buffer * vram_size), vram_size);
@@ -145,7 +145,7 @@ int video_default_page(video_instance *instance){
     reg.dx = 0;
     reg.intno = BIOS_VIDEO_FUNCTION;
 
-    instance->page = (instance->page + 1) % 2;
+    instance->page = 0;
 
     if(sys_int86(&reg) != OK){
         printf("Call to sys_int failled\n");
@@ -195,7 +195,7 @@ int video_flip_page(video_instance *instance){
   reg.dx = instance->page * instance->mode_info.YResolution;
   reg.intno = BIOS_VIDEO_FUNCTION;
 
-  instance->page = (instance->page + 1) % 2; 
+  instance->page = (instance->page + 1) % 3;
 
   if(sys_int86(&reg) != OK){
     printf("Call to sys_int failled\n");
@@ -234,7 +234,7 @@ inline void* video_get_current_buffer(video_instance *instance){
 }
 
 inline void* video_get_next_buffer(video_instance *instance){
-    return instance->mapped_vram_addr[(instance->page + 1) % 2];
+    return instance->mapped_vram_addr[(instance->page + 1) % 3];
 }
 
 /*
@@ -326,11 +326,7 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
   }
 }
 
-int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
-  
-  if(col >= instance->mode_info.XResolution || line >= instance->mode_info.YResolution){
-    return 1;
-  }
+inline int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance* instance){
 
   void* video_it = video_get_next_buffer(instance)+ (col + line * instance->mode_info.XResolution) * instance->bytesPerPixel;
   if (color != xpm_transparency_color(XPM_8_8_8_8))

@@ -97,11 +97,15 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
     //draw_rectangle(sp->drawing.x, sp->drawing.y, sp->drawing.img.height, sp->drawing.img.width, xpm_transparency_color(XPM_8_8_8_8), instance);
 
     // Update positions if possible
-    if(((sp->drawing.x + sp->xspeed < xf) && (sp->xspeed > 0)) || ((sp->drawing.x + sp->xspeed> xf) && (sp->xspeed < 0))){
+    if(((sp->drawing.x  < xf) && (sp->xspeed > 0)) || ((sp->drawing.x > xf) && (sp->xspeed < 0))){
         sp->drawing.x += sp->xspeed;
+        if(sp->drawing.x + sp->drawing.img.width> instance->mode_info.XResolution)
+            sp->drawing.x = instance->mode_info.XResolution - sp->drawing.img.width;
     }
-    if(((sp->drawing.y + sp->yspeed < yf) && (sp->yspeed > 0)) || ((sp->drawing.y + sp->yspeed > yf) && (sp->yspeed < 0))){
+    if(((sp->drawing.y < yf) && (sp->yspeed > 0)) || ((sp->drawing.y > yf) && (sp->yspeed < 0))){
         sp->drawing.y += sp->yspeed;
+        if(sp->drawing.y + sp->drawing.img.height> instance->mode_info.YResolution)
+            sp->drawing.y = instance->mode_info.YResolution - sp->drawing.img.height;
     }
 
     // Draw image in new position
