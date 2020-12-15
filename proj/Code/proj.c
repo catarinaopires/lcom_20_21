@@ -164,7 +164,6 @@ int jogo_reacao(void){
                         collision = check_collisions_sprite(arr, 3);
                         if (!collision) {
                             if (move_sprite(bomb1, 0, 725, &instance) != 0) {
-                                printf("aaaaa\n");
                                 bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
                                 bomb1->drawing.y = 0;
                             }
