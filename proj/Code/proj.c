@@ -14,6 +14,11 @@
 #include "video/images/bomb.xpm"
 #include "video/images/player_green.xpm"
 #include "video/images/background3.xpm"
+#include "video/images/Background_Menu.xpm"
+#include "video/images/logo.xpm"
+#include "video/images/menu.xpm"
+#include "video/images/PLAY.xpm"
+#include "video/images/QUIT.xpm"
 #include "kbc/i8042.h"
 #include "kbc/keyboard.h"
 #include "timer/i8254.h"
@@ -70,6 +75,32 @@ void assemble_directions_r_l(Sprite* sprite, direction* dir, video_instance* ins
     }
 }
 
+void display_menu(video_instance* instance){
+  Image background = image_construct(background_menu_xpm, XPM_8_8_8_8,0,0);
+  fill_buffer(instance, video_get_next_buffer(instance), &background);
+
+  Image logo = image_construct(logo_xpm, XPM_8_8_8_8,480,15);
+  image_draw(&logo, instance);
+
+  Image menu = image_construct(menu_xpm, XPM_8_8_8_8,430,290);
+  image_draw(&menu, instance);
+
+  draw_rectangle(460,430, 180,60, 0x8373ff, instance);
+  Image play = image_construct(PLAY_xpm, XPM_8_8_8_8,475,440);
+  image_draw(&play, instance);
+
+  draw_rectangle(460,530, 180,60, 0x8373ff, instance);
+  Image quit = image_construct(QUIT_xpm, XPM_8_8_8_8,475,532);
+  image_draw(&quit, instance);
+
+
+  sleep(1);
+  video_flip_page(instance);
+  sleep(1);
+  video_flip_page(instance);
+  sleep(5);
+}
+
 int(proj_main_loop)(int argc, char *argv[]) {
   /* 
   Substitute the code below by your own
@@ -114,7 +145,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
     video_map_vram_mem(&instance, 3);
     video_change_mode(&instance, MODE_1152x864);
 
-    Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);;
+    //display_menu(&instance);
+
+    Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
     static direction d = none;
     int collision = 0;
     int counter_sec = 0;
