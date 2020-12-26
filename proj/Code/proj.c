@@ -180,7 +180,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                                 }
 
                             } else {
-                                if (OUTPUT_BUFF_DATA == KBC_SCANCODE_LEN_2)
+                                if (OUTPUT_BUFF_DATA == KEYBOARD_SCANCODE_LEN_2)
                                     counter++;
                                 else {
                                     collision = check_collisions_sprite(arr_jogo_reacao, 3);

@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+// Detect 2 byte scancodes
+#define KEYBOARD_SCANCODE_LEN_2 0xE0     // First byte of 2-byte scancodes
+
 // Useful make/break codes
 
 #define KEYBOARD_UP_MAKECODE 0x48        // Makecode of the up arrow
