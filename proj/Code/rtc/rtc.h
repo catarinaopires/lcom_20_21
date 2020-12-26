@@ -1,8 +1,4 @@
-//
-// Created by catarinaopires on 23/12/20.
-//
+#pragma once
 
-#ifndef SHARED_RTC_H
-#define SHARED_RTC_H
-
-#endif //SHARED_RTC_H
+#define RTC_ADDR_REG 0x70
+#define RTC_DATA_REG 0x71
