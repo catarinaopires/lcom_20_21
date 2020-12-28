@@ -38,10 +38,7 @@ struct video_instance{
     int32_t mode;
     vbe_mode_info_t mode_info;
     uint8_t bytesPerPixel;
-    enum{
-        page1,
-        page2
-    }page;
+    uint8_t page;
     void* mapped_vram_addr[3];
     int (*video_get_mode_info)(video_instance *thisInstance);                   // Same as video_get_mode_info      
     int (*video_change_mode)(video_instance *thisInstance, uint16_t mode);      // Same as video_change_mode

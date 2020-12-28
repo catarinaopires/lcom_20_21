@@ -25,13 +25,8 @@
 #define KBC_TO_ERR BIT(6)           // Timeout error flag, bit 6 goes high
 #define KBC_AUX BIT(5)              // If high OBF came from mouse, if 0 came from kbd
 
-// Detect 2 byte scancodes
-#define KBC_SCANCODE_LEN_2 0xE0     // First byte of 2-byte scancodes
-
-// Define 'Esc' breakcode for loop termination
-//#define KBC_ESC_BREAKCODE 0x81      // Breakcode for ESC
-
-
 /** @brief Keyboard interruption handler.
 */
 void (kbc_ih)();
+
+int kbc_is_mouse_packet(uint8_t* byte);

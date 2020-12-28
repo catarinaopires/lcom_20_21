@@ -67,10 +67,7 @@ uint8_t OUTPUT_BUFF_DATA;
 
 int is_make_code();
 
-
 void (kbc_ih)(void);
-
-int is_make_code();
 
 int (kbc_read_poll)();
 

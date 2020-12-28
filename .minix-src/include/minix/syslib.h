@@ -216,7 +216,7 @@ int sys_vinw(pvw_pair_t *pvw_pairs, int nr_ports);
 int sys_vinl(pvl_pair_t *pvl_pairs, int nr_ports);
 
 /* Shorthands for sys_out() system call. */
-#define sys_outb(p,v)	sys_out((p), (u32_t) (v), _DIO_BYTE)
+#define sys_outb(p,v)	sys_out((p), (uint32_t) (v), _DIO_BYTE)
 #define sys_outw(p,v)	sys_out((p), (u32_t) (v), _DIO_WORD)
 #define sys_outl(p,v)	sys_out((p), (u32_t) (v), _DIO_LONG)
 int sys_out(int port, u32_t value, int type);
