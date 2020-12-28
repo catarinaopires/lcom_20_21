@@ -20,6 +20,7 @@
 #include "video/images/PLAY.xpm"
 #include "video/images/QUIT.xpm"
 #include "video/images/ReactionGameText.xpm"
+#include "video/images/drawingGameText.xpm"
 #include "kbc/i8042.h"
 #include "kbc/keyboard.h"
 #include "timer/i8254.h"
@@ -117,6 +118,21 @@ void display_reaction_game_text(video_instance* instance){
   sleep(5);
 }
 
+void display_drawing_game_text(video_instance* instance){
+  Image background = image_construct(drawingGameText_xpm, XPM_8_8_8_8,0,0);
+  fill_buffer(instance, video_get_next_buffer(instance), &background);
+
+  draw_rectangle(470,630, 180,60, 0x8373ff, instance);
+  Image play = image_construct(PLAY_xpm, XPM_8_8_8_8,485,640);
+  image_draw(&play, instance);
+
+  sleep(1);
+  video_flip_page(instance);
+  sleep(1);
+  video_flip_page(instance);
+  sleep(5);
+}
+
 int(proj_main_loop)(int argc, char *argv[]) {
   /* 
   Substitute the code below by your own
@@ -163,6 +179,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     //display_menu(&instance);
     //display_reaction_game_text(&instance);
+    // display_drawing_game_text(&instance);
 
     Image background = image_construct(background3_xpm, XPM_8_8_8_8,0,0);
     static direction d = none;
