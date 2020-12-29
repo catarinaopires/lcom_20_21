@@ -27,7 +27,7 @@
 /**
  * @brief Type to store the bytes of a mouse packet read directly from the kbc
  */
-typedef uint8_t mouse_packet_raw[3];
+typedef struct mouse_packet_raw {uint8_t bytes[3];} mouse_packet_raw;
 
 /**
  * @brief Type to save processed mouse packets

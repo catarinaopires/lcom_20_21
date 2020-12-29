@@ -230,7 +230,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
   uint8_t irq_set_mouse = MOUSE_IRQ;
   uint8_t mouse_counter = 0;
   mouse_packet_raw mouse;
-  memset(&mouse, 0, 3);
   mouse_packet_processed pMouse;
 
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REP_STR))
@@ -240,7 +239,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
   
 
-  while (true) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
+  while (counters_get_seconds(counter1, 60) < 10) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -317,13 +316,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
             case HARDWARE:                                        // hardware interrupt notification 
               if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt 
                 kbc_ih();
-                mouse[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
       
                 if (mouse_counter == 2) {
                   mouse_counter = 0;
-                  printf("Packet0 = %x, Packet1 = %x, Packet2 = %x", mouse[0], mouse[1], mouse[2]);
+                  printf("Packet0 = %x, Packet1 = %x, Packet2 = %x", mouse.bytes[0], mouse.bytes[1], mouse.bytes[2]);
                   mouse_process_packet(&mouse, &pMouse);
-                  memset(&mouse, 0, 3);
                   printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
                   printf("x = %d, y = %d\n", pMouse.delta_x, pMouse.delta_y);
                   //mouse_detect_event_ours(&toPrint, &mouseState);

@@ -35,13 +35,13 @@ int mouse_write_cmd(uint8_t cmd) {
 }
 
 void mouse_process_packet(mouse_packet_raw *packet, mouse_packet_processed *processed) {
-  processed->rb = (*packet[0] & MOUSE_DATA_RB);
-  processed->lb = (*packet[0] & MOUSE_DATA_LB);
-  processed->mb = (*packet[0] & MOUSE_DATA_MB);
+  processed->rb = (packet->bytes[0] & MOUSE_DATA_RB);
+  processed->lb = (packet->bytes[0] & MOUSE_DATA_LB);
+  processed->mb = (packet->bytes[0] & MOUSE_DATA_MB);
 
-  processed->x_ov = (*packet[0] & MOUSE_DATA_X_OVF);
-  processed->y_ov = (*packet[0] & MOUSE_DATA_Y_OVF);
+  processed->x_ov = (packet->bytes[0] & MOUSE_DATA_X_OVF);
+  processed->y_ov = (packet->bytes[0] & MOUSE_DATA_Y_OVF);
 
-  processed->delta_x = (*packet[0] & MOUSE_DATA_MSB_XDELTA) ? (*packet[1] | ~(0xFF)) : (*packet[1]);
-  processed->delta_y = (*packet[0] & MOUSE_DATA_MSB_YDELTA) ? (*packet[2] | ~(0xFF)) : (*packet[2]);
+  processed->delta_x = (packet->bytes[0] & MOUSE_DATA_MSB_XDELTA) ? (packet->bytes[1] | ~(0xFF)) : (packet->bytes[1]);
+  processed->delta_y = (packet->bytes[0] & MOUSE_DATA_MSB_YDELTA) ? (packet->bytes[2] | ~(0xFF)) : (packet->bytes[2]);
 }
