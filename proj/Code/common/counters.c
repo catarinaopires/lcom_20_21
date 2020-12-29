@@ -2,7 +2,7 @@
 #include <lcom/lcf.h>
 
 counters* counters_counters_initialize(){
-    counters* timers = malloc(sizeof(counters));
+    counters* timers = (counters*) malloc(sizeof(counters));
     
     if(timers == NULL){
         printf("Failed allocating memory for the timers array");
@@ -22,7 +22,6 @@ counters* counters_counters_initialize(){
 }
 
 counter_type* counters_counter_init(counters* timers){
-    
     if(timers->stored_act + 1 > COUNTERS_SIMULTANEOUSLY_ACTIVE - timers->stored_inact){
         printf("No more space for timers");
         return NULL;

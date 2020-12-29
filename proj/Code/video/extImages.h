@@ -1,6 +1,7 @@
 #pragma once
-#include "video.h"
 #include <lcom/lcf.h>
+#include "video.h"
+
 
 /**
  * @brief Struct to save information of images.
@@ -37,8 +38,8 @@ struct Sprite{
   int xspeed, yspeed;   // Current speed
   void (*destroy_sprite)(Sprite* sp);
   int (*check_collisions_sprite)(Sprite** arr, size_t sz);
-  int (*draw_sprite)(Sprite* this, video_instance* instance);
-  int (*move_sprite)(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
+  int (*draw_sprite)(Sprite* this, int draw_if_outbounds, video_instance* instance);
+  int (*move_sprite)(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, video_instance* instance);
   void (*change_speed)(Sprite* this, int xspeed, int yspeed);
 };
 
@@ -66,20 +67,22 @@ int check_collisions_sprite(Sprite**arr, size_t sz);
 
 /** @brief Draws sprite starting in position (x,y).
  * @param this Image
+ * @param draw_if_outbounds if 0 doesn't draw if image outbounds, otherwise draws image
  * @param instance Struct video instance
  * @return returns 0 upon success (image drawn), 1 with failure (not possible to draw)
  */
-int draw_sprite(Sprite* this, video_instance* instance);
+int draw_sprite(Sprite* this, int draw_if_outbounds, video_instance* instance);
 
 /** @brief Moves sprite with its according speed until final position given by (xf,yf).
  * @param sp Sprite 
  * @param xf Last horizontal position of the beginning of the image
  * @param yf Last vetical position of the beginning of the image
+ * @param draw_if_outbounds if 0 doesn't draw if image outbounds, otherwise draws image
  * @param instance Struct video instance
  * @return returns 0 uppon success (image moved), 1 if image reached final position 
  * and -1 if it was not possible to draw in next position
  */
-int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance);
+int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, video_instance* instance);
 
 /** @brief Changes speed of the sprite.
  * @param this Sprite
