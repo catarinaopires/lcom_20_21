@@ -28,3 +28,7 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb);
  */
 int32_t (utils_min)(int32_t val1, int32_t val2);
 
+/** @brief Function to convert number in BCD to decimal.
+ * @param value Value in bcd, changed in function and modified to decimal.
+ */
+void bcd_to_decimal(uint8_t* value);

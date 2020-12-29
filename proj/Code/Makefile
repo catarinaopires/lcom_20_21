@@ -8,6 +8,7 @@ SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
 SRCS += kbc/keyboard.c
 SRCS += timer/i8254.c
+SRCS += rtc/rtc.c
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
@@ -42,6 +43,9 @@ kbc/keyboard.o: kbc/keyboard.c kbc/keyboard.h
 
 timer/i8254.o: timer/i8254.c timer/i8254.h
 	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c
+
+rtc/rtc.o: rtc/rtc.c rtc/rtc.h
+	cc $(CFLAGS) -o rtc/rtc.o -c rtc/rtc.c
 
 # include LCOM's makefile that does all the "heavy lifting"
 .include <minix.lcom.mk>

@@ -24,6 +24,7 @@
 #include "kbc/i8042.h"
 #include "kbc/keyboard.h"
 #include "timer/i8254.h"
+#include "rtc/rtc.h"
 
 
 uint8_t OUTPUT_BUFF_DATA;

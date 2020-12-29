@@ -30,9 +30,13 @@ int (util_get_MSB)(uint16_t val, uint8_t *msb) {
   return 0;
 }
 
-int32_t utils_min(int32_t val1, int32_t val2){
+int32_t utils_min(int32_t val1, int32_t val2) {
   if(val1 > val2)
     return val2;
   else
     return val1;
+}
+
+void bcd_to_decimal(uint8_t* value) {
+  *value = *value - 6 * (*value >> 4);
 }
