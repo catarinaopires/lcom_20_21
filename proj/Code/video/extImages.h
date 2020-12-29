@@ -17,7 +17,7 @@ struct Image{
 /** @brief Draws image starting in position (x,y).
  * @param this Image
  * @param instance Struct video instance
- * @return Returns 0 upon sucess, 1 with failiure
+ * @return Returns 0 upon success, 1 with failure
  */
 int image_draw(Image* this, video_instance* instance);
 
@@ -48,7 +48,7 @@ struct Sprite{
  * @param y Vetical position of the beginning of the image
  * @param xspeed Horizontal speed (Number of pixels between frames)
  * @param yspeed Vertical speed (Number of pixels between frames)
- * @return Pointer to object Sprite created, NULL in case of failiure (invalid pixmap)
+ * @return Pointer to object Sprite created, NULL in case of failure (invalid pixmap)
  */
 Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed);
 
@@ -67,7 +67,7 @@ int check_collisions_sprite(Sprite**arr, size_t sz);
 /** @brief Draws sprite starting in position (x,y).
  * @param this Image
  * @param instance Struct video instance
- * @return returns 0 upon success (image drawn), 1 with failiure (not possible to draw)
+ * @return returns 0 upon success (image drawn), 1 with failure (not possible to draw)
  */
 int draw_sprite(Sprite* this, video_instance* instance);
 

@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "../program_options.h"
 
-/** @brief Data type to save occurences */
+/** @brief Data type to save occurrences */
 typedef uint32_t counter_type;
 
 /** @brief Struct to save several counters
@@ -48,7 +48,7 @@ float counters_get_seconds(counter_type* counter, uint32_t frequency);
 */ 
 void counters_counter_destructor(counters* counters, counter_type* counter);
 
-/** @brief Funtion to destroy the complete struct array
+/** @brief Function to destroy the complete struct array
  * @param counters Counters struct
 */
 void counters_counters_destructor(counters* counters);

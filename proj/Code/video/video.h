@@ -45,23 +45,23 @@ struct video_instance {
   void *(*video_get_current_buffer)(video_instance *thisInstance);           // Same as video_get_current_buffer
 };
 
-/** @brief Function to retrieve informations about the graphics card, changing the content of the struct
+/** @brief Function to retrieve information about the graphics card, changing the content of the struct
  * @param instance Struct video instance
- * @return returns 0 uppon success, 1 with failiure
+ * @return returns 0 upon success, 1 with failure
  * */
 int video_get_mode_info(video_instance *instance);
 
 /** @brief Funtion to change between display modes
  * @param thisInstance Reference to struct video instance
  * @param mode Mode to change to
- * @return returns 0 uppon success, 1 with failiure
+ * @return returns 0 upon success, 1 with failure
  * **/
 int video_change_mode(video_instance *instance, uint16_t mode);
 
 /** @brief Function to map graphics memory to the process' address space
  * @param instance Reference to struct video instance
  * @param bufferNr Number of buffer (between 1 and 2)
- * @return returns 0 uppon success, 1 with failiure
+ * @return returns 0 upon success, 1 with failure
  * */
 int video_map_vram_mem(video_instance *instance, uint8_t bufferNr);
 
@@ -72,13 +72,13 @@ void video_clear_buffer(video_instance *instance, void *buffer);
 
 /** @brief Function to flip to the default page with the 0x07's bios function subfuction 0x80
  * @param instance Reference to struct video instance
- * @return Returns 0 uppon success, 1 with failiure
+ * @return Returns 0 upon success, 1 with failure
 */
 int video_default_page(video_instance *instance);
 
 /** @brief Function to flip pages with the 0x07's bios function subfuction 0x80
  * @param instance Reference to struct video instance
- * @return Returns 0 uppon success, 1 with failiure
+ * @return Returns 0 upon success, 1 with failure
 */
 int video_flip_page(video_instance *instance);
 
@@ -94,16 +94,16 @@ void *video_get_current_buffer(video_instance *instance);
 */
 void *video_get_next_buffer(video_instance *instance);
 
-/** @brief Populates mode, mode_info, mapps memory and changes mode
+/** @brief Populates mode, mode_info, maps memory and changes mode
  * @param instance Reference to struct video instance
- * @param mode Mode to initilize
+ * @param mode Mode to initialize
  * @return Creates object of type video_instance
 */
 //video_instance video_init_single_buffer(uint16_t mode);
 
-/** @brief Populates mode, mode_info, mapps memory for the 2 buffers and changes mode
+/** @brief Populates mode, mode_info, maps memory for the 2 buffers and changes mode
  * @param instance Reference to struct video instance
- * @param mode Mode to initilize
+ * @param mode Mode to initialize
  * @return Creates object of type video_instance
 */
 //video_instance video_init_double_buffer(uint16_t mode);
@@ -115,9 +115,9 @@ video_instance video_init_empty();
 
 /** @brief Draws rectangle starting in position (x,y) with width and height specified in parameters.
  * @param x Horizontal position of the beginning of the image
- * @param y Vetical position of the beginning of the image
+ * @param y Vertical position of the beginning of the image
  * @param height Height of the rectangle
- * @param width WIdth of the rectangle
+ * @param width Width of the rectangle
  * @param color Color to fill the rectangle
  * @param instance Struct video instance
  */
@@ -125,9 +125,9 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t height, uint16_t width, uin
 
 /** @brief Colors pixel in certain position of certain color.
  * @param cols Horizontal position of the beginning of the image
- * @param lines Vetical position of the beginning of the image
+ * @param lines Vertical position of the beginning of the image
  * @param color Color to fill the rectangle
  * @param instance Struct video instance
- * @return Returns 0 upon sucess, 1 with failiure
+ * @return Returns 0 upon success, 1 with failure
  */
 int draw_pixel(uint32_t cols, uint32_t lines, uint32_t color, video_instance *instance);

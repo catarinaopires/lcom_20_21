@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 // Detect 2 byte scancodes
-#define KEYBOARD_SCANCODE_LEN_2 0xE0 // First byte of 2-byte scancodes
+#define KEYBOARD_SCANCODE_LEN_2 0xE0  // First byte of 2-byte scancodes
 
 // Useful make/break codes
 

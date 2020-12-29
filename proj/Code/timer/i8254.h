@@ -141,8 +141,8 @@ int i8254_set_frequency(timer_nr timer, uint32_t freq);
 uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode, timer_format format);
 
 /** @brief Function to write to the timer ctrl register
- * @param ctrlwd
- * @return 0 uppon success, 1 otherwise
+ * @param ctrlwd Control Word to be written in ctrl register
+ * @return 0 upon success, 1 otherwise
  */
 int i8254_write_command(uint8_t ctrlwd);
 
