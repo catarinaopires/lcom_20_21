@@ -1,4 +1,5 @@
 // IMPORTANT: you must include the following line in all your C files
+#include "video/extImages.h"
 #include "video/video.h"
 #include <lcom/lcf.h>
 #include <lcom/proj.h>
@@ -13,19 +14,26 @@
 #include "kbc/keyboard.h"
 #include "kbc/mouse.h"
 #include "timer/i8254.h"
-#include "video/extImages.h"
+
+#include "video/images/logo.xpm"
 #include "video/images/Background_Menu.xpm"
+#include "video/images/MENU.xpm"
 #include "video/images/PLAY.xpm"
 #include "video/images/QUIT.xpm"
-#include "video/images/background3.xpm"
-#include "video/images/background_drawing_game.xpm"
-#include "video/images/ball.xpm"
+
+#include "video/images/ReactionGameText.xpm"
+#include "video/images/background_reaction_game.xpm"
 #include "video/images/bomb.xpm"
 #include "video/images/bomb1.xpm"
-#include "video/images/logo.xpm"
-#include "video/images/menu.xpm"
 #include "video/images/player_green.xpm"
-#include "video/images/ReactionGameText.xpm"
+
+#include "video/images/background_drawing_game.xpm"
+#include "video/ui_elements/cursor.xpm"
+
+
+
+
+
 #include "video/images/drawingGameText.xpm"
 
 uint8_t KBC_OUTPUT_BUFF_DATA;
@@ -183,7 +191,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // display_drawing_game_text(&instance);
 
 
-  Image background_reacao = image_construct(background3_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_reacao = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
   static direction d = none;
   int collision = 0;
@@ -194,6 +202,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Sprite *bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
   Sprite *bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
   Sprite *arr_jogo_reacao[] = {player_jogo_reacao, bomb1, bomb};
+
+  Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
 
   uint8_t keys[2] = {0, 0};
 
@@ -320,14 +330,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
       
                 if (mouse_counter == 2) {
                   mouse_counter = 0;
-                  printf("Packet0 = %x, Packet1 = %x, Packet2 = %x", mouse.bytes[0], mouse.bytes[1], mouse.bytes[2]);
                   mouse_process_packet(&mouse, &pMouse);
-                  printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
+                  //printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
                   printf("x = %d, y = %d\n", pMouse.delta_x, pMouse.delta_y);
-                  //mouse_detect_event_ours(&toPrint, &mouseState);
-                  //printf("%d\n", mouseState.type);
-                  //printf("draw state: %d, mouse state: %d", drawState, mouseState);
-                  //draw_process_state(&drawState, &mouseState, x_len, tolerance);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+                  printf("x_speed = %d, y_speed = %d\n", cursor->xspeed, cursor->yspeed);
+                  
                 }
                 else if (mouse_counter == 1 || mouse_counter == 0) {
                   mouse_counter++;
@@ -337,7 +345,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
               if (msg.m_notify.interrupts & BIT(irq_set_timer)) { // subscribed interrupt 
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_drawing);
-
+                move_sprite(cursor, instance.mode_info.XResolution - cursor->drawing.img.width, 
+                instance.mode_info.YResolution, &instance);
+                printf("cursor_x = %d, cursor_y = %d\n", cursor->drawing.x, cursor->drawing.y);
+                change_speed(cursor, 0, 0);
                 video_flip_page(&instance);
               }
               break;

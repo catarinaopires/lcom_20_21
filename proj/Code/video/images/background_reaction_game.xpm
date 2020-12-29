@@ -1,5 +1,5 @@
 /* XPM */
-static const char * background3_xpm[] = {
+static const char * background_reaction_game_xpm[] = {
 "1152 864 37217 3",
 "   	c #71C5CF",
 ".  	c #71C5CE",

@@ -10,11 +10,13 @@ typedef enum { INIT1,
   COMP } state_t;
 
 
-typedef enum { INIT_V,
+typedef enum vertical_state{ 
+  INIT_V,
   DRAW_V,
   COMP_V } vertical_state;
 
-typedef enum { INIT_H,
+typedef enum horizontal_state{ 
+  INIT_H,
   DRAW_H,
   COMP_H } horizontal_state;
 
