@@ -23,7 +23,7 @@ counters* counters_counters_initialize(){
 
 counter_type* counters_counter_init(counters* timers){
     
-    if(timers->stored_act + 1 >= COUNTERS_SIMULTANEOUSLY_ACTIVE - timers->stored_inact){
+    if(timers->stored_act + 1 > COUNTERS_SIMULTANEOUSLY_ACTIVE - timers->stored_inact){
         printf("No more space for timers");
         return NULL;
     }

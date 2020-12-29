@@ -93,11 +93,8 @@ int draw_sprite(Sprite* this, video_instance* instance){
 
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, video_instance* instance){
 
-    // Clear screen (transparency color)
-    //draw_rectangle(sp->drawing.x, sp->drawing.y, sp->drawing.img.height, sp->drawing.img.width, xpm_transparency_color(XPM_8_8_8_8), instance);
-
     // Update positions if possible
-    if(((sp->drawing.x  < xf) && (sp->xspeed > 0)) || ((sp->drawing.x > xf) && (sp->xspeed < 0))){
+    if(((sp->drawing.x < xf) && (sp->xspeed > 0)) || ((sp->drawing.x > xf) && (sp->xspeed < 0))){
         sp->drawing.x += sp->xspeed;
         if(sp->drawing.x + sp->drawing.img.width> instance->mode_info.XResolution)
             sp->drawing.x = instance->mode_info.XResolution - sp->drawing.img.width;

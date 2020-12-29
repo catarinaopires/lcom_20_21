@@ -32,3 +32,4 @@ int32_t (utils_min)(int32_t val1, int32_t val2);
  * @param value Value in bcd, changed in function and modified to decimal.
  */
 void bcd_to_decimal(uint8_t* value);
+
