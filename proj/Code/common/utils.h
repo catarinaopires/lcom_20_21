@@ -27,4 +27,3 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb);
  * @return The smallest of val1 and val2
  */
 int32_t (utils_min)(int32_t val1, int32_t val2);
-

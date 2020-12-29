@@ -17,7 +17,7 @@ int TIMER_COUNTER = 0;
 
 // Any header files included below this line should have been created by you
 
-extern uint8_t OUTPUT_BUFF_DATA;
+extern uint8_t KBC_OUTPUT_BUFF_DATA;
 
 int main(int argc, char *argv[]) {
     // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -68,7 +68,7 @@ int(mouse_test_packet)(uint32_t cnt) {
                 case HARDWARE:                                  /* hardware interrupt notification */
                     if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
                         mouse_ih();
-                        bytes[counter] = OUTPUT_BUFF_DATA;
+                        bytes[counter] = KBC_OUTPUT_BUFF_DATA;
                         if (counter == 2) {
                             counter = 0;
                             cnt--;
@@ -136,7 +136,7 @@ int(mouse_test_async)(uint8_t idle_time) {
                     if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { /* subscribed interrupt */
                         mouse_ih();
                         TIMER_COUNTER = 0;
-                        bytes[counter] = OUTPUT_BUFF_DATA;
+                        bytes[counter] = KBC_OUTPUT_BUFF_DATA;
                         if (counter == 2) {
                             counter = 0;
                             struct packet toPrint = mouse_process_packet(bytes);
@@ -204,7 +204,7 @@ int(mouse_test_gesture)(uint8_t len, uint8_t tolerance) {
                 case HARDWARE:                                  /* hardware interrupt notification */
                     if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { /* subscribed interrupt */
                         mouse_ih();
-                        bytes[counter] = OUTPUT_BUFF_DATA;
+                        bytes[counter] = KBC_OUTPUT_BUFF_DATA;
                         if (counter == 2) {
                             counter = 0;
                             toPrint = mouse_process_packet(bytes);
@@ -254,7 +254,7 @@ int(mouse_test_remote)(uint16_t period, uint8_t cnt) {
         mouse_write(KBC_READ_DATA);
         for (int counter = 0; counter < 3; counter++) {
             mouse_ih();
-            bytes[counter] = OUTPUT_BUFF_DATA;
+            bytes[counter] = KBC_OUTPUT_BUFF_DATA;
             if (counter == 2) {
                 cnt--;
                 struct packet toPrint = mouse_process_packet(bytes);

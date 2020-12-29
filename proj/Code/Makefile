@@ -3,10 +3,11 @@ PROG=proj
 
 # source code files to be compiled
 SRCS = proj.c
-SRCS += common/utils.c common/interrupts.c common/counters
+SRCS += common/utils.c common/interrupts.c common/counters.c
 SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
 SRCS += kbc/keyboard.c
+SRCS += kbc/mouse.c
 SRCS += timer/i8254.c
 
 # additional compilation flags
@@ -39,6 +40,9 @@ kbc/i8042.o: kbc/i8042.c kbc/i8042.h
 
 kbc/keyboard.o: kbc/keyboard.c kbc/keyboard.h
 	cc $(CFLAGS) -o kbc/keyboard.o -c kbc/keyboard.c
+
+kbc/mouse.o: kbc/mouse.c kbc/mouse.h
+	cc $(CFLAGS) -o kbc/mouse.o -c kbc/mouse.c
 
 timer/i8254.o: timer/i8254.c timer/i8254.h
 	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c
