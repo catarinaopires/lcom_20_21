@@ -42,6 +42,5 @@ void bcd_to_decimal(uint8_t *value) {
 }
 
 void decimal_to_bcd(uint8_t *value) {
-  // TODO: FAZER
   *value = (((*value/10) << 4) | (*value % 10));
 }

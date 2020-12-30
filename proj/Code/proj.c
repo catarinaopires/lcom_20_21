@@ -232,6 +232,22 @@ int(proj_main_loop)(int argc, char *argv[]) {
   if (interrupt_subscribe(TIMER0_IRQ, IRQ_REENABLE, &irq_set_timer))
     return 1;
 
+  // Subscribe RTC interruptions
+  uint8_t irq_set_rtc = RTC_IRQ;
+  uint8_t done = 0;
+  if(interrupt_subscribe(RTC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_rtc))
+    return 1;
+
+  // Enable Alarm interrupts
+  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 1))
+    return 1;
+
+  // Config alarm
+  int h = 0, m = 1, s = 0;
+
+  rtc_calculate_finish_alarm(&h,&m,&s);
+  if(rtc_config_alarm(h, m, s))
+    return 1;
   
   // Configure and subscribe mouse interrupts
   uint8_t irq_set_mouse = MOUSE_IRQ;
@@ -247,7 +263,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
 
 
-  while (!pMouse.lb) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
+  while (!pMouse.lb) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE && !done
     /* Get a request message. */
 
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -310,6 +326,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
                 video_flip_page(&instance);
               }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_rtc)) {
+                if(!rtc_ih())
+                  done = 1;
+              }
+
               break;
 
             default:
@@ -342,7 +364,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
               }
 
-              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { // subscribed interrupt 
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { // subscribed interrupt
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_drawing);
                 move_sprite(cursor, instance.mode_info.XResolution,instance.mode_info.YResolution, 1, &instance);
@@ -350,6 +372,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 change_speed(cursor, 0, 0);
                 video_flip_page(&instance);
               }
+
               break;
 
             default:
@@ -374,6 +397,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
   counters_counters_destructor(counters1);
   counters1 = NULL;
 
+
+  if (interrupt_unsubscribe(irq_set_rtc))
+    return 1;
+
+  // Disable alarm interrupts
+  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
+    return 1;
+
   // Unsubscribe both interruptions
   if (interrupt_unsubscribe_all())
     return 1;
@@ -389,60 +420,5 @@ int(proj_main_loop)(int argc, char *argv[]) {
   instance.video_change_mode(&instance, MODE_TEXT);
 
 
-
-
-
-
-  /*int ipc_status;
-  int r;
-  message msg;
-  interrupt_arr_initializer(INTERRUPTS);
-  uint8_t irq_set = RTC_IRQ;
-  uint8_t done = 0;
-
-  if(interrupt_subscribe(RTC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
-    return 1;
-
-  printf("about to enable flag\n");
-  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 1))
-    return 1;
-
-  printf("about to config alarm\n");
-  if(rtc_config_alarm(0, 0, 3))
-    return 1;
-
-  printf("about to enter loop\n");
-  while (!done) {
-    *//* Get a request message. *//*
-    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-      printf("driver_receive failed with: %d", r);
-      continue;
-    }
-    if (is_ipc_notify(ipc_status)) { *//* received notification *//*
-      switch (_ENDPOINT_P(msg.m_source)) {
-        case HARDWARE:                             *//* hardware interrupt notification *//*
-          if (msg.m_notify.interrupts & BIT(irq_set)) { *//* subscribed interrupt *//*
-            if(!rtc_ih())
-              done = 1;
-          }
-          break;
-        default:
-          break; *//* no other notifications expected: do nothing *//*
-      }
-
-    }
-    else { *//* received a standard message, not a notification *//*
-      *//* no standard messages expected: do nothing *//*
-    }
-  }
-
-  printf("OUT OF LOOP\n");
-
-  if (interrupt_unsubscribe(irq_set))
-    return 1;
-
-  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
-    return 1;
-*/
   return 0;
 }

@@ -33,4 +33,7 @@ int32_t (utils_min)(int32_t val1, int32_t val2);
  */
 void bcd_to_decimal(uint8_t* value);
 
+/** @brief Function to convert number in decimal to BCD.
+ * @param value Value in decimal, changed in function and modified to BCD.
+ */
 void decimal_to_bcd(uint8_t *value) ;
