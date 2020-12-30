@@ -23,7 +23,7 @@ counters* counters_counters_initialize();
 /** @brief Function to add counters
  * @return Pointer to the created counter
 */
-counter_type* counters_counter_init();
+counter_type* counters_counter_init(counters* timers);
 
 /** @brief Function to increase the count
  * @param counter Counter manipulation

@@ -71,15 +71,15 @@ void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *ins
   switch (*dir) {
     case right:
       change_speed(sprite, 5, 0);
-      move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, instance);
+      move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
       break;
     case left:
       change_speed(sprite, -5, 0);
-      move_sprite(sprite, 0, 0, instance);
+      move_sprite(sprite, 0, 0, 0, instance);
       break;
     default:
       change_speed(sprite, 0, 0);
-      move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.height, instance);
+      move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.height,0, instance);
       break;
   }
 }
@@ -163,7 +163,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-  /*typedef enum modules {
+  typedef enum modules {
     MENU,
     JOGO_REACAO,
     JOGO_DESENHO
@@ -206,7 +206,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   // Start timers
   counters *counters1 = counters_counters_initialize();
-  counter_type *counter1 = counters_counter_init();
+  counter_type *counter1 = counters_counter_init(counters1);
 
   if (counter1 == NULL) {
     video_default_page(&instance);
@@ -238,25 +238,27 @@ int(proj_main_loop)(int argc, char *argv[]) {
   uint8_t mouse_counter = 0;
   mouse_packet_raw mouse;
   mouse_packet_processed pMouse;
+  pMouse.lb = 0;
 
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REP_STR))
     return 1;
 
   if (interrupt_subscribe(MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_mouse))
     return 1;
-  
 
-  while (counters_get_seconds(counter1, 60) < 10) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
-    *//* Get a request message. *//*
+
+  while (!pMouse.lb) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
+    /* Get a request message. */
+
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
       continue;
     }
-    if (is_ipc_notify(ipc_status)) { *//* received notification *//*
+    if (is_ipc_notify(ipc_status)) { /* received notification */
       switch (module) {
         case (JOGO_REACAO):
           switch (_ENDPOINT_P(msg.m_source)) {
-            case HARDWARE: *//* hardware interrupt notification *//*
+            case HARDWARE: /* hardware interrupt notification */
               if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
                 kbc_ih();
                 keyboard[keyboard_counter] = KBC_OUTPUT_BUFF_DATA;
@@ -281,7 +283,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
               }
 
-              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { *//* subscribed interrupt *//*
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
 
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_reacao);
                 assemble_directions_r_l(player_jogo_reacao, &d, &instance);
@@ -291,7 +293,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                 collision = check_collisions_sprite(arr_jogo_reacao, 3);
                 if (!collision) {
-                  if (move_sprite(bomb1, 0, 725, &instance) != 0) {
+                  if (move_sprite(bomb1, 0, 725, 0, &instance) != 0) {
                     bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
                     bomb1->drawing.y = 0;
                   }
@@ -300,7 +302,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 if (counter_sec >= 3 * 60) {
                   collision = check_collisions_sprite(arr_jogo_reacao, 3);
                   if (!collision) {
-                    if (move_sprite(bomb, 0, 725, &instance) != 0) {
+                    if (move_sprite(bomb, 0, 725, 0, &instance) != 0) {
                       bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
                       bomb->drawing.y = 0;
                     }
@@ -311,7 +313,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
               break;
 
             default:
-              break; *//* no other notifications expected: do nothing *//*
+              break; /* no other notifications expected: do nothing */
           }
           break;
 
@@ -327,11 +329,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
       
                 if (mouse_counter == 2) {
                   mouse_counter = 0;
+                  printf("%x, %x\n", mouse.bytes[0], mouse.bytes[2]);
                   mouse_process_packet(&mouse, &pMouse);
                   //printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
                   printf("x = %d, y = %d\n", pMouse.delta_x, pMouse.delta_y);
                   change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
-                  printf("x_speed = %d, y_speed = %d\n", cursor->xspeed, cursor->yspeed);
+                  //printf("x_speed = %d, y_speed = %d\n", cursor->xspeed, cursor->yspeed);
                   
                 }
                 else if (mouse_counter == 1 || mouse_counter == 0) {
@@ -342,9 +345,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
               if (msg.m_notify.interrupts & BIT(irq_set_timer)) { // subscribed interrupt 
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_drawing);
-                move_sprite(cursor, instance.mode_info.XResolution - cursor->drawing.img.width, 
-                instance.mode_info.YResolution, &instance);
-                printf("cursor_x = %d, cursor_y = %d\n", cursor->drawing.x, cursor->drawing.y);
+                move_sprite(cursor, instance.mode_info.XResolution,instance.mode_info.YResolution, 1, &instance);
+                //printf("cursor_x = %d, cursor_y = %d\n", cursor->drawing.x, cursor->drawing.y);
                 change_speed(cursor, 0, 0);
                 video_flip_page(&instance);
               }
@@ -359,8 +361,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
           break;
       }
     }
-    else { *//* received a standard message, not a notification *//*
-      *//* no standard messages expected: do nothing *//*
+    else { /* received a standard message, not a notification */
+      /* no standard messages expected: do nothing */
     }
   }
 
@@ -384,14 +386,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
   destroy_sprite(player_jogo_reacao);
 
   video_default_page(&instance);
-  instance.video_change_mode(&instance, MODE_TEXT);*/
+  instance.video_change_mode(&instance, MODE_TEXT);
 
 
 
 
 
 
-  int ipc_status;
+  /*int ipc_status;
   int r;
   message msg;
   interrupt_arr_initializer(INTERRUPTS);
@@ -411,26 +413,26 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   printf("about to enter loop\n");
   while (!done) {
-    /* Get a request message. */
+    *//* Get a request message. *//*
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
       continue;
     }
-    if (is_ipc_notify(ipc_status)) { /* received notification */
+    if (is_ipc_notify(ipc_status)) { *//* received notification *//*
       switch (_ENDPOINT_P(msg.m_source)) {
-        case HARDWARE:                             /* hardware interrupt notification */
-          if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
+        case HARDWARE:                             *//* hardware interrupt notification *//*
+          if (msg.m_notify.interrupts & BIT(irq_set)) { *//* subscribed interrupt *//*
             if(!rtc_ih())
               done = 1;
           }
           break;
         default:
-          break; /* no other notifications expected: do nothing */
+          break; *//* no other notifications expected: do nothing *//*
       }
 
     }
-    else { /* received a standard message, not a notification */
-      /* no standard messages expected: do nothing */
+    else { *//* received a standard message, not a notification *//*
+      *//* no standard messages expected: do nothing *//*
     }
   }
 
@@ -441,6 +443,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
     return 1;
-
+*/
   return 0;
 }
