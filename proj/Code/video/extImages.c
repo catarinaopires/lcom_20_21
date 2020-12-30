@@ -152,7 +152,7 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, vid
     }
 
     // Movement finished
-    if(draw_if_outbounds && ((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&
+    if(!draw_if_outbounds && ((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&
        ((sp->drawing.y >= yf && sp->yspeed >= 0) || (sp->drawing.y <= yf && sp->yspeed <= 0))){
 
         return 1;
