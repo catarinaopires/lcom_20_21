@@ -163,7 +163,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   //return proj_demo(mode, minix3_logo, grayscale, delay);
 
-  typedef enum modules {
+  /*typedef enum modules {
     MENU,
     JOGO_REACAO,
     JOGO_DESENHO
@@ -247,16 +247,16 @@ int(proj_main_loop)(int argc, char *argv[]) {
   
 
   while (counters_get_seconds(counter1, 60) < 10) { //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE
-    /* Get a request message. */
+    *//* Get a request message. *//*
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
       continue;
     }
-    if (is_ipc_notify(ipc_status)) { /* received notification */
+    if (is_ipc_notify(ipc_status)) { *//* received notification *//*
       switch (module) {
         case (JOGO_REACAO):
           switch (_ENDPOINT_P(msg.m_source)) {
-            case HARDWARE: /* hardware interrupt notification */
+            case HARDWARE: *//* hardware interrupt notification *//*
               if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
                 kbc_ih();
                 keyboard[keyboard_counter] = KBC_OUTPUT_BUFF_DATA;
@@ -281,7 +281,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
               }
 
-              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { *//* subscribed interrupt *//*
 
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_reacao);
                 assemble_directions_r_l(player_jogo_reacao, &d, &instance);
@@ -311,7 +311,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
               break;
 
             default:
-              break; /* no other notifications expected: do nothing */
+              break; *//* no other notifications expected: do nothing *//*
           }
           break;
 
@@ -359,8 +359,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
           break;
       }
     }
-    else { /* received a standard message, not a notification */
-      /* no standard messages expected: do nothing */
+    else { *//* received a standard message, not a notification *//*
+      *//* no standard messages expected: do nothing *//*
     }
   }
 
@@ -384,7 +384,63 @@ int(proj_main_loop)(int argc, char *argv[]) {
   destroy_sprite(player_jogo_reacao);
 
   video_default_page(&instance);
-  instance.video_change_mode(&instance, MODE_TEXT);
+  instance.video_change_mode(&instance, MODE_TEXT);*/
+
+
+
+
+
+
+  int ipc_status;
+  int r;
+  message msg;
+  interrupt_arr_initializer(INTERRUPTS);
+  uint8_t irq_set = RTC_IRQ;
+  uint8_t done = 0;
+
+  if(interrupt_subscribe(RTC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set))
+    return 1;
+
+  printf("about to enable flag\n");
+  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 1))
+    return 1;
+
+  printf("about to config alarm\n");
+  if(rtc_config_alarm(0, 0, 3))
+    return 1;
+
+  printf("about to enter loop\n");
+  while (!done) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             /* hardware interrupt notification */
+          if (msg.m_notify.interrupts & BIT(irq_set)) { /* subscribed interrupt */
+            if(!rtc_ih())
+              done = 1;
+          }
+          break;
+        default:
+          break; /* no other notifications expected: do nothing */
+      }
+
+    }
+    else { /* received a standard message, not a notification */
+      /* no standard messages expected: do nothing */
+    }
+  }
+
+  printf("OUT OF LOOP\n");
+
+  if (interrupt_unsubscribe(irq_set))
+    return 1;
+
+  if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
+    return 1;
 
   return 0;
 }

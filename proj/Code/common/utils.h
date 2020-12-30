@@ -33,3 +33,4 @@ int32_t (utils_min)(int32_t val1, int32_t val2);
  */
 void bcd_to_decimal(uint8_t* value);
 
+void decimal_to_bcd(uint8_t *value) ;
