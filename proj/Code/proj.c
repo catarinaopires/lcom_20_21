@@ -271,9 +271,21 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                 image_draw(&logo, &instance);
                 image_draw(&menu, &instance);
-                draw_rectangle(460, 430, 180, 60, 0x8373ff, &instance);
+
+                if(check_collision_options(cursor->drawing, 460, 430, 180, 60)){
+                  draw_rectangle(460, 430, 180, 60, 0xbdbdfb, &instance);
+                }
+                else {
+                  draw_rectangle(460, 430, 180, 60, 0x8373ff, &instance);
+                }
                 image_draw(&play, &instance);
-                draw_rectangle(460, 530, 180, 60, 0x8373ff, &instance);
+
+                if(check_collision_options(cursor->drawing, 460, 530, 180, 60)){
+                  draw_rectangle(460, 530, 180, 60, 0xbdbdfb, &instance);
+                }
+                else {
+                  draw_rectangle(460, 530, 180, 60, 0x8373ff, &instance);
+                }
                 image_draw(&quit, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution,instance.mode_info.YResolution, 1, &instance);
@@ -322,9 +334,19 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &menu_choose);
 
-                draw_rectangle(220, 600, 180, 60, 0x8373ff, &instance);
+                if(check_collision_options(cursor->drawing, 220, 600, 180, 60)){
+                  draw_rectangle(220, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(220, 600, 180, 60, COLOR_MENU_BOXES, &instance);
+                }
                 image_draw(&play_reaction, &instance);
-                draw_rectangle(780, 600, 180, 60, 0x8373ff, &instance);
+                if(check_collision_options(cursor->drawing, 780, 600, 180, 60)){
+                  draw_rectangle(780, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(780, 600, 180, 60, COLOR_MENU_BOXES, &instance);
+                };
                 image_draw(&play_draw, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
@@ -367,7 +389,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_reaction);
 
-                draw_rectangle(470,630, 180,60, 0x8373ff, &instance);
+                if(check_collision_options(cursor->drawing, 470, 630, 180, 60)){
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
+                }
                 image_draw(&play_description_reaction, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
@@ -477,7 +504,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_drawing);
 
-                draw_rectangle(470,630, 180,60, 0x8373ff, &instance);
+                if(check_collision_options(cursor->drawing, 470, 630, 180, 60)){
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
+                };
                 image_draw(&play_description_drawing, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
