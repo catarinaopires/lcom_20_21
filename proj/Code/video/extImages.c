@@ -87,6 +87,14 @@ int check_collisions_sprite(Sprite** arr, size_t sz){
     return 0;
 }
 
+uint8_t check_collision_options(Image img, int x, int y, int width, int height){
+
+  if (img.x >= x && img.x <= x + width && img.y >= y && img.y <= y + height){
+    return 1;
+  }
+  return 0;
+}
+
 int draw_sprite(Sprite* this, int draw_if_outbounds, video_instance* instance){
     uint8_t *img_it;
     img_it = this->drawing.img.bytes;

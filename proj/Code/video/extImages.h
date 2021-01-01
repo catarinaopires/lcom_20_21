@@ -65,6 +65,8 @@ void destroy_sprite(Sprite* sp);
  */ 
 int check_collisions_sprite(Sprite**arr, size_t sz);
 
+uint8_t check_collision_options(Image img, int x, int y, int width, int height);
+
 /** @brief Draws sprite starting in position (x,y).
  * @param this Image
  * @param draw_if_outbounds if 0 doesn't draw if image outbounds, otherwise draws image
