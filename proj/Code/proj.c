@@ -85,61 +85,6 @@ void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *ins
   }
 }
 
-void display_menu(video_instance *instance) {
-  Image background = image_construct(background_menu_xpm, XPM_8_8_8_8, 0, 0);
-  fill_buffer(instance, video_get_next_buffer(instance), &background);
-
-  Image logo = image_construct(logo_xpm, XPM_8_8_8_8, 480, 15);
-  image_draw(&logo, instance);
-
-  Image menu = image_construct(menu_xpm, XPM_8_8_8_8, 430, 290);
-  image_draw(&menu, instance);
-
-  draw_rectangle(460, 430, 180, 60, 0x8373ff, instance);
-  Image play = image_construct(PLAY_xpm, XPM_8_8_8_8, 475, 440);
-  image_draw(&play, instance);
-
-  draw_rectangle(460, 530, 180, 60, 0x8373ff, instance);
-  Image quit = image_construct(QUIT_xpm, XPM_8_8_8_8, 475, 532);
-  image_draw(&quit, instance);
-
-  /*sleep(1);
-  video_flip_page(instance);
-  sleep(1);
-  video_flip_page(instance);
-  sleep(5);*/
-}
-
-void display_reaction_game_text(video_instance* instance){
-  Image background = image_construct(reactionGameText_xpm, XPM_8_8_8_8,0,0);
-  fill_buffer(instance, video_get_next_buffer(instance), &background);
-
-  draw_rectangle(460,630, 180,60, 0x8373ff, instance);
-  Image play = image_construct(PLAY_xpm, XPM_8_8_8_8,475,640);
-  image_draw(&play, instance);
-
-  sleep(1);
-  video_flip_page(instance);
-  sleep(1);
-  video_flip_page(instance);
-  sleep(5);
-}
-
-void display_drawing_game_text(video_instance* instance){
-  Image background = image_construct(drawingGameText_xpm, XPM_8_8_8_8,0,0);
-  fill_buffer(instance, video_get_next_buffer(instance), &background);
-
-  draw_rectangle(470,630, 180,60, 0x8373ff, instance);
-  Image play = image_construct(PLAY_xpm, XPM_8_8_8_8,485,640);
-  image_draw(&play, instance);
-
-  sleep(1);
-  video_flip_page(instance);
-  sleep(1);
-  video_flip_page(instance);
-  sleep(5);
-}
-
 int(proj_main_loop)(int argc, char *argv[]) {
   /* 
   Substitute the code below by your own
@@ -167,11 +112,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
   typedef enum modules {
     MENU,
     MENU_CHOOSE,
-    JOGO_REACAO,
-    JOGO_DESENHO
+    DESCRIPTION_REACTION,
+    REACTION_GAME,
+    DESCRIPTION_DRAWING,
+    DRAWING_GAME
   } modules;
 
-  static modules module = MENU_CHOOSE;
+  static modules module = MENU;
 
   video_instance instance = video_init_empty();
   instance.mode = MODE_1152x864;
@@ -185,12 +132,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
   video_map_vram_mem(&instance, 3);
   video_change_mode(&instance, MODE_1152x864);
 
-  //display_menu(&instance);
-  //display_reaction_game_text(&instance);
-  // display_drawing_game_text(&instance);
 
   Image background_menu = image_construct(background_menu_xpm, XPM_8_8_8_8, 0, 0);
-  Image background_reacao = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_reaction = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
   static direction d = none;
   int collision = 0;
@@ -202,15 +146,21 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image play = image_construct(PLAY_xpm, XPM_8_8_8_8, 475, 440);
   Image quit = image_construct(QUIT_xpm, XPM_8_8_8_8, 475, 532);
 
+  Image menu_description_reaction = image_construct(reactionGameText_xpm, XPM_8_8_8_8,0,0);
+  Image play_description_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8,475,640);
+
+  Image menu_description_drawing = image_construct(drawingGameText_xpm, XPM_8_8_8_8,0,0);
+  Image play_description_drawing = image_construct(PLAY_xpm, XPM_8_8_8_8,485,640);
+
   Image menu_choose = image_construct(choose_game_xpm, XPM_8_8_8_8, 0, 0);
   Image play_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8, 235, 610);
   Image play_draw = image_construct(PLAY_xpm, XPM_8_8_8_8, 795, 610);
 
-  Sprite *player_jogo_reacao = create_sprite(player_green_xpm, 0, 670, 0, 0);
+  Sprite *player_reaction_game = create_sprite(player_green_xpm, 0, 670, 0, 0);
 
   Sprite *bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
   Sprite *bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
-  Sprite *arr_jogo_reacao[] = {player_jogo_reacao, bomb1, bomb};
+  Sprite *arr_reaction_game[] = {player_reaction_game, bomb1, bomb};
 
   Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
 
@@ -254,7 +204,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 1))
     return 1;
 
-  // Config alarm
+  // Configigure alarm
   int h = 0, m = 1, s = 0;
 
   rtc_calculate_finish_alarm(&h,&m,&s);
@@ -284,72 +234,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
     }
     if (is_ipc_notify(ipc_status)) { /* received notification */
       switch (module) {
-        case (JOGO_REACAO):
-          switch (_ENDPOINT_P(msg.m_source)) {
-            case HARDWARE: /* hardware interrupt notification */
-              if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
-                kbc_ih();
-                keyboard[keyboard_counter] = KBC_OUTPUT_BUFF_DATA;
-
-                if (keyboard_counter == 1) {
-                  keyboard_counter = 0;
-
-                  collision = check_collisions_sprite(arr_jogo_reacao, 3);
-                  if (!collision) {
-                    check_movement_r_l(&keyboard[0], &d, &keys[0]);
-                  }
-                }
-                else {
-                  if (KBC_OUTPUT_BUFF_DATA == KEYBOARD_SCANCODE_LEN_2)
-                    keyboard_counter++;
-                  else {
-                    collision = check_collisions_sprite(arr_jogo_reacao, 3);
-                    if (!collision) {
-                      check_movement_r_l(&keyboard[0], &d, &keys[0]);
-                    }
-                  }
-                }
-              }
-
-              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
-
-                fill_buffer(&instance, video_get_next_buffer(&instance), &background_reacao);
-                assemble_directions_r_l(player_jogo_reacao, &d, &instance);
-
-                counter_sec++;
-                counters_counter_increase(counter1);
-
-                collision = check_collisions_sprite(arr_jogo_reacao, 3);
-                if (!collision) {
-                  if (move_sprite(bomb1, 0, 725, 0, &instance) != 0) {
-                    bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
-                    bomb1->drawing.y = 0;
-                  }
-                }
-                // Adds bomb with delay comparing to the other bomb
-                if (counter_sec >= 3 * 60) {
-                  collision = check_collisions_sprite(arr_jogo_reacao, 3);
-                  if (!collision) {
-                    if (move_sprite(bomb, 0, 725, 0, &instance) != 0) {
-                      bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
-                      bomb->drawing.y = 0;
-                    }
-                  }
-                }
-                video_flip_page(&instance);
-              }
-
-              if (msg.m_notify.interrupts & BIT(irq_set_rtc)) {
-                if(!rtc_ih())
-                  done = 1;
-              }
-
-              break;
-
-            default:
-              break; /* no other notifications expected: do nothing */
-          }
-          break;
 
         case MENU:
           switch (_ENDPOINT_P(msg.m_source)) {
@@ -360,16 +244,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                 if (mouse_counter == 2) {
                   mouse_counter = 0;
-                  //printf("%x, %x\n", mouse.bytes[0], mouse.bytes[2]);
                   mouse_process_packet(&mouse, &pMouse);
-                  //printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
-                  //printf("x = %d, y = %d\n", pMouse.delta_x, pMouse.delta_y);
                   change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
 
                   if(pMouse.lb){
                     // If chosen option is play
                     if(check_collision_options(cursor->drawing, 460, 430, 180, 60)){
-                      module = JOGO_REACAO;
+                      module = MENU_CHOOSE;
                     }
                     // If chosen option is quit
                     else if(check_collision_options(cursor->drawing, 460, 530, 180, 60)){
@@ -424,11 +305,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   if (pMouse.lb) {
                     // If chosen option is play reaction game
                     if (check_collision_options(cursor->drawing, 220, 600, 180, 60)) {
-                      module = JOGO_REACAO;
+                      module = DESCRIPTION_REACTION;
                     }
                     // If chosen option is drawing game
                     else if (check_collision_options(cursor->drawing, 780, 600, 180, 60)) {
-                      module = JOGO_DESENHO;
+                      module = DESCRIPTION_DRAWING;
                     }
                   }
                 }
@@ -457,7 +338,160 @@ int(proj_main_loop)(int argc, char *argv[]) {
           }
           break;
 
-        case JOGO_DESENHO:
+        case DESCRIPTION_REACTION:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:                                        /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if (pMouse.lb) {
+                    // If chosen option is play reaction game
+                    if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+                      module = REACTION_GAME;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_reaction);
+
+                draw_rectangle(470,630, 180,60, 0x8373ff, &instance);
+                image_draw(&play_description_reaction, &instance);
+
+                move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case REACTION_GAME:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE: /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
+                kbc_ih();
+                keyboard[keyboard_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (keyboard_counter == 1) {
+                  keyboard_counter = 0;
+
+                  collision = check_collisions_sprite(arr_reaction_game, 3);
+                  if (!collision) {
+                    check_movement_r_l(&keyboard[0], &d, &keys[0]);
+                  }
+                }
+                else {
+                  if (KBC_OUTPUT_BUFF_DATA == KEYBOARD_SCANCODE_LEN_2)
+                    keyboard_counter++;
+                  else {
+                    collision = check_collisions_sprite(arr_reaction_game, 3);
+                    if (!collision) {
+                      check_movement_r_l(&keyboard[0], &d, &keys[0]);
+                    }
+                  }
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
+
+                fill_buffer(&instance, video_get_next_buffer(&instance), &background_reaction);
+                assemble_directions_r_l(player_reaction_game, &d, &instance);
+
+                counter_sec++;
+                counters_counter_increase(counter1);
+
+                collision = check_collisions_sprite(arr_reaction_game, 3);
+                if (!collision) {
+                  if (move_sprite(bomb1, 0, 725, 0, &instance) != 0) {
+                    bomb1->drawing.x = rand() % (instance.mode_info.XResolution - bomb1->drawing.img.width);
+                    bomb1->drawing.y = 0;
+                  }
+                }
+                // Adds bomb with delay comparing to the other bomb
+                if (counter_sec >= 3 * 60) {
+                  collision = check_collisions_sprite(arr_reaction_game, 3);
+                  if (!collision) {
+                    if (move_sprite(bomb, 0, 725, 0, &instance) != 0) {
+                      bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
+                      bomb->drawing.y = 0;
+                    }
+                  }
+                }
+                video_flip_page(&instance);
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_rtc)) {
+                if(!rtc_ih())
+                  done = 1;
+              }
+
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case DESCRIPTION_DRAWING:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:                                        /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if (pMouse.lb) {
+                    // If chosen option is play reaction game
+                    if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+                      module = DRAWING_GAME;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_drawing);
+
+                draw_rectangle(470,630, 180,60, 0x8373ff, &instance);
+                image_draw(&play_description_drawing, &instance);
+
+                move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case DRAWING_GAME:
           switch (_ENDPOINT_P(msg.m_source)) {
             case HARDWARE:                                        // hardware interrupt notification 
               if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt 
@@ -529,7 +563,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   destroy_sprite(bomb1);
   destroy_sprite(bomb);
-  destroy_sprite(player_jogo_reacao);
+  destroy_sprite(player_reaction_game);
 
   video_default_page(&instance);
   instance.video_change_mode(&instance, MODE_TEXT);
