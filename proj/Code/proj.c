@@ -23,10 +23,11 @@
 #include "video/images/QUIT.xpm"
 #include "video/images/choose_game.xpm"
 
-#include "video/images/ReactionGameText.xpm"
+#include "video/images/reactionGameText.xpm"
 #include "video/images/background_reaction_game.xpm"
 #include "video/images/bomb.xpm"
 #include "video/images/bomb1.xpm"
+#include "video/images/virus.xpm"
 #include "video/images/player_green.xpm"
 
 #include "video/images/background_drawing_game.xpm"
@@ -68,15 +69,27 @@ static int print_usage() {
 }
 */
 
-void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *instance) {
+void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *instance, int infected) {
   switch (*dir) {
     case right:
-      change_speed(sprite, 5, 0);
-      move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
+      if(infected){
+        change_speed(sprite, -5, 0);
+        move_sprite(sprite, 0, 0, 0, instance);
+      }
+      else{
+        change_speed(sprite, 5, 0);
+        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
+      }
       break;
     case left:
-      change_speed(sprite, -5, 0);
-      move_sprite(sprite, 0, 0, 0, instance);
+      if(infected){
+        change_speed(sprite, 5, 0);
+        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
+      }
+      else{
+        change_speed(sprite, -5, 0);
+        move_sprite(sprite, 0, 0, 0, instance);
+      }
       break;
     default:
       change_speed(sprite, 0, 0);
@@ -160,7 +173,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   Sprite *bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
   Sprite *bomb = create_sprite(bomb_xpm, 700, 0, 0, 1);
+  Sprite *virus = create_sprite(virus_xpm, 500,0, 0, 1);
   Sprite *arr_reaction_game[] = {player_reaction_game, bomb1, bomb};
+  Sprite *arr_reaction_game_virus[] = {player_reaction_game, virus};
+  int infected = 0, counter_infected = 0;
 
   Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
 
@@ -204,7 +220,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   if(rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 1))
     return 1;
 
-  // Configigure alarm
+  // Configure alarm
   int h = 0, m = 1, s = 0;
 
   rtc_calculate_finish_alarm(&h,&m,&s);
@@ -422,11 +438,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   if (!collision) {
                     check_movement_r_l(&keyboard[0], &d, &keys[0]);
                   }
+
+                  if(check_collisions_sprite(arr_reaction_game_virus, 2)){
+                    infected = 1;
+                  }
                 }
                 else {
                   if (KBC_OUTPUT_BUFF_DATA == KEYBOARD_SCANCODE_LEN_2)
                     keyboard_counter++;
                   else {
+
+                    if(check_collisions_sprite(arr_reaction_game_virus, 2)){
+                      infected = 1;
+                    }
+
                     collision = check_collisions_sprite(arr_reaction_game, 3);
                     if (!collision) {
                       check_movement_r_l(&keyboard[0], &d, &keys[0]);
@@ -438,10 +463,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
               if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
 
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_reaction);
-                assemble_directions_r_l(player_reaction_game, &d, &instance);
+                assemble_directions_r_l(player_reaction_game, &d, &instance, infected);
 
                 counter_sec++;
                 counters_counter_increase(counter1);
+
+                if(infected){
+                  counter_infected++;
+
+                  // Player infected only for 8 seconds
+                  if(counter_infected >= 8*60){
+                    infected = 0;
+                    counter_infected = 0;
+                  }
+                }
 
                 collision = check_collisions_sprite(arr_reaction_game, 3);
                 if (!collision) {
@@ -457,6 +492,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     if (move_sprite(bomb, 0, 725, 0, &instance) != 0) {
                       bomb->drawing.x = rand() % (instance.mode_info.XResolution - bomb->drawing.img.width);
                       bomb->drawing.y = 0;
+                    }
+                  }
+                }
+                // Adds virus with delay comparing to first bomb
+                if (counter_sec >= 6 * 60) {
+                  collision = check_collisions_sprite(arr_reaction_game, 3);
+                  if (!collision) {
+                    if(check_collisions_sprite(arr_reaction_game_virus, 2)) {
+                      infected = 1;
+                    }
+
+                    if (move_sprite(virus, 0, 725, 0, &instance) != 0) {
+                      virus->drawing.x = rand() % (instance.mode_info.XResolution - virus->drawing.img.width);
+                      virus->drawing.y = 0;
                     }
                   }
                 }
