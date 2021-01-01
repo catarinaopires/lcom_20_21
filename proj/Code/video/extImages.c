@@ -152,7 +152,6 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, vid
         }
     }
 
-    
 
     // Draw image in new position
     if(draw_sprite(sp, draw_if_outbounds, instance)){

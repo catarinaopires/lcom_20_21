@@ -65,6 +65,14 @@ void destroy_sprite(Sprite* sp);
  */ 
 int check_collisions_sprite(Sprite**arr, size_t sz);
 
+/** @brief Checks collision between point of image and rectangle.
+ * @param img Image whose point of beginning will be used to check collision
+ * @param x Initial x of rectangle
+ * @param y Initial y of rectangle
+ * @param width Width of rectangle
+ * @param height Height of rectangle
+ * @return returns 1 upon collision, 0 otherwise.
+ */
 uint8_t check_collision_options(Image img, int x, int y, int width, int height);
 
 /** @brief Draws sprite starting in position (x,y).
