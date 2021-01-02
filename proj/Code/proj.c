@@ -23,6 +23,18 @@
 #include "video/images/QUIT.xpm"
 #include "video/images/choose_game.xpm"
 
+#include "video/images/0.xpm"
+#include "video/images/1.xpm"
+#include "video/images/2.xpm"
+#include "video/images/3.xpm"
+#include "video/images/4.xpm"
+#include "video/images/5.xpm"
+#include "video/images/6.xpm"
+#include "video/images/7.xpm"
+#include "video/images/8.xpm"
+#include "video/images/9.xpm"
+#include "video/images/pts.xpm"
+
 #include "video/images/reactionGameText.xpm"
 #include "video/images/background_reaction_game.xpm"
 #include "video/images/bomb.xpm"
@@ -34,6 +46,8 @@
 #include "video/ui_elements/cursor.xpm"
 
 #include "video/images/drawingGameText.xpm"
+
+#include <math.h>
 
 uint8_t KBC_OUTPUT_BUFF_DATA;
 
@@ -153,6 +167,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
   int collision = 0;
   int counter_sec = 0;
   int quit_option = 0;
+
+  Image nr_0 = image_construct(n0_xpm, XPM_8_8_8_8, 0 , 800 );
+  Image nr_1 = image_construct(n1_xpm, XPM_8_8_8_8, 0 , 800);
+  Image nr_2 = image_construct(n2_xpm, XPM_8_8_8_8,0 , 800);
+  Image nr_3 = image_construct(n3_xpm, XPM_8_8_8_8,0 , 800);
+  Image nr_4 = image_construct(n4_xpm, XPM_8_8_8_8, 0 , 800);
+  Image nr_5 = image_construct(n5_xpm, XPM_8_8_8_8,0 , 800 );
+  Image nr_6 = image_construct(n6_xpm, XPM_8_8_8_8, 0 , 800 );
+  Image nr_7 = image_construct(n7_xpm, XPM_8_8_8_8, 0 , 800);
+  Image nr_8 = image_construct(n8_xpm, XPM_8_8_8_8,0 , 800);
+  Image nr_9 = image_construct(n9_xpm, XPM_8_8_8_8, 0 , 800 );
+  Image nr_2_pts = image_construct(pts_xpm, XPM_8_8_8_8, 0 , 800 );
+  Image numbers[] = {nr_0, nr_1, nr_2, nr_3, nr_4, nr_5, nr_6, nr_7, nr_8, nr_9, nr_2_pts};
+
 
   Image logo = image_construct(logo_xpm, XPM_8_8_8_8, 480, 15);
   Image menu = image_construct(menu_xpm, XPM_8_8_8_8, 430, 290);
@@ -284,6 +312,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_menu);
+
+                display_time_menu(numbers, &instance);
 
                 image_draw(&logo, &instance);
                 image_draw(&menu, &instance);

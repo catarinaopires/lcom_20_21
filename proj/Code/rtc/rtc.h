@@ -1,5 +1,7 @@
 #pragma once
 #include <lcom/lcf.h>
+#include "video/video.h"
+#include "video/extImages.h"
 
 // Define Real Time Clock Controller (RTC) IRQ
 #define RTC_IRQ 8                   // RTC IRQ
@@ -77,3 +79,9 @@ void rtc_calculate_finish_alarm(int* hours, int* min, int* sec);
  * @return Returns 0 if interruption was of an alarm, 1 otherwise
  */
 int rtc_ih(void);
+
+/** @brief Displays time in console.
+ * @param numbers Array with images of numbers.
+ * @param instance Video instance.
+ */
+void display_time_menu(Image* numbers, video_instance* instance);

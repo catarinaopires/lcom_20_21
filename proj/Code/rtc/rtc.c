@@ -111,3 +111,20 @@ int rtc_ih(void) {
     return 1;
   return 1;
 }
+
+void display_time_menu(Image* numbers, video_instance* instance){
+  numbers[(rtc_get_value(RTC_HOURS_REG)/10)].x = 30;
+  image_draw(&numbers[rtc_get_value(RTC_HOURS_REG)/10], instance);
+
+  numbers[rtc_get_value(RTC_HOURS_REG)%10].x = 60;
+  image_draw(&numbers[rtc_get_value(RTC_HOURS_REG)%10], instance);
+
+  numbers[10].x = 90;
+  image_draw(&numbers[10], instance);
+
+  numbers[(rtc_get_value(RTC_MINUTES_REG) / 10)].x = 120;
+  image_draw(&numbers[rtc_get_value(RTC_MINUTES_REG)/10], instance);
+
+  numbers[rtc_get_value(RTC_MINUTES_REG)%10].x = 150;
+  image_draw(&numbers[rtc_get_value(RTC_MINUTES_REG)%10], instance);
+}
