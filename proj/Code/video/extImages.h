@@ -105,3 +105,11 @@ void change_speed(Sprite* this, int xspeed, int yspeed);
  * @param reference for the buffer
 */
 void fill_buffer(video_instance* instance, void* buffer, Image* img);
+
+/** @brief Displays time in console.
+ * @param numbers Array with images of numbers
+ * @param first_value First value to display
+ * @param second_value Second value to display
+ * @param instance Video instance
+ */
+void display_time_menu(Image* numbers, int first_value, int second_value, video_instance* instance);

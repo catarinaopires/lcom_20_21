@@ -176,3 +176,20 @@ void change_speed(Sprite* this, int xspeed, int yspeed){
 void fill_buffer(video_instance* instance, void* buffer, Image* img){
     memcpy(buffer, img->img.bytes, instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution);
 }
+
+void display_time_menu(Image* numbers, int first_value, int second_value, video_instance* instance){
+  numbers[(first_value/10)].x = 20;
+  image_draw(&numbers[first_value/10], instance);
+
+  numbers[first_value%10].x = 60;
+  image_draw(&numbers[first_value%10], instance);
+
+  numbers[10].x = 90;
+  image_draw(&numbers[10], instance);
+
+  numbers[(second_value / 10)].x = 120;
+  image_draw(&numbers[second_value/10], instance);
+
+  numbers[second_value%10].x = 160;
+  image_draw(&numbers[second_value%10], instance);
+}

@@ -145,7 +145,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     DRAWING_GAME
   } modules;
 
-  static modules module = MENU;
+  static modules module = REACTION_GAME;
 
   video_instance instance = video_init_empty();
   instance.mode = MODE_1152x864;
@@ -168,17 +168,17 @@ int(proj_main_loop)(int argc, char *argv[]) {
   int counter_sec = 0;
   int quit_option = 0;
 
-  Image nr_0 = image_construct(n0_xpm, XPM_8_8_8_8, 0 , 800 );
-  Image nr_1 = image_construct(n1_xpm, XPM_8_8_8_8, 0 , 800);
-  Image nr_2 = image_construct(n2_xpm, XPM_8_8_8_8,0 , 800);
-  Image nr_3 = image_construct(n3_xpm, XPM_8_8_8_8,0 , 800);
-  Image nr_4 = image_construct(n4_xpm, XPM_8_8_8_8, 0 , 800);
-  Image nr_5 = image_construct(n5_xpm, XPM_8_8_8_8,0 , 800 );
-  Image nr_6 = image_construct(n6_xpm, XPM_8_8_8_8, 0 , 800 );
-  Image nr_7 = image_construct(n7_xpm, XPM_8_8_8_8, 0 , 800);
-  Image nr_8 = image_construct(n8_xpm, XPM_8_8_8_8,0 , 800);
-  Image nr_9 = image_construct(n9_xpm, XPM_8_8_8_8, 0 , 800 );
-  Image nr_2_pts = image_construct(pts_xpm, XPM_8_8_8_8, 0 , 800 );
+  Image nr_0 = image_construct(n0_xpm, XPM_8_8_8_8, 0 , 810 );
+  Image nr_1 = image_construct(n1_xpm, XPM_8_8_8_8, 0 , 810);
+  Image nr_2 = image_construct(n2_xpm, XPM_8_8_8_8,0 , 810);
+  Image nr_3 = image_construct(n3_xpm, XPM_8_8_8_8,0 , 810);
+  Image nr_4 = image_construct(n4_xpm, XPM_8_8_8_8, 0 , 810);
+  Image nr_5 = image_construct(n5_xpm, XPM_8_8_8_8,0 , 810 );
+  Image nr_6 = image_construct(n6_xpm, XPM_8_8_8_8, 0 , 810 );
+  Image nr_7 = image_construct(n7_xpm, XPM_8_8_8_8, 0 , 810);
+  Image nr_8 = image_construct(n8_xpm, XPM_8_8_8_8,0 , 810);
+  Image nr_9 = image_construct(n9_xpm, XPM_8_8_8_8, 0 , 810 );
+  Image nr_2_pts = image_construct(pts_xpm, XPM_8_8_8_8, 0 , 810 );
   Image numbers[] = {nr_0, nr_1, nr_2, nr_3, nr_4, nr_5, nr_6, nr_7, nr_8, nr_9, nr_2_pts};
 
 
@@ -313,7 +313,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_menu);
 
-                display_time_menu(numbers, &instance);
+                display_time_menu(numbers, rtc_get_value(RTC_HOURS_REG), rtc_get_value(RTC_MINUTES_REG), &instance);
 
                 image_draw(&logo, &instance);
                 image_draw(&menu, &instance);
@@ -494,6 +494,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                 fill_buffer(&instance, video_get_next_buffer(&instance), &background_reaction);
                 assemble_directions_r_l(player_reaction_game, &d, &instance, infected);
+
+                display_time_menu(numbers, 0, 60 - counter_sec/60, &instance);
 
                 counter_sec++;
                 counters_counter_increase(counter1);

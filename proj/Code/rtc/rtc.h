@@ -79,9 +79,3 @@ void rtc_calculate_finish_alarm(int* hours, int* min, int* sec);
  * @return Returns 0 if interruption was of an alarm, 1 otherwise
  */
 int rtc_ih(void);
-
-/** @brief Displays time in console.
- * @param numbers Array with images of numbers.
- * @param instance Video instance.
- */
-void display_time_menu(Image* numbers, video_instance* instance);
