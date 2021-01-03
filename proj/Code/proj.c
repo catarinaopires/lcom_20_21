@@ -409,7 +409,6 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             }
           }
         }
-
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &background_menu);
@@ -426,7 +425,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(460, 430, 180, 60, 0x8373ff, &instance);
           }
-          image_move_to_pos(&play, 465, 440);
+          image_move_to_pos(&play, 470, 440);
           image_draw(&play, &instance);
 
           if (check_collision_options(cursor->drawing, 460, 530, 180, 60)) {
@@ -469,7 +468,6 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             quit_option = 1;
           }
         }
-
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &menu_choose);
@@ -504,7 +502,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
           }
-          image_move_to_pos(&play, 465, 640);
+          image_move_to_pos(&play, 480, 640);
           image_draw(&play, &instance);
           draw_sprite(cursor, 1, &instance);
           video_flip_page(&instance);
@@ -513,6 +511,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
 
       case REACTION_GAME:
         if (!counter_sec) {
+          h = 0, m = 1, s = 0;
           rtc_calculate_finish_alarm(&h, &m, &s);
           if (rtc_config_alarm(h, m, s))
             return 1;
@@ -752,10 +751,10 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           change_speed(cursor, 0, 0);
           video_flip_page(&instance);
         }
-      break;
+        break;
 
-    case TIME_GAME:
-      if (interrupt_flags[2]) {
+      case TIME_GAME:
+        if (interrupt_flags[2]) {
         interrupt_flags[2] = 0;
         mouse_process_packet(&mouse, &pMouse);
         change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
@@ -773,19 +772,17 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           }
         }
       }
-
-      if (interrupt_flags[0]) {
+        if (interrupt_flags[0]) {
         interrupt_flags[0] = 0;
         counters_counter_increase(counters_time_game);
         fill_buffer(&instance, video_get_next_buffer(&instance), &background_time);
 
         video_flip_page(&instance);
       }
+        break;
 
-      break;
-
-    case WIN_MENU:
-      if (interrupt_flags[2]) {
+      case WIN_MENU:
+        if (interrupt_flags[2]) {
         interrupt_flags[2] = 0;
         mouse_process_packet(&mouse, &pMouse);
         change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
@@ -797,7 +794,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           }
         }
       }
-      if (interrupt_flags[0]) {
+        if (interrupt_flags[0]) {
         interrupt_flags[0] = 0;
         fill_buffer(&instance, video_get_next_buffer(&instance), &background_win);
 
@@ -814,10 +811,10 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         change_speed(cursor, 0, 0);
         video_flip_page(&instance);
       }
-      break;
+        break;
 
-    case LOSE_MENU:
-      if (interrupt_flags[2]) {
+      case LOSE_MENU:
+        if (interrupt_flags[2]) {
         interrupt_flags[2] = 0;
         mouse_process_packet(&mouse, &pMouse);
         change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
@@ -829,7 +826,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           }
         }
       }
-      if (interrupt_flags[0]) {
+        if (interrupt_flags[0]) {
         interrupt_flags[0] = 0;
         fill_buffer(&instance, video_get_next_buffer(&instance), &background_lose);
 
@@ -846,42 +843,42 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         change_speed(cursor, 0, 0);
         video_flip_page(&instance);
       }
-      break;
-    default:
-      break;
+        break;
+      default:
+        break;
+    }
   }
-}
-// Use of the timers
-counters_counter_stop(counters1, counter1);
-float a = counters_get_seconds(counter1, 60);
-printf("%d seconds\n", (int) a);
-counters_counter_destructor(counters1, counters_time_game);
-counters_counter_destructor(counters1, counter1);
-counters_counters_destructor(counters1);
-counters1 = NULL;
+  // Use of the timers
+  counters_counter_stop(counters1, counter1);
+  float a = counters_get_seconds(counter1, 60);
+  printf("%d seconds\n", (int) a);
+  counters_counter_destructor(counters1, counters_time_game);
+  counters_counter_destructor(counters1, counter1);
+  counters_counters_destructor(counters1);
+  counters1 = NULL;
 
 
-if (interrupt_unsubscribe(irq_set_rtc))
-  return 1;
+  if (interrupt_unsubscribe(irq_set_rtc))
+    return 1;
 
-// Disable alarm interrupts
-if (rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
-  return 1;
+  // Disable alarm interrupts
+  if (rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
+    return 1;
 
-// Unsubscribe both interruptions
-if (interrupt_unsubscribe_all())
-  return 1;
+  // Unsubscribe both interruptions
+  if (interrupt_unsubscribe_all())
+    return 1;
 
-if (mouse_write_cmd(MOUSE_DISABLE_DATA_REP_STR))
-  return 1;
+  if (mouse_write_cmd(MOUSE_DISABLE_DATA_REP_STR))
+    return 1;
 
-//destroy_sprite(bomb1);
-//destroy_sprite(bomb);
-destroy_sprite(player_reaction_game);
-destroy_sprite(cursor);
+  //destroy_sprite(bomb1);
+  //destroy_sprite(bomb);
+  destroy_sprite(player_reaction_game);
+  destroy_sprite(cursor);
 
-video_default_page(&instance);
-video_change_mode(&instance, MODE_TEXT);
+  video_default_page(&instance);
+  video_change_mode(&instance, MODE_TEXT);
 
-return 0;
+  return 0;
 }
