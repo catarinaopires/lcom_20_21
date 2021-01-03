@@ -35,6 +35,10 @@
 #include "video/images/9.xpm"
 #include "video/images/pts.xpm"
 
+#include "video/images/gameOver.xpm"
+#include "video/images/wonGame.xpm"
+#include "video/images/back.xpm"
+
 #include "video/images/reactionGameText.xpm"
 #include "video/images/background_reaction_game.xpm"
 #include "video/images/bomb.xpm"
@@ -44,6 +48,9 @@
 
 #include "video/images/background_drawing_game.xpm"
 #include "video/ui_elements/cursor.xpm"
+
+#include "video/images/keysGameText.xpm"
+#include "video/images/background_keys_game.xpm"
 
 #include "video/images/drawingGameText.xpm"
 
@@ -142,10 +149,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
     DESCRIPTION_REACTION,
     REACTION_GAME,
     DESCRIPTION_DRAWING,
-    DRAWING_GAME
+    DRAWING_GAME,
+    DESCRIPTION_KEYS,
+    KEYS_GAME,
+    WIN_MENU,
+    LOSE_MENU
   } modules;
 
-  static modules module = REACTION_GAME;
+  static modules module = WIN_MENU;
 
   video_instance instance = video_init_empty();
   instance.mode = MODE_1152x864;
@@ -163,6 +174,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image background_menu = image_construct(background_menu_xpm, XPM_8_8_8_8, 0, 0);
   Image background_reaction = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_keys = image_construct(background_keys_game_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_win = image_construct(wonGame_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_lose = image_construct(gameOver_xpm, XPM_8_8_8_8, 0, 0);
+  Image back = image_construct(back_xpm,  XPM_8_8_8_8, 880, 800);
+
   static direction d = none;
   int collision = 0;
   int counter_sec = 0;
@@ -181,7 +197,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image nr_2_pts = image_construct(pts_xpm, XPM_8_8_8_8, 0 , 810 );
   Image numbers[] = {nr_0, nr_1, nr_2, nr_3, nr_4, nr_5, nr_6, nr_7, nr_8, nr_9, nr_2_pts};
 
-
   Image logo = image_construct(logo_xpm, XPM_8_8_8_8, 480, 15);
   Image menu = image_construct(menu_xpm, XPM_8_8_8_8, 430, 290);
   Image play = image_construct(PLAY_xpm, XPM_8_8_8_8, 475, 440);
@@ -190,12 +205,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image menu_description_reaction = image_construct(reactionGameText_xpm, XPM_8_8_8_8,0,0);
   Image play_description_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8,475,640);
 
+  Image menu_description_keys = image_construct(keysGameText_xpm, XPM_8_8_8_8,0,0);
+
   Image menu_description_drawing = image_construct(drawingGameText_xpm, XPM_8_8_8_8,0,0);
   Image play_description_drawing = image_construct(PLAY_xpm, XPM_8_8_8_8,485,640);
 
   Image menu_choose = image_construct(choose_game_xpm, XPM_8_8_8_8, 0, 0);
   Image play_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8, 235, 610);
   Image play_draw = image_construct(PLAY_xpm, XPM_8_8_8_8, 795, 610);
+  Image play_keys = image_construct(PLAY_xpm, XPM_8_8_8_8, 545, 710);
 
   Sprite *player_reaction_game = create_sprite(player_green_xpm, 0, 670, 0, 0);
 
@@ -209,6 +227,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
 
   uint8_t keys[2] = {0, 0};
+  uint8_t keys_game[3] = {0, 0, 0};
 
   // Start timers
   counters *counters1 = counters_counters_initialize();
@@ -369,6 +388,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     else if (check_collision_options(cursor->drawing, 780, 600, 180, 60)) {
                       module = DESCRIPTION_DRAWING;
                     }
+                    // If chosen keys game
+                    else if (check_collision_options(cursor->drawing, 530, 700, 180, 60)) {
+                      module = DESCRIPTION_KEYS;
+                    }
+                  }
+                  if(pMouse.rb){
+                    quit_option = 1;
                   }
                 }
                 else if (mouse_counter == 1 || mouse_counter == 0) {
@@ -394,6 +420,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   draw_rectangle(780, 600, 180, 60, COLOR_MENU_BOXES, &instance);
                 };
                 image_draw(&play_draw, &instance);
+                if(check_collision_options(cursor->drawing, 530, 700, 180, 60)){
+                  draw_rectangle(530, 700, 180, 60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(530, 700, 180, 60, COLOR_MENU_BOXES, &instance);
+                };
+                image_draw(&play_keys, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
                 change_speed(cursor, 0, 0);
@@ -468,7 +501,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   if (!collision) {
                     check_movement_r_l(&keyboard[0], &d, &keys[0]);
                   }
-
+                  else{
+                    module = LOSE_MENU;
+                  }
                   if(check_collisions_sprite(arr_reaction_game_virus, 2)){
                     infected = 1;
                   }
@@ -485,6 +520,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     collision = check_collisions_sprite(arr_reaction_game, 3);
                     if (!collision) {
                       check_movement_r_l(&keyboard[0], &d, &keys[0]);
+                    }
+                    else{
+                      module = LOSE_MENU;
                     }
                   }
                 }
@@ -546,7 +584,94 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
               if (msg.m_notify.interrupts & BIT(irq_set_rtc)) {
                 if(!rtc_ih())
-                  done = 1;
+                  module = WIN_MENU;
+              }
+
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case DESCRIPTION_KEYS:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:                                        /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if (pMouse.lb) {
+                    // If chosen option is play reaction game
+                    if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+                      module = KEYS_GAME;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_keys);
+
+                if(check_collision_options(cursor->drawing, 470, 630, 180, 60)){
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
+                };
+                image_draw(&play_description_drawing, &instance);
+
+                move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case KEYS_GAME:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE: /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_kbc)) {
+                kbc_ih();
+                keyboard[keyboard_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (keyboard_counter == 1) {
+                  keyboard_counter = 0;
+
+                }
+                else {
+                  if (KBC_OUTPUT_BUFF_DATA == KEYBOARD_SCANCODE_LEN_2)
+                    keyboard_counter++;
+                  else {
+
+                    if(assemble_keys(&keyboard[0], &keys_game[0]) == 1){
+                      module = WIN_MENU;
+                    }
+                    else if(assemble_keys(&keyboard[0], &keys_game[0]) == -1){
+                      module = LOSE_MENU;
+                    }
+                  }
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
+
+                fill_buffer(&instance, video_get_next_buffer(&instance), &background_keys);
+                video_flip_page(&instance);
               }
 
               break;
@@ -641,7 +766,109 @@ int(proj_main_loop)(int argc, char *argv[]) {
               break; // no other notifications expected: do nothing 
           }
           break;
-        
+
+        case WIN_MENU:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE: /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if(pMouse.lb){
+                    // If chosen option is play
+                    if(check_collision_options(cursor->drawing,860, 790, 180, 60)){
+                      module = MENU;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
+
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &background_win);
+
+
+                if(check_collision_options(cursor->drawing, 860, 790, 180, 60)){
+                  draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+                }
+                else {
+                  draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
+                }
+                image_draw(&back, &instance);
+
+
+                move_sprite(cursor, instance.mode_info.XResolution,instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case LOSE_MENU:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE: /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if(pMouse.lb){
+                    // If chosen option is play
+                    if(check_collision_options(cursor->drawing,860, 790, 180, 60)){
+                      module = MENU;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
+
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &background_lose);
+
+
+                if(check_collision_options(cursor->drawing, 860, 790, 180, 60)){
+                  draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+                }
+                else {
+                  draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
+                }
+                image_draw(&back, &instance);
+
+
+                move_sprite(cursor, instance.mode_info.XResolution,instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
         default:
           break;
       }

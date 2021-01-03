@@ -1,6 +1,7 @@
 #include "keyboard.h"
 #include <lcom/lcf.h>
 static uint8_t r_l_arrows[2] = {KEYBOARD_LEFT_MAKECODE, KEYBOARD_RIGHT_MAKECODE};
+static uint8_t keys_game[3] = {KEYBOARD_P_MAKECODE, KEYBOARD_M_MAKECODE, KEYBOARD_J_MAKECODE};
 
 int is_make_code(uint8_t* buff_data){
   if(*buff_data & KEYBOARD_BREAKCODE_FLAG){
@@ -40,6 +41,31 @@ void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys){
   }
 }
 
+int assemble_keys(uint8_t* bytes, uint8_t* keys){
+  int wrong = 1;
+
+  // If makecode of some key, add it in array of keys
+  for(size_t j = 0; j < 3; j++){
+    if(bytes[0] == keys_game[j]){
+      keys[j] = bytes[0];
+      wrong = 0;
+    }
+  }
+
+  if(!wrong) {
+    for (size_t j = 0; j < 3; j++) {
+      // Does not have all keys of game
+      if (keys[j] == 0) {
+        return 0;
+      }
+    }
+    // Level completed with success
+    return 1;
+  }
+  else{
+    return -1;
+  }
+}
 
 /*static uint8_t setas[4] = {KBC_UP_MAKECODE, KBC_DOWN_MAKECODE, KBC_LEFT_MAKECODE, KBC_RIGHT_MAKECODE};*/
 
