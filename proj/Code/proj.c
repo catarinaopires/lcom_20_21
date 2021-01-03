@@ -198,6 +198,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image menu = image_construct(menu_xpm, XPM_8_8_8_8, 430, 290);
   Image play = image_construct(PLAY_xpm, XPM_8_8_8_8, 475, 440);
   Image quit = image_construct(QUIT_xpm, XPM_8_8_8_8, 475, 532);
+  Image back = image_construct(back_xpm, XPM_8_8_8_8, 880, 800);
   int quit_option = 0;
   int collision = 0;
   Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
@@ -250,7 +251,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // Needed by WIN_MENU
   //cursor
   Image background_win = image_construct(wonGame_xpm, XPM_8_8_8_8, 0, 0);
-  Image back = image_construct(back_xpm, XPM_8_8_8_8, 880, 800);
 
   // Needed by LOSE_MENU
   //cursor
@@ -463,6 +463,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             else if (check_collision_options(cursor->drawing, 450, 100, 200, 200)) {
               module = DESCRIPTION_TIME;
             }
+            else if (check_collision_options(cursor->drawing, 100, 700, 180, 60)) {
+              module = MENU;
+            }
           }
           if (pMouse.rb) {
             quit_option = 1;
@@ -471,6 +474,16 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &menu_choose);
+
+          if (check_collision_options(cursor->drawing, 100, 700, 180, 60)) {
+            draw_rectangle(100, 700, 180, 60, 0xbdbdfb, &instance);
+          }
+          else {
+            draw_rectangle(100, 700, 180, 60, 0x8373ff, &instance);
+          }
+          image_move_to_pos(&back, 120, 710);
+          image_draw(&back, &instance);
+
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
           change_speed(cursor, 0, 0);
@@ -488,6 +501,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
               module = REACTION_GAME;
             }
+            else if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+              module = MENU_CHOOSE;
+            }
           }
         }
         if (interrupt_flags[0]) {
@@ -502,8 +518,17 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
           }
-          image_move_to_pos(&play, 480, 640);
+          image_move_to_pos(&play, 490, 640);
           image_draw(&play, &instance);
+
+          if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+            draw_rectangle(100, 630, 180, 60, 0xbdbdfb, &instance);
+          }
+          else {
+            draw_rectangle(100, 630, 180, 60, 0x8373ff, &instance);
+          }
+          image_move_to_pos(&back, 120, 640);
+          image_draw(&back, &instance);
           draw_sprite(cursor, 1, &instance);
           video_flip_page(&instance);
         }
@@ -624,6 +649,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
               keys_game[2] = 0;
               module = KEYS_GAME;
             }
+            else if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+              module = MENU_CHOOSE;
+            }
           }
         }
         if (interrupt_flags[0]) {
@@ -638,6 +666,14 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           };
           image_move_to_pos(&play, 485, 640);
           image_draw(&play, &instance);
+          if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+            draw_rectangle(100, 630, 180, 60, 0xbdbdfb, &instance);
+          }
+          else {
+            draw_rectangle(100, 630, 180, 60, 0x8373ff, &instance);
+          }
+          image_move_to_pos(&back, 120, 640);
+          image_draw(&back, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
@@ -684,6 +720,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
               module = DRAWING_GAME;
             }
+            else if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+              module = MENU_CHOOSE;
+            }
           }
         }
         if (interrupt_flags[0]) {
@@ -698,6 +737,15 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           };
           image_move_to_pos(&play, 485, 640);
           image_draw(&play, &instance);
+
+          if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+            draw_rectangle(100, 630, 180, 60, 0xbdbdfb, &instance);
+          }
+          else {
+            draw_rectangle(100, 630, 180, 60, 0x8373ff, &instance);
+          }
+          image_move_to_pos(&back, 120, 640);
+          image_draw(&back, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
@@ -736,6 +784,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
             if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
               module = TIME_GAME;
             }
+            else if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+              module = MENU_CHOOSE;
+            }
           }
         }
         if (interrupt_flags[0]) {
@@ -751,6 +802,15 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           };
           image_move_to_pos(&play, 485, 640);
           image_draw(&play, &instance);
+
+          if (check_collision_options(cursor->drawing, 100, 630, 180, 60)) {
+            draw_rectangle(100, 630, 180, 60, 0xbdbdfb, &instance);
+          }
+          else {
+            draw_rectangle(100, 630, 180, 60, 0x8373ff, &instance);
+          }
+          image_move_to_pos(&back, 120, 640);
+          image_draw(&back, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
@@ -793,7 +853,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
 
         if (pMouse.lb) {
-          // If chosen option is play
+          // If chosen option is go back
           if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
             module = MENU;
           }
@@ -809,6 +869,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         else {
           draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
         }
+        image_move_to_pos(&back, 880, 800);
         image_draw(&back, &instance);
 
         move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
@@ -841,6 +902,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         else {
           draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
         }
+        image_move_to_pos(&back, 880, 800);
         image_draw(&back, &instance);
 
         move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
