@@ -228,7 +228,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   //cursor
   Image menu_description_keys = image_construct(keysGameText_xpm, XPM_8_8_8_8, 0, 0);
 
-  // Nedded by KEYS_GAME
+  // Needed by KEYS_GAME
   uint8_t keys_game[3] = {0, 0, 0};
   Image background_keys = image_construct(background_keys_game_xpm, XPM_8_8_8_8, 0, 0);
 
@@ -617,6 +617,11 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           if (pMouse.lb) {
             // If chosen option is play reaction game
             if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+              keyboard[0] = 0;
+              keyboard[1] = 0;
+              keys_game[0] = 0;
+              keys_game[1] = 0;
+              keys_game[2] = 0;
               module = KEYS_GAME;
             }
           }
@@ -644,6 +649,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
       case KEYS_GAME:
         if (interrupt_flags[1]) {
           interrupt_flags[1] = 0;
+
           if (assemble_keys(&keyboard[0], &keys_game[0]) == 1) {
             keyboard[0] = 0;
             keyboard[1] = 0;
@@ -761,8 +767,8 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         if (pMouse.mb) {
           counters_counter_stop(counters1, counters_time_game);
           float s = counters_get_seconds(counters_time_game, 60);
-          counters_counter_reset(counters_time_game);
-          counters_counter_resume(counters1, counters_time_game);
+          //counters_counter_reset(counters_time_game);
+          //counters_counter_resume(counters1, counters_time_game);
           counters1 = NULL;
           if (s >= 15 - 1 && s <= 15 + 2) {
             module = WIN_MENU;
@@ -844,6 +850,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
         video_flip_page(&instance);
       }
         break;
+
       default:
         break;
     }

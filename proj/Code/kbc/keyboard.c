@@ -44,6 +44,9 @@ void check_movement_r_l(uint8_t* bytes, direction* dir, uint8_t* keys){
 int assemble_keys(uint8_t* bytes, uint8_t* keys){
   int wrong = 1;
 
+  if(!bytes[0])
+    return 0;
+
   // If makecode of some key, add it in array of keys
   for(size_t j = 0; j < 3; j++){
     if(bytes[0] == keys_game[j]){
