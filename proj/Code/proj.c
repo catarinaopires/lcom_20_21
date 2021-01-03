@@ -798,7 +798,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     counters_counter_destructor(counters1, counters_time_game);
                     counters1 = NULL;
 
-                    if( s >= 15 - 2 && s <= 15 + 2){
+                    if( s >= 15 - 1 && s <= 15 + 2){
                       module = WIN_MENU;
                     }
                     else{
