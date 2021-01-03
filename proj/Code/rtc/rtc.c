@@ -1,5 +1,5 @@
-#include "rtc.h"
 #include "../common/utils.h"
+#include "rtc.h"
 
 int rtc_write(uint8_t port, uint8_t address){
   wait_valid_rtc();

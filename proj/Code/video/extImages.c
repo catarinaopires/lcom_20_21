@@ -1,5 +1,7 @@
 #include "extImages.h"
 
+
+
 int image_draw(Image* this, video_instance* instance){
     int nrBytes = instance->mode_info.BytesPerScanLine/instance->mode_info.XResolution;     // Number of bytes of color
     uint8_t *img_it;
@@ -22,6 +24,11 @@ int image_draw(Image* this, video_instance* instance){
         }
     }
     return 0;
+}
+
+void image_move_to_pos(Image* this_image, int x, int y){
+    this_image->x = x;
+    this_image->y = y;
 }
 
 Image image_construct(xpm_map_t map, enum xpm_image_type type, int x, int y){
@@ -152,11 +159,12 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, vid
         }
     }
 
-
+    /*
     // Draw image in new position
     if(draw_sprite(sp, draw_if_outbounds, instance)){
         return -1;
     }
+    */
 
     // Movement finished
     if(!draw_if_outbounds && ((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <lcom/lcf.h>
 #include "video.h"
 
@@ -21,6 +22,13 @@ struct Image{
  * @return Returns 0 upon success, 1 with failure
  */
 int image_draw(Image* this, video_instance* instance);
+
+/** @brief Move image to one determinated position (x, y)
+ * @param this_image Image to change pos
+ * @param x Desired x 
+ * @param y Desired y 
+ */
+void image_move_to_pos(Image* this_image, int x, int y);
 
 /** @brief Constructor of Image.
  * @param map Xpm file
