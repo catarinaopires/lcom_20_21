@@ -52,6 +52,9 @@
 #include "video/images/keysGameText.xpm"
 #include "video/images/background_keys_game.xpm"
 
+#include "video/images/background_explain_time.xpm"
+#include "video/images/time_game.xpm"
+
 #include "video/images/drawingGameText.xpm"
 
 #include <math.h>
@@ -152,11 +155,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
     DRAWING_GAME,
     DESCRIPTION_KEYS,
     KEYS_GAME,
+    DESCRIPTION_TIME,
+    TIME_GAME,
     WIN_MENU,
     LOSE_MENU
   } modules;
 
-  static modules module = WIN_MENU;
+  static modules module = DESCRIPTION_DRAWING;
 
   video_instance instance = video_init_empty();
   instance.mode = MODE_1152x864;
@@ -175,6 +180,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image background_reaction = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_keys = image_construct(background_keys_game_xpm, XPM_8_8_8_8, 0, 0);
+  Image background_time = image_construct(time_game_xpm, XPM_8_8_8_8, 0, 0);
   Image background_win = image_construct(wonGame_xpm, XPM_8_8_8_8, 0, 0);
   Image background_lose = image_construct(gameOver_xpm, XPM_8_8_8_8, 0, 0);
   Image back = image_construct(back_xpm,  XPM_8_8_8_8, 880, 800);
@@ -203,17 +209,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image quit = image_construct(QUIT_xpm, XPM_8_8_8_8, 475, 532);
 
   Image menu_description_reaction = image_construct(reactionGameText_xpm, XPM_8_8_8_8,0,0);
-  Image play_description_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8,475,640);
-
   Image menu_description_keys = image_construct(keysGameText_xpm, XPM_8_8_8_8,0,0);
-
   Image menu_description_drawing = image_construct(drawingGameText_xpm, XPM_8_8_8_8,0,0);
-  Image play_description_drawing = image_construct(PLAY_xpm, XPM_8_8_8_8,485,640);
-
+  Image menu_description_time = image_construct(background_explain_time_xpm, XPM_8_8_8_8,0,0);
   Image menu_choose = image_construct(choose_game_xpm, XPM_8_8_8_8, 0, 0);
-  Image play_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8, 235, 610);
-  Image play_draw = image_construct(PLAY_xpm, XPM_8_8_8_8, 795, 610);
-  Image play_keys = image_construct(PLAY_xpm, XPM_8_8_8_8, 545, 710);
 
   Sprite *player_reaction_game = create_sprite(player_green_xpm, 0, 670, 0, 0);
 
@@ -232,8 +231,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // Start timers
   counters *counters1 = counters_counters_initialize();
   counter_type *counter1 = counters_counter_init(counters1);
+  counter_type *counters_time_game = counters_counter_init(counters1);
 
-  if (counter1 == NULL) {
+  if (counter1 == NULL || counters_time_game == NULL) {
     video_default_page(&instance);
     instance.video_change_mode(&instance, MODE_TEXT);
     return 1;
@@ -343,6 +343,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 else {
                   draw_rectangle(460, 430, 180, 60, 0x8373ff, &instance);
                 }
+                play.x = 475; play.y = 440;
                 image_draw(&play, &instance);
 
                 if(check_collision_options(cursor->drawing, 460, 530, 180, 60)){
@@ -381,16 +382,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                   if (pMouse.lb) {
                     // If chosen option is play reaction game
-                    if (check_collision_options(cursor->drawing, 220, 600, 180, 60)) {
+                    if (check_collision_options(cursor->drawing, 100, 300, 300, 250)) {
                       module = DESCRIPTION_REACTION;
                     }
                     // If chosen option is drawing game
-                    else if (check_collision_options(cursor->drawing, 780, 600, 180, 60)) {
+                    else if (check_collision_options(cursor->drawing, 750, 300, 300, 220)) {
                       module = DESCRIPTION_DRAWING;
                     }
                     // If chosen keys game
-                    else if (check_collision_options(cursor->drawing, 530, 700, 180, 60)) {
+                    else if (check_collision_options(cursor->drawing, 450, 525, 210, 230)) {
                       module = DESCRIPTION_KEYS;
+                    }
+                    // If chosen time game
+                    else if (check_collision_options(cursor->drawing, 450, 100, 200, 200)) {
+                      module = DESCRIPTION_TIME;
                     }
                   }
                   if(pMouse.rb){
@@ -406,27 +411,31 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 counters_counter_increase(counter1);
                 fill_buffer(&instance, video_get_next_buffer(&instance), &menu_choose);
 
-                if(check_collision_options(cursor->drawing, 220, 600, 180, 60)){
-                  draw_rectangle(220, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
+                /*if(check_collision_options(cursor->drawing, 100, 300, 300, 250)){
+                  draw_rectangle(100, 300, 300, 250, COLOR_MENU_SELECTED, &instance);
                 }
                 else{
-                  draw_rectangle(220, 600, 180, 60, COLOR_MENU_BOXES, &instance);
+                  draw_rectangle(100, 300, 300, 250, COLOR_MENU_BOXES, &instance);
                 }
-                image_draw(&play_reaction, &instance);
-                if(check_collision_options(cursor->drawing, 780, 600, 180, 60)){
-                  draw_rectangle(780, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
-                }
-                else{
-                  draw_rectangle(780, 600, 180, 60, COLOR_MENU_BOXES, &instance);
-                };
-                image_draw(&play_draw, &instance);
-                if(check_collision_options(cursor->drawing, 530, 700, 180, 60)){
-                  draw_rectangle(530, 700, 180, 60, COLOR_MENU_SELECTED, &instance);
+
+                if(check_collision_options(cursor->drawing, 750, 300, 300, 220)){
+                  draw_rectangle(750, 300, 300, 220, COLOR_MENU_SELECTED, &instance);
                 }
                 else{
-                  draw_rectangle(530, 700, 180, 60, COLOR_MENU_BOXES, &instance);
-                };
-                image_draw(&play_keys, &instance);
+                  draw_rectangle(750, 300, 300, 220, COLOR_MENU_BOXES, &instance);
+                }
+                if(check_collision_options(cursor->drawing, 450, 525, 210, 230)){
+                  draw_rectangle( 450, 525, 210, 230, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle( 450, 525, 210, 230, COLOR_MENU_BOXES, &instance);
+                }
+                if(check_collision_options(cursor->drawing, 450, 100, 200, 200)){
+                  draw_rectangle( 450, 100, 200, 200, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle( 450, 100, 200, 200, COLOR_MENU_BOXES, &instance);
+                }*/
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
                 change_speed(cursor, 0, 0);
@@ -474,7 +483,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 else{
                   draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
                 }
-                image_draw(&play_description_reaction, &instance);
+                play.x = 475; play.y = 640;
+                image_draw(&play, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
                 change_speed(cursor, 0, 0);
@@ -629,7 +639,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 else{
                   draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
                 };
-                image_draw(&play_description_drawing, &instance);
+                play.x = 485; play.y = 640;
+                image_draw(&play, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
                 change_speed(cursor, 0, 0);
@@ -716,7 +727,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 else{
                   draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
                 };
-                image_draw(&play_description_drawing, &instance);
+                play.x = 485; play.y = 640;
+                image_draw(&play, &instance);
 
                 move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
                 change_speed(cursor, 0, 0);
@@ -764,6 +776,102 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
             default:
               break; // no other notifications expected: do nothing 
+          }
+          break;
+
+        case TIME_GAME:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE: /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if(pMouse.mb){
+
+                    counters_counter_stop(counters1, counters_time_game);
+                    float s = counters_get_seconds(counters_time_game, 60);
+                    counters_counter_destructor(counters1, counters_time_game);
+                    counters1 = NULL;
+
+                    if( s >= 15 - 2 && s <= 15 + 2){
+                      module = WIN_MENU;
+                    }
+                    else{
+                      module = LOSE_MENU;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) {/* subscribed interrupt */
+
+                counters_counter_increase(counters_time_game);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &background_time);
+
+                video_flip_page(&instance);
+              }
+
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
+          }
+          break;
+
+        case DESCRIPTION_TIME:
+          switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:                                        /* hardware interrupt notification */
+              if (msg.m_notify.interrupts & BIT(irq_set_mouse)) { // subscribed interrupt
+                kbc_ih();
+                mouse.bytes[mouse_counter] = KBC_OUTPUT_BUFF_DATA;
+
+                if (mouse_counter == 2) {
+                  mouse_counter = 0;
+
+                  mouse_process_packet(&mouse, &pMouse);
+                  change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+                  if (pMouse.lb) {
+                    // If chosen option is play reaction game
+                    if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+                      module = TIME_GAME;
+                    }
+                  }
+                }
+                else if (mouse_counter == 1 || mouse_counter == 0) {
+                  mouse_counter++;
+                }
+              }
+
+              if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
+                counters_counter_increase(counter1);
+                fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_time);
+
+                if(check_collision_options(cursor->drawing, 470, 630, 180, 60)){
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_SELECTED, &instance);
+                }
+                else{
+                  draw_rectangle(470,630, 180,60, COLOR_MENU_BOXES, &instance);
+                };
+                play.x = 485; play.y = 640;
+                image_draw(&play, &instance);
+
+                move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+                change_speed(cursor, 0, 0);
+                video_flip_page(&instance);
+              }
+              break;
+
+            default:
+              break; /* no other notifications expected: do nothing */
           }
           break;
 
