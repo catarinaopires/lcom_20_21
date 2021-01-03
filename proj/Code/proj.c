@@ -15,7 +15,7 @@
 #include "kbc/keyboard.h"
 #include "kbc/mouse.h"
 #include "rtc/rtc.h"
-#include "timer/i8254.h"
+
 
 
 #include "video/images/Background_Menu.xpm"
@@ -53,6 +53,9 @@
 
 #include "video/images/background_keys_game.xpm"
 #include "video/images/keysGameText.xpm"
+
+#include "video/images/background_explain_time.xpm"
+#include "video/images/time_game.xpm"
 
 #include "video/images/drawingGameText.xpm"
 
@@ -163,6 +166,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
     DESCRIPTION_DRAWING,
     DRAWING_GAME,
     KEYS_GAME,
+    DESCRIPTION_TIME,
+    TIME_GAME,
     WIN_MENU,
     LOSE_MENU
   } modules;
@@ -200,14 +205,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // Needed by MENU_CHOOSE
   //cursor
   Image menu_choose = image_construct(choose_game_xpm, XPM_8_8_8_8, 0, 0);
-  Image play_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8, 235, 610);
-  Image play_draw = image_construct(PLAY_xpm, XPM_8_8_8_8, 795, 610);
-  Image play_keys = image_construct(PLAY_xpm, XPM_8_8_8_8, 545, 710);
 
   // Needed by DESCRIPTION_REACTION
   //cursor
   Image menu_description_reaction = image_construct(reactionGameText_xpm, XPM_8_8_8_8, 0, 0);
-  Image play_description_reaction = image_construct(PLAY_xpm, XPM_8_8_8_8, 475, 640);
 
   // Needed by REACTION_GAME
   //Numbers
@@ -226,7 +227,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // Needed by DESCRIPTION_KEYS
   //cursor
   Image menu_description_keys = image_construct(keysGameText_xpm, XPM_8_8_8_8, 0, 0);
-  Image play_description_drawing = image_construct(PLAY_xpm, XPM_8_8_8_8, 485, 640);
 
   // Nedded by KEYS_GAME
   uint8_t keys_game[3] = {0, 0, 0};
@@ -239,6 +239,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
   // Needed by DRAWING_GAME
   //cursor
   //Background drawing_game
+
+  // Needed by DESCRIPTION_TIME
+  //cursor
+  Image menu_description_time = image_construct(background_explain_time_xpm, XPM_8_8_8_8, 0, 0);
+
+  // Needed by TIME_GAME
+  Image background_time = image_construct(time_game_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by WIN_MENU
   //cursor
@@ -270,6 +277,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
   // Start timers
   counters *counters1 = counters_counters_initialize();
   counter_type *counter1 = counters_counter_init(counters1);
+  counter_type *counters_time_game = counters_counter_init(counters1);
 
   if (counter1 == NULL) {
     return 1;
@@ -418,6 +426,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(460, 430, 180, 60, 0x8373ff, &instance);
           }
+          image_move_to_pos(&play, 465, 440);
           image_draw(&play, &instance);
 
           if (check_collision_options(cursor->drawing, 460, 530, 180, 60)) {
@@ -437,18 +446,23 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           interrupt_flags[2] = 0;
           mouse_process_packet(&mouse, &pMouse);
           change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
           if (pMouse.lb) {
             // If chosen option is play reaction game
-            if (check_collision_options(cursor->drawing, 220, 600, 180, 60)) {
+            if (check_collision_options(cursor->drawing, 100, 300, 300, 250)) {
               module = DESCRIPTION_REACTION;
             }
             // If chosen option is drawing game
-            else if (check_collision_options(cursor->drawing, 780, 600, 180, 60)) {
+            else if (check_collision_options(cursor->drawing, 750, 300, 300, 220)) {
               module = DESCRIPTION_DRAWING;
             }
             // If chosen keys game
-            else if (check_collision_options(cursor->drawing, 530, 700, 180, 60)) {
+            else if (check_collision_options(cursor->drawing, 450, 525, 210, 230)) {
               module = DESCRIPTION_KEYS;
+            }
+            // If chosen time game
+            else if (check_collision_options(cursor->drawing, 450, 100, 200, 200)) {
+              module = DESCRIPTION_TIME;
             }
           }
           if (pMouse.rb) {
@@ -460,30 +474,8 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &menu_choose);
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
-          change_speed(cursor, 0, 0);
-
-          if (check_collision_options(cursor->drawing, 220, 600, 180, 60)) {
-            draw_rectangle(220, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
-          }
-          else {
-            draw_rectangle(220, 600, 180, 60, COLOR_MENU_BOXES, &instance);
-          }
-          image_draw(&play_reaction, &instance);
-          if (check_collision_options(cursor->drawing, 780, 600, 180, 60)) {
-            draw_rectangle(780, 600, 180, 60, COLOR_MENU_SELECTED, &instance);
-          }
-          else {
-            draw_rectangle(780, 600, 180, 60, COLOR_MENU_BOXES, &instance);
-          }
-          image_draw(&play_draw, &instance);
-          if (check_collision_options(cursor->drawing, 530, 700, 180, 60)) {
-            draw_rectangle(530, 700, 180, 60, COLOR_MENU_SELECTED, &instance);
-          }
-          else {
-            draw_rectangle(530, 700, 180, 60, COLOR_MENU_BOXES, &instance);
-          }
-          image_draw(&play_keys, &instance);
           draw_sprite(cursor, 1, &instance);
+          change_speed(cursor, 0, 0);
           video_flip_page(&instance);
         }
         break;
@@ -512,7 +504,8 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
           }
-          image_draw(&play_description_reaction, &instance);
+          image_move_to_pos(&play, 465, 640);
+          image_draw(&play, &instance);
           draw_sprite(cursor, 1, &instance);
           video_flip_page(&instance);
         }
@@ -639,7 +632,8 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
           };
-          image_draw(&play_description_drawing, &instance);
+          image_move_to_pos(&play, 485, 640);
+          image_draw(&play, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
@@ -697,7 +691,8 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           else {
             draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
           };
-          image_draw(&play_description_drawing, &instance);
+          image_move_to_pos(&play, 485, 640);
+          image_draw(&play, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
@@ -725,103 +720,168 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           change_speed(cursor, 0, 0);
         }
         break;*/
-
-      case WIN_MENU:
+      case DESCRIPTION_TIME:
         if (interrupt_flags[2]) {
           interrupt_flags[2] = 0;
           mouse_process_packet(&mouse, &pMouse);
           change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
 
           if (pMouse.lb) {
-            // If chosen option is play
-            if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
-              module = MENU;
+            // If chosen option is play reaction game
+            if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+              module = TIME_GAME;
             }
           }
         }
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
-          fill_buffer(&instance, video_get_next_buffer(&instance), &background_win);
+          counters_counter_increase(counter1);
+          fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_time);
 
-          if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
-            draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+          if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+            draw_rectangle(470, 630, 180, 60, COLOR_MENU_SELECTED, &instance);
           }
           else {
-            draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
-          }
-          image_draw(&back, &instance);
+            draw_rectangle(470, 630, 180, 60, COLOR_MENU_BOXES, &instance);
+          };
+          image_move_to_pos(&play, 485, 640);
+          image_draw(&play, &instance);
 
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
           change_speed(cursor, 0, 0);
           video_flip_page(&instance);
         }
-        break;
+      break;
 
-      case LOSE_MENU:
-        if (interrupt_flags[2]) {
-          interrupt_flags[2] = 0;
-          mouse_process_packet(&mouse, &pMouse);
-          change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
-
-          if (pMouse.lb) {
-            // If chosen option is play
-            if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
-              module = MENU;
-            }
-          }
-        }
-        if (interrupt_flags[0]) {
-          interrupt_flags[0] = 0;
-          fill_buffer(&instance, video_get_next_buffer(&instance), &background_lose);
-
-          if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
-            draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+    case TIME_GAME:
+      if (interrupt_flags[2]) {
+        interrupt_flags[2] = 0;
+        mouse_process_packet(&mouse, &pMouse);
+        change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+        if (pMouse.mb) {
+          counters_counter_stop(counters1, counters_time_game);
+          float s = counters_get_seconds(counters_time_game, 60);
+          counters_counter_reset(counters_time_game);
+          counters_counter_resume(counters1, counters_time_game);
+          counters1 = NULL;
+          if (s >= 15 - 1 && s <= 15 + 2) {
+            module = WIN_MENU;
           }
           else {
-            draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
+            module = LOSE_MENU;
           }
-          image_draw(&back, &instance);
-
-          move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
-          draw_sprite(cursor, 1, &instance);
-          change_speed(cursor, 0, 0);
-          video_flip_page(&instance);
         }
-        break;
-      default:
-        break;
-    }
+      }
+
+      if (interrupt_flags[0]) {
+        interrupt_flags[0] = 0;
+        counters_counter_increase(counters_time_game);
+        fill_buffer(&instance, video_get_next_buffer(&instance), &background_time);
+
+        video_flip_page(&instance);
+      }
+
+      break;
+
+    case WIN_MENU:
+      if (interrupt_flags[2]) {
+        interrupt_flags[2] = 0;
+        mouse_process_packet(&mouse, &pMouse);
+        change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+        if (pMouse.lb) {
+          // If chosen option is play
+          if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
+            module = MENU;
+          }
+        }
+      }
+      if (interrupt_flags[0]) {
+        interrupt_flags[0] = 0;
+        fill_buffer(&instance, video_get_next_buffer(&instance), &background_win);
+
+        if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
+          draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+        }
+        else {
+          draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
+        }
+        image_draw(&back, &instance);
+
+        move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+        draw_sprite(cursor, 1, &instance);
+        change_speed(cursor, 0, 0);
+        video_flip_page(&instance);
+      }
+      break;
+
+    case LOSE_MENU:
+      if (interrupt_flags[2]) {
+        interrupt_flags[2] = 0;
+        mouse_process_packet(&mouse, &pMouse);
+        change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+
+        if (pMouse.lb) {
+          // If chosen option is play
+          if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
+            module = MENU;
+          }
+        }
+      }
+      if (interrupt_flags[0]) {
+        interrupt_flags[0] = 0;
+        fill_buffer(&instance, video_get_next_buffer(&instance), &background_lose);
+
+        if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
+          draw_rectangle(860, 790, 180, 60, 0xbdbdfb, &instance);
+        }
+        else {
+          draw_rectangle(860, 790, 180, 60, 0x8373ff, &instance);
+        }
+        image_draw(&back, &instance);
+
+        move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
+        draw_sprite(cursor, 1, &instance);
+        change_speed(cursor, 0, 0);
+        video_flip_page(&instance);
+      }
+      break;
+    default:
+      break;
   }
-  // Use of the timers
-  counters_counter_stop(counters1, counter1);
-  float a = counters_get_seconds(counter1, 60);
-  printf("%d seconds\n", (int) a);
-  counters_counter_destructor(counters1, counter1);
-  counters_counters_destructor(counters1);
-  counters1 = NULL;
+}
+// Use of the timers
+counters_counter_stop(counters1, counter1);
+float a = counters_get_seconds(counter1, 60);
+printf("%d seconds\n", (int) a);
+counters_counter_destructor(counters1, counters_time_game);
+counters_counter_destructor(counters1, counter1);
+counters_counters_destructor(counters1);
+counters1 = NULL;
 
-  if (interrupt_unsubscribe(irq_set_rtc))
-    return 1;
 
-  // Disable alarm interrupts
-    if (rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
-      return 1;
-  
-  // Unsubscribe both interruptions
-  if (interrupt_unsubscribe_all())
-    return 1;
+if (interrupt_unsubscribe(irq_set_rtc))
+  return 1;
 
-  if (mouse_write_cmd(MOUSE_DISABLE_DATA_REP_STR))
-    return 1;
+// Disable alarm interrupts
+if (rtc_set_flag(RTC_REGISTER_B, RTC_AIE, 0))
+  return 1;
 
-  //destroy_sprite(bomb1);
-  //destroy_sprite(bomb);
-  destroy_sprite(player_reaction_game);
-  destroy_sprite(cursor);
+// Unsubscribe both interruptions
+if (interrupt_unsubscribe_all())
+  return 1;
 
-  video_default_page(&instance);
-  video_change_mode(&instance, MODE_TEXT);
+if (mouse_write_cmd(MOUSE_DISABLE_DATA_REP_STR))
+  return 1;
 
-  return 0;
+//destroy_sprite(bomb1);
+//destroy_sprite(bomb);
+destroy_sprite(player_reaction_game);
+destroy_sprite(cursor);
+
+video_default_page(&instance);
+video_change_mode(&instance, MODE_TEXT);
+
+return 0;
 }
