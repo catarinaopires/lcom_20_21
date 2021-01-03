@@ -761,30 +761,29 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
 
       case TIME_GAME:
         if (interrupt_flags[2]) {
-        interrupt_flags[2] = 0;
-        mouse_process_packet(&mouse, &pMouse);
-        change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
-        if (pMouse.mb) {
-          counters_counter_stop(counters1, counters_time_game);
-          float s = counters_get_seconds(counters_time_game, 60);
-          //counters_counter_reset(counters_time_game);
-          //counters_counter_resume(counters1, counters_time_game);
-          counters1 = NULL;
-          if (s >= 15 - 1 && s <= 15 + 2) {
-            module = WIN_MENU;
-          }
-          else {
-            module = LOSE_MENU;
+          interrupt_flags[2] = 0;
+          mouse_process_packet(&mouse, &pMouse);
+          change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
+          if (pMouse.mb) {
+            counters_counter_stop(counters1, counters_time_game);
+            float s = counters_get_seconds(counters_time_game, 60);
+            counters_counter_reset(counters_time_game);
+            counters_counter_resume(counters1, counters_time_game);
+            if (s >= 15 - 1 && s <= 15 + 2) {
+              module = WIN_MENU;
+            }
+            else {
+              module = LOSE_MENU;
+            }
           }
         }
-      }
         if (interrupt_flags[0]) {
-        interrupt_flags[0] = 0;
-        counters_counter_increase(counters_time_game);
-        fill_buffer(&instance, video_get_next_buffer(&instance), &background_time);
+          interrupt_flags[0] = 0;
+          counters_counter_increase(counters_time_game);
+          fill_buffer(&instance, video_get_next_buffer(&instance), &background_time);
 
-        video_flip_page(&instance);
-      }
+          video_flip_page(&instance);
+        }
         break;
 
       case WIN_MENU:
@@ -863,6 +862,7 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
   counters_counter_destructor(counters1, counter1);
   counters_counters_destructor(counters1);
   counters1 = NULL;
+  counters_time_game = NULL;
 
 
   if (interrupt_unsubscribe(irq_set_rtc))

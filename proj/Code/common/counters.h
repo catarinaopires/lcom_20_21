@@ -30,11 +30,22 @@ counter_type* counters_counter_init(counters* timers);
 */ 
 void counters_counter_increase(counter_type* counter);
 
+/** @brief Function to reset the count
+ * @param counter Counter manipulation
+*/ 
+void counters_counter_reset(counter_type* counter);
+
 /** @brief Function to stop the count in a determined counter
  * @param counters Counters Struct
  * @param counter Counter to stop
 */ 
 void counters_counter_stop(counters* timers, counter_type* counter);
+
+/** @brief Function to resume the count in a determined counter
+ * @param counters Counters Struct
+ * @param counter Counter to resume count
+*/ 
+void counters_counter_resume(counters* timers, counter_type* counter);
 
 /** @brief Function to get the time delta in seconds from interrupt counter
  * @param counter Counter to read from, needs to be stopped

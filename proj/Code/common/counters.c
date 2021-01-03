@@ -51,10 +51,14 @@ inline void counters_counter_increase(counter_type* counter){
     *counter = *counter + 1;
 }
 
+void counters_counter_reset(counter_type* counter){
+    *counter = 0;
+}
+
 void counters_counter_stop(counters* timers, counter_type* counter){
     for(uint8_t counterToo = 0; counterToo < COUNTERS_SIMULTANEOUSLY_ACTIVE; counterToo++){
         if(timers->active_counters[counterToo] == counter){
-            for(uint8_t counterToo1 = 0; counterToo1 < 2 * COUNTERS_SIMULTANEOUSLY_ACTIVE; counterToo1++){
+            for(uint8_t counterToo1 = 0; counterToo1 < COUNTERS_SIMULTANEOUSLY_ACTIVE; counterToo1++){
                 if(timers->inactive_counters[counterToo1] == NULL){
                     timers->inactive_counters[counterToo1] = counter;
                     timers->stored_inact++;
@@ -63,6 +67,22 @@ void counters_counter_stop(counters* timers, counter_type* counter){
             }
 
             timers->active_counters[counterToo] = NULL;
+        }
+    }
+}
+
+void counters_counter_resume(counters* timers, counter_type* counter){
+    for(uint8_t counterToo = 0; counterToo < COUNTERS_SIMULTANEOUSLY_ACTIVE; counterToo++){
+        if(timers->inactive_counters[counterToo] == counter){
+            for(uint8_t counterToo1 = 0; counterToo1 < COUNTERS_SIMULTANEOUSLY_ACTIVE; counterToo1++){
+                if(timers->active_counters[counterToo1] == NULL){
+                    timers->active_counters[counterToo1] = counter;
+                    timers->stored_inact--;
+                    timers->stored_act++;
+                }
+            }
+
+            timers->inactive_counters[counterToo] = NULL;
         }
     }
 }
