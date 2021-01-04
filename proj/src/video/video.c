@@ -209,7 +209,6 @@ int video_default_page(video_instance *instance){
     case 0:
       if(reg.al == 0x4f){
         // Everything runs as expected
-        //memset(video_get_next_buffer(instance), 0, instance->mode_info.BytesPerScanLine * instance->mode_info.YResolution);
         return 0;
       }
     

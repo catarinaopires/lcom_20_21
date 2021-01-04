@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <lcom/xpm.h>
 #include "video.h"
+#include "../kbc/keyboard.h"
 
 
 /**
@@ -25,7 +26,7 @@ struct Image{
  */
 int image_draw(Image* this, video_instance* instance);
 
-/** @brief Move image to one determinated position (x, y)
+/** @brief Move image to one determined position (x, y)
  * @param this_image Image to change pos
  * @param x Desired x 
  * @param y Desired y 
@@ -96,10 +97,10 @@ int draw_sprite(Sprite* this, int draw_if_outbounds, video_instance* instance);
 /** @brief Moves sprite with its according speed until final position given by (xf,yf).
  * @param sp Sprite 
  * @param xf Last horizontal position of the beginning of the image
- * @param yf Last vetical position of the beginning of the image
+ * @param yf Last vertical position of the beginning of the image
  * @param draw_if_outbounds if 0 doesn't draw if image outbounds, otherwise draws image
  * @param instance Struct video instance
- * @return returns 0 uppon success (image moved), 1 if image reached final position 
+ * @return returns 0 upon success (image moved), 1 if image reached final position
  * and -1 if it was not possible to draw in next position
  */
 int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, video_instance* instance);
@@ -123,3 +124,11 @@ void fill_buffer(video_instance* instance, void* buffer, Image* img);
  * @param instance Video instance
  */
 void display_time_menu(Image* numbers, int first_value, int second_value, video_instance* instance);
+
+/** @brief Interprets the direction of player into movement, changing speed of sprite and drawing.
+ * @param sprite Sprite
+ * @param dir Direction according to input given by user
+ * @param instance Video instance
+ * @param infected 1 if infected (directions switched), 0 otherwise
+ */
+void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *instance, int infected);

@@ -5,7 +5,6 @@
 #define KEYBOARD_SCANCODE_LEN_2 0xE0  // First byte of 2-byte scancodes
 
 // Useful make/break codes
-
 #define KEYBOARD_UP_MAKECODE 0x48     // Makecode of the up arrow
 #define KEYBOARD_UP_BREAKCODE 0xC8    // Breakcode of the up arrow
 #define KEYBOARD_DOWN_MAKECODE 0x50   // Makecode of the down arrow
@@ -16,6 +15,7 @@
 #define KEYBOARD_RIGHT_BREAKCODE 0xCD // Breakcode of the right arrow
 #define KEYBOARD_ESC_BREAKCODE 0x81   // Breakcode for ESC
 
+// Make/Break codes for Keys Game
 #define KEYBOARD_P_MAKECODE 0x19
 #define KEYBOARD_P_BREAKCODE 0x99
 #define KEYBOARD_M_MAKECODE 0x32
@@ -60,4 +60,9 @@ void check_movement_r_l(uint8_t *bytes, direction *dir, uint8_t *keys);
  */
 int is_make_code(uint8_t *buff_data);
 
+/** @brief Checks if wanted keys are pressed according to kbc bytes received.
+ * @param bytes Kbc bytes received
+ * @param keys Status of wanted keys pressed (0 means not pressed)
+ * @return Return 1 if all wanted keys are pressed, -1 if lost game and 0 if has not finished game.
+ */
 int assemble_keys(uint8_t* bytes, uint8_t* keys);

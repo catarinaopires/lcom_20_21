@@ -89,75 +89,8 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-/*
-static int print_usage() {
-  printf("Usage: <mode - hex>\n");
-
-  return 1;
-}
-*/
-
-void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *instance, int infected) {
-  switch (*dir) {
-    case right:
-      if (infected) {
-        change_speed(sprite, -5, 0);
-        move_sprite(sprite, 0, 0, 0, instance);
-        draw_sprite(sprite, 0, instance);
-        change_speed(sprite, 0, 0);
-      }
-      else {
-        change_speed(sprite, 5, 0);
-        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
-        draw_sprite(sprite, 0, instance);
-        change_speed(sprite, 0, 0);
-      }
-      break;
-    case left:
-      if (infected) {
-        change_speed(sprite, 5, 0);
-        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
-        draw_sprite(sprite, 0, instance);
-        change_speed(sprite, 0, 0);
-      }
-      else {
-        change_speed(sprite, -5, 0);
-        move_sprite(sprite, 0, 0, 0, instance);
-        draw_sprite(sprite, 0, instance);
-        change_speed(sprite, 0, 0);
-      }
-      break;
-    default:
-      change_speed(sprite, 0, 0);
-      move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.height, 0, instance);
-      draw_sprite(sprite, 0, instance);
-      break;
-  }
-}
 
 int(proj_main_loop)(int argc, char *argv[]) {
-  /* 
-  Substitute the code below by your own
-  //
-  // if you're interested, try to extend the command line options so that the usage becomes:
-  // <mode - hex> <minix3 logo  - true|false> <grayscale - true|false> <delay (secs)>
-  //
-  bool const minix3_logo = true;
-  bool const grayscale = false;
-  uint8_t const delay = 5;
-  uint16_t mode;
-
-  if (argc != 1)
-    return print_usage();
-
-  // parse mode info (it has some limitations for the sake of simplicity)
-  if (sscanf(argv[0], "%hx", &mode) != 1) {
-    printf("%s: invalid mode (%s)\n", __func__, argv[0]);
-
-    return print_usage();
-  }*/
-
-  //return proj_demo(mode, minix3_logo, grayscale, delay);
 
   typedef enum modules {
     MENU,
@@ -206,15 +139,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Sprite *cursor = create_sprite(cursor_xpm, 576, 432, 0, 0);
 
   // Needed by MENU_CHOOSE
-  //cursor
+  // Cursor
   Image menu_choose = image_construct(choose_game_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by DESCRIPTION_REACTION
-  //cursor
+  // Cursor
   Image menu_description_reaction = image_construct(reactionGameText_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by REACTION_GAME
-  //Numbers
+  // Numbers
   Image background_reaction = image_construct(background_reaction_game_xpm, XPM_8_8_8_8, 0, 0);
   Sprite *player_reaction_game = create_sprite(player_green_xpm, 0, 670, 0, 0);
   Sprite *bomb1 = create_sprite(bomb1_xpm, 350, 0, 0, 1);
@@ -228,7 +161,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   uint8_t keys[2] = {0, 0};
 
   // Needed by DESCRIPTION_KEYS
-  //cursor
+  // Cursor
   Image menu_description_keys = image_construct(keysGameText_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by KEYS_GAME
@@ -236,15 +169,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image background_keys = image_construct(background_keys_game_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by DESCRIPTION_DRAWING
-  //cursor
+  // Cursor
   Image menu_description_drawing = image_construct(drawingGameText_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by DRAWING_GAME
-  //cursor
+  // Cursor
   Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by DESCRIPTION_TIME
-  //cursor
+  // Cursor
   Image menu_description_time = image_construct(background_explain_time_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by TIME_GAME
@@ -258,16 +191,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
   Image background_win = image_construct(wonGame_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by LOSE_MENU
-  //cursor
-  //back
+  // Cursor
+  // Back
   Image background_lose = image_construct(gameOver_xpm, XPM_8_8_8_8, 0, 0);
 
   // Start timers
   counters *counters1 = counters_counters_initialize();
-  counter_type *counter1 = counters_counter_init(counters1);
   counter_type *counters_time_game = counters_counter_init(counters1);
 
-  if (counter1 == NULL) {
+  if (counters_time_game == NULL) {
     return 1;
   }
 
@@ -291,7 +223,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   // Subscribe RTC interruptions
   uint8_t irq_set_rtc = RTC_IRQ;
-  uint8_t done = 0;
   if (interrupt_subscribe(RTC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_rtc))
     return 1;
 
@@ -317,18 +248,23 @@ int(proj_main_loop)(int argc, char *argv[]) {
   pMouse.lb = 0;
   #define NrOfPoints 21474
   uint32_t nrOfPoints = 0;
-  uint32_t x_points[NrOfPoints];
-  uint32_t y_points[NrOfPoints];
+  uint32_t x_points[NrOfPoints];                      // Array of x positions of trace of mouse
+  uint32_t y_points[NrOfPoints];                      // Array of y positions of trace of mouse
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REP_STR))
     return 1;
 
   if (interrupt_subscribe(MOUSE_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &irq_set_mouse))
     return 1;
 
+  // Array with flag to know the which ones are activated
+  // 0 - Timer
+  // 1 - Keyboard
+  // 2 - Mouse
+  // 3 - RTC
   uint8_t interrupt_flags[4] = {0, 0, 0, 0};
 
   video_change_mode(&instance, MODE_1152x864);
-  while (!quit_option && keyboard[0] != KEYBOARD_ESC_BREAKCODE && !done) { // !pMouse.lb //!collision && keyboard[0] != KEYBOARD_ESC_BREAKCODE && !done
+  while (!quit_option) {
     /* Get a request message. */
 
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -370,7 +306,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
           if (msg.m_notify.interrupts & BIT(irq_set_timer)) { /* subscribed interrupt */
             interrupt_flags[0] = 1;
-            counters_counter_increase(counter1);
           }
 
           if (msg.m_notify.interrupts & BIT(irq_set_rtc)) {
@@ -461,9 +396,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
               module = MENU;
             }
           }
-          if (pMouse.rb) {
-            quit_option = 1;
-          }
         }
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
@@ -529,7 +461,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
         break;
 
       case REACTION_GAME:
+        // If game is starting, reset needed values
         if (!counter_sec) {
+          // Reset values of alarm
           h = 0, m = 1, s = 0;
           rtc_calculate_finish_alarm(&h, &m, &s);
           if (rtc_config_alarm(h, m, s))
@@ -538,6 +472,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
           image_move_to_pos(&bomb1->drawing, 350, 0);
           image_move_to_pos(&bomb->drawing, 700, 0);
           image_move_to_pos(&virus->drawing, 500, 0);
+          // Reset values
           infected = 0;
           counter_infected = 0;
           d = none;
@@ -564,7 +499,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
           assemble_directions_r_l(player_reaction_game, &d, &instance, infected);
 
           display_time_menu(numbers, 0, 60 - counter_sec / 60, &instance);
-
           counter_sec++;
 
           if (infected) {
@@ -608,7 +542,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
               }
 
               if (move_sprite(virus, 0, 725, 0, &instance) != 0) {
-                //draw_sprite(virus, 0, &instance);
                 virus->drawing.x = rand() % (instance.mode_info.XResolution - virus->drawing.img.width);
                 virus->drawing.y = 0;
               }
@@ -636,6 +569,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
           if (pMouse.lb) {
             // If chosen option is play reaction game
             if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
+              // Reset values
               keyboard[0] = 0;
               keyboard[1] = 0;
               keys_game[0] = 0;
@@ -681,6 +615,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
           interrupt_flags[1] = 0;
 
           if (assemble_keys(&keyboard[0], &keys_game[0]) == 1) {
+            // Reset values
             keyboard[0] = 0;
             keyboard[1] = 0;
             keys_game[0] = 0;
@@ -757,28 +692,29 @@ int(proj_main_loop)(int argc, char *argv[]) {
           gestureDetection_detect_event(&pMouse, &mouse_current_event);
           gestureDetection_draw_process_state_H(&hState, &mouse_current_event, 100, 15);
           if(hState == COMP_H){
+            // Reset values of counters
             mouse_current_event.counter_x = 0;
             mouse_current_event.counter_y = 0;
             hState = INIT_H;
             module = WIN_MENU;
           }
           if(hState == FAIL_H){
+            // Reset values of counters
             mouse_current_event.counter_x = 0;
             mouse_current_event.counter_y = 0;
             hState = INIT_H;
             module = LOSE_MENU;
           }
-
         }
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &background_drawing);
-          
 
           if(hState == INIT_H){
             nrOfPoints = 0;
           }
           if(hState == DRAW_H){
+            // Save positions to draw trace of mouse
             x_points[nrOfPoints] = cursor->drawing.x;
             y_points[nrOfPoints] = cursor->drawing.y;
             nrOfPoints++;
@@ -810,7 +746,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
         }
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
-          counters_counter_increase(counter1);
           fill_buffer(&instance, video_get_next_buffer(&instance), &menu_description_time);
 
           if (check_collision_options(cursor->drawing, 470, 630, 180, 60)) {
@@ -846,7 +781,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
           if (pMouse.mb) {
             counters_counter_stop(counters1, counters_time_game);
             s_counted = (int) counters_get_seconds(counters_time_game, 60);
-            printf("sec: %d\n",s_counted);
             counters_counter_reset(counters_time_game);
             counters_counter_resume(counters1, counters_time_game);
             if (s_counted >= 15 - 1 && s_counted <= 15 + 2) {
@@ -929,15 +863,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
         image_move_to_pos(&back, 880, 800);
         image_draw(&back, &instance);
 
+        // If lose game of Time, show user's counted seconds
         if(came_from_time_game && s_counted < 100){
           image_draw(&sec_txt, &instance);
 
-          numbers[(int)(s_counted/10)].y = 805;
-          numbers[(int)(s_counted/10)].x = 670;
+          image_move_to_pos(&numbers[(int)(s_counted/10)], 670,805);
           image_draw(&numbers[(int)s_counted/10], &instance);
 
-          numbers[((int)s_counted%10)].y = 805;
-          numbers[(int)s_counted%10].x = 700;
+          image_move_to_pos(&numbers[((int)s_counted%10)], 700,805);
           image_draw(&numbers[(int)s_counted%10], &instance);
         }
 
@@ -953,11 +886,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     }
   }
   // Use of the timers
-  counters_counter_stop(counters1, counter1);
-  float a = counters_get_seconds(counter1, 60);
-  printf("%d seconds\n", (int) a);
   counters_counter_destructor(counters1, counters_time_game);
-  counters_counter_destructor(counters1, counter1);
   counters_counters_destructor(counters1);
   counters1 = NULL;
   counters_time_game = NULL;

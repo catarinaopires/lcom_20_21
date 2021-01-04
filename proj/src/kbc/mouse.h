@@ -46,4 +46,8 @@ typedef struct mouse_packet_processed {
  */
 void mouse_process_packet(mouse_packet_raw *packet, mouse_packet_processed *processed);
 
+/** @brief Writes given command in control register of KBC.
+ * @param cmd Given command to write.
+ * @return Returns 0 upon success, 1 otherwise
+ */
 int mouse_write_cmd(uint8_t cmd);

@@ -8,7 +8,6 @@
 #include <lcom/vbe.h>
 
 
-
 #define BIOS_VIDEO_FUNCTION 0x10 // BIOS video function
 
 /** 

@@ -1,9 +1,6 @@
 #include "extImages.h"
 #include <lcom/lcf.h>
 
-
-
-
 int image_draw(Image* this, video_instance* instance){
     int nrBytes = instance->mode_info.BytesPerScanLine/instance->mode_info.XResolution;     // Number of bytes of color
     uint8_t *img_it;
@@ -53,11 +50,6 @@ Sprite* create_sprite(xpm_map_t pic, int x, int y,int xspeed, int yspeed) {
 
     // Read the sprite pixmap
     sp->drawing = image_construct(pic, XPM_8_8_8_8,x,y);
-
-   /* if( sp->drawing.img == NULL ) {
-        free(sp);
-        return NULL;
-    }*/
 
     sp->drawing.x = x;
     sp->drawing.y = y;
@@ -161,13 +153,6 @@ int move_sprite(Sprite* sp, uint16_t xf, uint16_t yf, int draw_if_outbounds, vid
         }
     }
 
-    /*
-    // Draw image in new position
-    if(draw_sprite(sp, draw_if_outbounds, instance)){
-        return -1;
-    }
-    */
-
     // Movement finished
     if(!draw_if_outbounds && ((sp->drawing.x >= xf && sp->xspeed >= 0) || (sp->drawing.x <= xf && sp->xspeed <= 0)) &&
        ((sp->drawing.y >= yf && sp->yspeed >= 0) || (sp->drawing.y <= yf && sp->yspeed <= 0))){
@@ -188,22 +173,56 @@ void fill_buffer(video_instance* instance, void* buffer, Image* img){
 }
 
 void display_time_menu(Image* numbers, int first_value, int second_value, video_instance* instance){
-  numbers[(first_value/10)].x = 20;
-  numbers[(first_value/10)].y = 810;
+  image_move_to_pos(&numbers[(first_value/10)], 20,810);
   image_draw(&numbers[first_value/10], instance);
 
-  numbers[first_value%10].x = 60;
-  numbers[first_value%10].y = 810;
+  image_move_to_pos(&numbers[first_value%10], 60,810);
   image_draw(&numbers[first_value%10], instance);
 
   numbers[10].x = 90;
   image_draw(&numbers[10], instance);
 
-  numbers[(second_value / 10)].x = 120;
-  numbers[(second_value / 10)].y = 810;
+  image_move_to_pos(&numbers[(second_value / 10)], 120,810);
   image_draw(&numbers[second_value/10], instance);
 
-  numbers[second_value%10].x = 160;
-  numbers[second_value%10].y = 810;
+  image_move_to_pos(&numbers[second_value%10], 160,810);
   image_draw(&numbers[second_value%10], instance);
+}
+
+void assemble_directions_r_l(Sprite *sprite, direction *dir, video_instance *instance, int infected) {
+  switch (*dir) {
+    case right:
+      if (infected) {
+        change_speed(sprite, -5, 0);
+        move_sprite(sprite, 0, 0, 0, instance);
+        draw_sprite(sprite, 0, instance);
+        change_speed(sprite, 0, 0);
+      }
+      else {
+        change_speed(sprite, 5, 0);
+        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
+        draw_sprite(sprite, 0, instance);
+        change_speed(sprite, 0, 0);
+      }
+      break;
+    case left:
+      if (infected) {
+        change_speed(sprite, 5, 0);
+        move_sprite(sprite, instance->mode_info.XResolution - sprite->drawing.img.width, 0, 0, instance);
+        draw_sprite(sprite, 0, instance);
+        change_speed(sprite, 0, 0);
+      }
+      else {
+        change_speed(sprite, -5, 0);
+        move_sprite(sprite, 0, 0, 0, instance);
+        draw_sprite(sprite, 0, instance);
+        change_speed(sprite, 0, 0);
+      }
+      break;
+    default:
+      change_speed(sprite, 0, 0);
+      move_sprite(sprite, instance->mode_info.XResolution, instance->mode_info.YResolution - sprite->drawing.img.height, 0, instance);
+      draw_sprite(sprite, 0, instance);
+      break;
+  }
 }

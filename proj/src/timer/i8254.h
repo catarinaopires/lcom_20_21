@@ -47,16 +47,7 @@
 #define TIMER_RB_COUNT_  BIT(5)
 #define TIMER_RB_STATUS_ BIT(4)
 #define TIMER_RB_SEL(n)  BIT((n) + 1)
-/*
-///
-// @brief Struct to save the previous counter configs
-// 
-struct timer_ctrl_word{
-    uint8_t timer0;
-    uint8_t timer1;
-    uint8_t timer2;
-} timer_ctrl_word;
-*/
+
 /** 
  * @brief Enum with the available counters
  */
@@ -66,7 +57,6 @@ typedef enum timer_nr{
     timer2,
     timerCtrl
 }timer_nr;
-
 
 /**
 * @brief Enum with available modes 
@@ -106,20 +96,11 @@ typedef enum timer_rw_ops{
 int i8254_parse_port(timer_nr timer);
 
 
-// @brief Function to select the bitmask for use with controlwords
-// @param timer Timer to select
-// @return Bitmask fot the selected timer, -1 if invalid
-//
-int8_t i8254_parse_selection(timer_nr timer);
-
-
-/*
-// @brief Function to parse the timer_nr to the correspondent irq line
-// @param timer Number of the timer 
-// @return The correspondent irq_line, -1 if invalid
-//
-int i8254_parse_irq(timer_nr timer);
+/** @brief Function to select the bitmask for use with controlwords
+ * @param timer Timer to select
+ * @return Bitmask fot the selected timer, -1 if invalid
 */
+int8_t i8254_parse_selection(timer_nr timer);
 
 /**
  * @brief Changes the operating frequency of a timer
@@ -145,13 +126,6 @@ uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode,
  * @return 0 upon success, 1 otherwise
  */
 int i8254_write_command(uint8_t ctrlwd);
-
-/**
- * @brief Timer 0 interrupt handler
- *
- * Increments counter
- */
-//void(timer_int_handler)();
 
 /**
  * @brief Reads the input timer configuration (status) via read-back command

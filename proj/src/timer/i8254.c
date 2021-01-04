@@ -36,16 +36,6 @@ int8_t i8254_parse_selection(timer_nr timer){
   };
 }
 
-int i8254_parse_irq(timer_nr timer){
-  switch (timer){
-  case timer0:
-    return TIMER0_IRQ;
-
-  default:
-    return -1;    
-  }
-}
-
 uint8_t i8254_get_control_word(timer_nr timer, timer_rw_ops rw, timer_mode mode, timer_format format){
   uint8_t ctrlWord = 0;
 

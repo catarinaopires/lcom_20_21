@@ -4,7 +4,6 @@
 #include "video/video.h"
 #include "video/extImages.h"
 
-
 // Define Real Time Clock Controller (RTC) IRQ
 #define RTC_IRQ 8                   // RTC IRQ
 

@@ -27,14 +27,14 @@ int interrupt_subscribe(int irq, int policy, uint8_t *bit_no){
     }
     
     if(temp == -1){
-        printf("There's no available space in the INTERRUPTS vector");
+        printf("There's no available space in the INTERRUPTS vector\n");
         return 1;
     }
 
     INTERRUPTS[temp] = interrupt_info_collector(&irq, bit_no);
 
     if(sys_irqsetpolicy(irq, policy, &INTERRUPTS[temp].hook_id) != OK){
-        printf("Error in %s!", __func__);
+        printf("Error in %s!\n", __func__);
         return 1;
     }
     
@@ -45,7 +45,7 @@ int interrupt_unsubscribe(int irq){
     for(int i = 0; i < INTERRUPTS_SIMULTANEOUSLY_SUBSCRIBED; i++){
         if(INTERRUPTS[i].irq_line == irq){
             if(sys_irqrmpolicy(&INTERRUPTS[i].hook_id) != OK){
-                printf("Error in %s!", __func__);
+                printf("Error in %s!\n", __func__);
                 return 1;
             }
             INTERRUPTS[i].irq_line = -1;
@@ -58,7 +58,7 @@ int interrupt_unsubscribe_all(){
     for(int i = 0; i < INTERRUPTS_SIMULTANEOUSLY_SUBSCRIBED; i++){
         if(INTERRUPTS[i].irq_line != -1){
             if(sys_irqrmpolicy(&INTERRUPTS[i].hook_id) != OK){
-                printf("Error in %s!", __func__);
+                printf("Error in %s!\n", __func__);
                 return 1;
             }
             INTERRUPTS[i].irq_line = -1;

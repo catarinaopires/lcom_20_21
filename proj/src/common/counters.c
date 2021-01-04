@@ -5,7 +5,7 @@ counters* counters_counters_initialize(){
     counters* timers = (counters*) malloc(sizeof(counters));
     
     if(timers == NULL){
-        printf("Failed allocating memory for the timers array");
+        printf("Failed allocating memory for the timers array\n");
         return NULL;
     }
 
@@ -23,14 +23,14 @@ counters* counters_counters_initialize(){
 
 counter_type* counters_counter_init(counters* timers){
     if(timers->stored_act + 1 > COUNTERS_SIMULTANEOUSLY_ACTIVE - timers->stored_inact){
-        printf("No more space for timers");
+        printf("No more space for timers\n");
         return NULL;
     }
     
     counter_type* timer_counter = malloc(sizeof(counter_type));
     
     if(timer_counter == NULL){
-        printf("Failed allocating memory for the counter");
+        printf("Failed allocating memory for the counter\n");
         return NULL;
     }
     
