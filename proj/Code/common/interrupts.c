@@ -1,5 +1,5 @@
 #include "interrupts.h"
-#include <minix/syslib.h>
+#include <lcom/lcf.h>
 
 void interrupt_arr_initializer(interrupt_info* arr){
     interrupt_info info;

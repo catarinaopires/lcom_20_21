@@ -1,7 +1,8 @@
 #pragma once
 
-
+#include <stdio.h>
 #include <stdint.h>
+#include <lcom/xpm.h>
 #include "video.h"
 
 

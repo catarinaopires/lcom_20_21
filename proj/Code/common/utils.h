@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 /** @brief Reads 8 bit value from given port.
  * @param port Port to read from
  * @param value Value read in port
