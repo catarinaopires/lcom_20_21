@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../common/utils.h"
-#include <lcom/lcf.h>
-#include <lcom/liblm.h>
-#include <lcom/vbe.h>
+#include <stdint.h>
 #include <machine/int86.h>
 #include <minix/type.h>
-#include <stdint.h>
+#include <lcom/liblm.h>
+#include <lcom/vbe.h>
+
+
 
 #define BIOS_VIDEO_FUNCTION 0x10 // BIOS video function
 

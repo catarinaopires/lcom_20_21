@@ -1,5 +1,4 @@
 #pragma once
-#include <lcom/lcf.h>
 
 /** @brief Reads 8 bit value from given port.
  * @param port Port to read from
@@ -36,4 +35,4 @@ void bcd_to_decimal(uint8_t* value);
 /** @brief Function to convert number in decimal to BCD.
  * @param value Value in decimal, changed in function and modified to BCD.
  */
-void decimal_to_bcd(uint8_t *value) ;
+void decimal_to_bcd(uint8_t *value);

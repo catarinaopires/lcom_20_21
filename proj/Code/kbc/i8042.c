@@ -1,4 +1,5 @@
 #include "i8042.h"
+#include <lcom/lcf.h>
 
 // Global variable to store output data of the kbc
 extern uint8_t KBC_OUTPUT_BUFF_DATA;

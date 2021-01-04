@@ -1,5 +1,5 @@
 #pragma once
-#include <lcom/lcf.h>
+#include <lcom/utils.h>
 #include <stdint.h>
 
 // Define Keyboard Controller (KBC) IRQ

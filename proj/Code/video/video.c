@@ -1,4 +1,7 @@
 #include "video.h"
+#include <lcom/lcf.h>
+
+
 
 int video_get_mode_info(video_instance *instance){
   struct reg86 reg;

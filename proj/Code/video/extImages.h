@@ -1,6 +1,7 @@
 #pragma once
 
-#include <lcom/lcf.h>
+
+#include <stdint.h>
 #include "video.h"
 
 
