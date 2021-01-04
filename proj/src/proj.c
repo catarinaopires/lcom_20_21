@@ -57,6 +57,7 @@
 
 #include "video/images/background_explain_time.xpm"
 #include "video/images/time_game.xpm"
+#include "video/images/sec_txt.xpm"
 
 #include "video/images/drawingGameText.xpm"
 
@@ -248,6 +249,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   // Needed by TIME_GAME
   Image background_time = image_construct(time_game_xpm, XPM_8_8_8_8, 0, 0);
+  Image sec_txt = image_construct(sec_txt_xpm, XPM_8_8_8_8, 10, 800);
+  uint8_t came_from_time_game = 0;
+  float s_counted;
 
   // Needed by WIN_MENU
   //cursor
@@ -742,8 +746,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
           change_speed(cursor, 0, 0);
           video_flip_page(&instance);
         }
-        
-        
         break;
       
       case DRAWING_GAME:
@@ -843,13 +845,16 @@ int(proj_main_loop)(int argc, char *argv[]) {
           change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
           if (pMouse.mb) {
             counters_counter_stop(counters1, counters_time_game);
-            float s = counters_get_seconds(counters_time_game, 60);
+            s_counted = (int) counters_get_seconds(counters_time_game, 60);
+            printf("sec: %d\n",s_counted);
             counters_counter_reset(counters_time_game);
             counters_counter_resume(counters1, counters_time_game);
-            if (s >= 15 - 1 && s <= 15 + 2) {
+            if (s_counted >= 15 - 1 && s_counted <= 15 + 2) {
               module = WIN_MENU;
+              s_counted = 0.0;
             }
             else {
+              came_from_time_game = 1;
               module = LOSE_MENU;
             }
           }
@@ -906,6 +911,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
           // If chosen option is play
           if (check_collision_options(cursor->drawing, 860, 790, 180, 60)) {
             module = MENU;
+            came_from_time_game = 0;
+            s_counted = 0.0;
           }
         }
       }
@@ -921,6 +928,18 @@ int(proj_main_loop)(int argc, char *argv[]) {
         }
         image_move_to_pos(&back, 880, 800);
         image_draw(&back, &instance);
+
+        if(came_from_time_game && s_counted < 100){
+          image_draw(&sec_txt, &instance);
+
+          numbers[(int)(s_counted/10)].y = 805;
+          numbers[(int)(s_counted/10)].x = 670;
+          image_draw(&numbers[(int)s_counted/10], &instance);
+
+          numbers[((int)s_counted%10)].y = 805;
+          numbers[(int)s_counted%10].x = 700;
+          image_draw(&numbers[(int)s_counted%10], &instance);
+        }
 
         move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
         draw_sprite(cursor, 1, &instance);
