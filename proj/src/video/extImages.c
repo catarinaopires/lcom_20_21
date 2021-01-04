@@ -189,17 +189,21 @@ void fill_buffer(video_instance* instance, void* buffer, Image* img){
 
 void display_time_menu(Image* numbers, int first_value, int second_value, video_instance* instance){
   numbers[(first_value/10)].x = 20;
+  numbers[(first_value/10)].y = 810;
   image_draw(&numbers[first_value/10], instance);
 
   numbers[first_value%10].x = 60;
+  numbers[first_value%10].y = 810;
   image_draw(&numbers[first_value%10], instance);
 
   numbers[10].x = 90;
   image_draw(&numbers[10], instance);
 
   numbers[(second_value / 10)].x = 120;
+  numbers[(second_value / 10)].y = 810;
   image_draw(&numbers[second_value/10], instance);
 
   numbers[second_value%10].x = 160;
+  numbers[second_value%10].y = 810;
   image_draw(&numbers[second_value%10], instance);
 }
