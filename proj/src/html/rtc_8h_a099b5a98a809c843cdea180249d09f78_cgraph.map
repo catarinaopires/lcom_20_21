@@ -1,0 +1,7 @@
+<map id="rtc_set_flag" name="rtc_set_flag">
+<area shape="rect" id="node1" title="Sets flag in certain register depending if is to enable or disable." alt="" coords="5,31,104,57"/>
+<area shape="rect" id="node2" href="$rtc_8c.html#a79dfcbff65639f366ba267311ddba01d" title="Reads 8 bit value from given port." alt="" coords="154,5,229,32"/>
+<area shape="rect" id="node5" href="$rtc_8c.html#ac01d13f18b58ef4579b94cdee25a1a0b" title="Writes 8 bit value (address) to given port." alt="" coords="152,56,231,83"/>
+<area shape="rect" id="node3" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="440,31,539,57"/>
+<area shape="rect" id="node4" href="$rtc_8c.html#a788e56085fe57e083210ad3c8887ecb1" title="Waits fir valid Time/Date." alt="" coords="279,56,392,83"/>
+</map>

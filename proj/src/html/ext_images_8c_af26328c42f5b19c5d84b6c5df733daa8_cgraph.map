@@ -1,0 +1,6 @@
+<map id="display_time_menu" name="display_time_menu">
+<area shape="rect" id="node1" title="Displays time in console." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="node2" href="$ext_images_8c.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8" title="Draws image starting in position (x,y)." alt="" coords="204,5,307,32"/>
+<area shape="rect" id="node3" href="$video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="355,5,448,32"/>
+<area shape="rect" id="node4" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="496,5,664,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="assemble_directions_r_l" name="assemble_directions_r_l">
+<area shape="rect" id="node1" title=" " alt="" coords="5,56,184,83"/>
+<area shape="rect" id="node2" href="$ext_images_8c.html#abfa52bcd292846d65135a485fd108b0d" title="Changes speed of the sprite." alt="" coords="232,5,347,32"/>
+<area shape="rect" id="node3" href="$ext_images_8c.html#ab0f9658a8b7eecf291c2e337e0504f0c" title="Draws sprite starting in position (x,y)." alt="" coords="240,56,339,83"/>
+<area shape="rect" id="node6" href="$ext_images_8c.html#a2550207ac94cbf16d5f3f1b601b6a554" title="Moves sprite with its according speed until final position given by (xf,yf)." alt="" coords="238,107,341,133"/>
+<area shape="rect" id="node4" href="$video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="395,56,488,83"/>
+<area shape="rect" id="node5" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="536,56,704,83"/>
+</map>

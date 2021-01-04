@@ -1,0 +1,8 @@
+<map id="rtc_calculate_finish_alarm" name="rtc_calculate_finish_alarm">
+<area shape="rect" id="node1" title="Calculates time of the alarm according to wanted time interval." alt="" coords="5,23,153,65"/>
+<area shape="rect" id="node2" href="$rtc_8c.html#a73bd1ca2f7d76e55ade854a8d5baec08" title="Reads 8 bit value from given reg." alt="" coords="201,31,312,57"/>
+<area shape="rect" id="node3" href="$utils_8c.html#a8f4f50183a82a4b5ec640e5fa192df13" title="Function to convert number in BCD to decimal." alt="" coords="360,5,484,32"/>
+<area shape="rect" id="node4" href="$rtc_8c.html#a79dfcbff65639f366ba267311ddba01d" title="Reads 8 bit value from given port." alt="" coords="385,56,459,83"/>
+<area shape="rect" id="node5" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="693,56,792,83"/>
+<area shape="rect" id="node6" href="$rtc_8c.html#a788e56085fe57e083210ad3c8887ecb1" title="Waits fir valid Time/Date." alt="" coords="532,81,645,108"/>
+</map>

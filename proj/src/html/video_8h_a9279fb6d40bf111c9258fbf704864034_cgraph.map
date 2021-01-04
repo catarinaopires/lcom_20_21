@@ -1,0 +1,4 @@
+<map id="video_default_page" name="video_default_page">
+<area shape="rect" id="node1" title="Function to flip to the default page with the 0x07&#39;s bios function subfuction 0x80." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="node2" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="204,5,372,32"/>
+</map>

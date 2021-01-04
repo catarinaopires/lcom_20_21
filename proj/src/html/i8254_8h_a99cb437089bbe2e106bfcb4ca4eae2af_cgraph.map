@@ -1,0 +1,10 @@
+<map id="i8254_set_frequency" name="i8254_set_frequency">
+<area shape="rect" id="node1" title="Changes the operating frequency of a timer." alt="" coords="5,132,163,159"/>
+<area shape="rect" id="node2" href="$i8254_8c.html#a161ccc849fb09dcf018ac55d1ba26575" title="Timer 0 interrupt handler." alt="" coords="233,56,355,83"/>
+<area shape="rect" id="node3" href="$i8254_8c.html#ac860a61ba3ff8a3bcc5b4cb912e127f8" title="Function to parse the timer_nr to the correspondent port." alt="" coords="443,5,578,32"/>
+<area shape="rect" id="node4" href="$i8254_8c.html#aeec562d09d737510f9386a70be71cfbd" title="Function to write to the timer ctrl register." alt="" coords="425,107,596,133"/>
+<area shape="rect" id="node6" href="$i8254_8c.html#a13c2a71a0b2cc84656f952568f14c0b3" title=" " alt="" coords="211,157,377,184"/>
+<area shape="rect" id="node7" href="$utils_8c.html#a81621440b3d65680979425e39aa8c789" title="Gets LSB (less significant bits) of value &#39;val&#39;." alt="" coords="243,208,345,235"/>
+<area shape="rect" id="node8" href="$utils_8c.html#a6a880076cd2ec468834438b6e0c58836" title="Gets MSB (most significant bits) of value &#39;val&#39;." alt="" coords="241,259,347,285"/>
+<area shape="rect" id="node5" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="461,56,560,83"/>
+</map>

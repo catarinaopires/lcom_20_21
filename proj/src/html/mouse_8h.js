@@ -1,0 +1,25 @@
+var mouse_8h =
+[
+    [ "mouse_packet_raw", "structmouse__packet__raw.html", "structmouse__packet__raw" ],
+    [ "mouse_packet_processed", "structmouse__packet__processed.html", "structmouse__packet__processed" ],
+    [ "MOUSE_DATA_LB", "mouse_8h.html#ab635d1bdfb2ed058e50aa3828e7b7cb9", null ],
+    [ "MOUSE_DATA_MB", "mouse_8h.html#a07d4f2aebc2d5f1a3e657049448cc866", null ],
+    [ "MOUSE_DATA_MSB_XDELTA", "mouse_8h.html#a730ffa70a9f3fd8689bfcad9a1674dc5", null ],
+    [ "MOUSE_DATA_MSB_YDELTA", "mouse_8h.html#a1bba7191e006eacee4f12732bee47f9e", null ],
+    [ "MOUSE_DATA_RB", "mouse_8h.html#ac5521009b1769c82a0231e51998bbd48", null ],
+    [ "MOUSE_DATA_X_OVF", "mouse_8h.html#a8a11c1daf8ff7159353dd63d8afd132c", null ],
+    [ "MOUSE_DATA_Y_OVF", "mouse_8h.html#a5b2429eef2aa106d390fba0d309a72c5", null ],
+    [ "MOUSE_DISABLE_DATA_REP_STR", "mouse_8h.html#ad172dfadd444559ddcd3df07a592f612", null ],
+    [ "MOUSE_ENABLE_DATA_REP_STR", "mouse_8h.html#a04c0f64986de5361da2bcadeb9c4fcc3", null ],
+    [ "MOUSE_IRQ", "mouse_8h.html#a85964cb90343bb1a029b1d1b4229f910", null ],
+    [ "MOUSE_READ_DATA", "mouse_8h.html#a6065e2718e2c8e4a5b5d005cba836cbc", null ],
+    [ "MOUSE_REMOTE_MODE", "mouse_8h.html#aed1206542090cfb9c7d9210a4b45e2ae", null ],
+    [ "MOUSE_RESPONSE_ACK", "mouse_8h.html#aa743bff971addd52ca4f031e6798ef45", null ],
+    [ "MOUSE_RESPONSE_ERR", "mouse_8h.html#a03aa9be20774eae2845812b9f4946832", null ],
+    [ "MOUSE_RESPONSE_NACK", "mouse_8h.html#aaf80fc4dcb8e03fc78e5b8585c17be46", null ],
+    [ "MOUSE_STREAM_MODE", "mouse_8h.html#a1e3ddcfb2f10a15ceec6b3117e05021d", null ],
+    [ "mouse_packet_processed", "mouse_8h.html#ade81d1475e6afb8ef79f8474957f4170", null ],
+    [ "mouse_packet_raw", "mouse_8h.html#a634d0e5053c9ab50348dd1cc05eefa56", null ],
+    [ "mouse_process_packet", "mouse_8h.html#a28e6e2b9bda8b142d6eabfb2160c883c", null ],
+    [ "mouse_write_cmd", "mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a", null ]
+];

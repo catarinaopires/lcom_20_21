@@ -1,0 +1,5 @@
+<map id="bcd_to_decimal" name="bcd_to_decimal">
+<area shape="rect" id="node1" title="Function to convert number in BCD to decimal." alt="" coords="360,13,484,39"/>
+<area shape="rect" id="node2" href="$rtc_8h.html#a73bd1ca2f7d76e55ade854a8d5baec08" title="Reads 8 bit value from given reg." alt="" coords="201,13,312,39"/>
+<area shape="rect" id="node3" href="$rtc_8h.html#a56b6c2fc4203b08f5b32d336a7c11753" title="Calculates time of the alarm according to wanted time interval." alt="" coords="5,5,153,47"/>
+</map>

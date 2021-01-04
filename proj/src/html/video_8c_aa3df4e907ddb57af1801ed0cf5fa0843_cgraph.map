@@ -1,0 +1,5 @@
+<map id="video_draw_from_array" name="video_draw_from_array">
+<area shape="rect" id="node1" title="Function to draw the trace of the cursor, based on the top left pixel of the cursor." alt="" coords="5,5,181,32"/>
+<area shape="rect" id="node2" href="$video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="229,5,323,32"/>
+<area shape="rect" id="node3" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="371,5,539,32"/>
+</map>

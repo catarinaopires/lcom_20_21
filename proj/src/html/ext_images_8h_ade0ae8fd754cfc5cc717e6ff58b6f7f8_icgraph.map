@@ -1,0 +1,7 @@
+<map id="image_draw" name="image_draw">
+<area shape="rect" id="node1" title="Draws image starting in position (x,y)." alt="" coords="529,31,632,57"/>
+<area shape="rect" id="node2" href="$ext_images_8h.html#af26328c42f5b19c5d84b6c5df733daa8" title="Displays time in console." alt="" coords="331,5,481,32"/>
+<area shape="rect" id="node3" href="$ext_images_8h.html#ab781e5ec390ce21dff64c7abaf373202" title="Constructor of Image." alt="" coords="341,56,471,83"/>
+<area shape="rect" id="node4" href="$ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,31,283,57"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
+</map>
