@@ -88,7 +88,7 @@ int video_flip_page(video_instance *instance);
  * @param instance Reference to struct video instance
  * @return Pointer to the current buffer in use
 */
-void *video_get_current_buffer(video_instance *instance);
+inline void *video_get_current_buffer(video_instance *instance);
 
 /** @brief Returns the next buffer to use
  * @param instance Reference to struct video instance
@@ -124,6 +124,16 @@ video_instance video_init_empty();
  * @param instance Struct video instance
  */
 void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, video_instance *instance);
+
+/** @brief Function to draw the trace of the cursor, based on the top left pixel of the cursor
+ * @param x_arr Array with x coordinates
+ * @param y_arr Array with y coordinates
+ * @param size Size of the arrays
+ * @param area Nr of pixels painted around the point
+ * @param color Color to paint pixels
+ * @param video_instance Graphics control
+ */
+void video_draw_from_array(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, video_instance* video_instance);
 
 /** @brief Colors pixel in certain position of certain color.
  * @param cols Horizontal position of the beginning of the image

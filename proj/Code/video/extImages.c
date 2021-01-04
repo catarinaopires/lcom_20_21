@@ -2,6 +2,7 @@
 
 
 
+
 int image_draw(Image* this, video_instance* instance){
     int nrBytes = instance->mode_info.BytesPerScanLine/instance->mode_info.XResolution;     // Number of bytes of color
     uint8_t *img_it;

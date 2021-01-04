@@ -1,29 +1,30 @@
-#include "test4.h"
+#include "gestureDetection.h"
+#include <lcom/lcf.h>
 
-void (mouse_detect_event_ours)(struct packet *pp, struct mouse_ev* current) {
+void gestureDetection_detect_event(mouse_packet_processed *processed_packet, mouse_event *current) {
 
-  if(pp->rb){
+  if((processed_packet->lb && processed_packet->rb) || processed_packet->mb){
+    current->type = BUTTON_EV;
+  } 
+  else if(processed_packet->rb){
+
     current->type = RB_PRESSED;
   }
-  else if(pp->lb){
+  else if(processed_packet->lb){
     current->type = LB_PRESSED;
   }
-  else if(!pp->rb && (current->type == RB_PRESSED)){
+  else if(!processed_packet->rb && (current->type == RB_PRESSED)){
     current->type = RB_RELEASED;
   }
-  else if(!pp->lb && (current->type == LB_PRESSED)){
+  else if(!processed_packet->lb && (current->type == LB_PRESSED)){
     current->type = LB_RELEASED;
   }
-  current->delta_x += pp->delta_x;
-  current->delta_y += pp->delta_y;
 
-  printf("delta_x = %d\n", current->delta_x );
-  printf("delta_y = %d\n", current->delta_y );
-
-
+  current->counter_x += processed_packet->delta_x;
+  current->counter_y += processed_packet->delta_y;
   return;
 }
-
+/*
 void draw_process_state(state_t* drawState, struct mouse_ev* mouseState, uint8_t x_len, uint8_t tolerance){
   switch (*drawState) {
     case INIT1:
@@ -80,26 +81,25 @@ void draw_process_state(state_t* drawState, struct mouse_ev* mouseState, uint8_t
   }
 }
 
-
+*/
 // Horizontal Movement
-void draw_process_state_H(horizontal_state* drawState, struct mouse_ev* mouseState, uint8_t x_len, uint8_t tolerance){
+void gestureDetection_draw_process_state_H(horizontal_state* drawState, mouse_event* mouseState, uint8_t x_len, uint8_t tolerance){
   switch (*drawState) {
     case INIT_H:
-      printf("\nIN INIT\n\n");
-      if (mouseState->type == RB_PRESSED) {
-        mouseState->delta_x = 0;
-        mouseState->delta_y = 0;
+      if (mouseState->type == LB_PRESSED) {
+        mouseState->counter_x = 0;
+        mouseState->counter_y = 0;
         *drawState = DRAW_H;
       }
       break;
 
     case DRAW_H:
-      if(abs(mouseState->delta_y) > abs(tolerance)){
-        *drawState = INIT_H;
+      if(abs(mouseState->counter_y) > abs(tolerance)){
+        *drawState = FAIL_H;
       }
-      if (mouseState->type == RB_RELEASED) {
-        if(abs(mouseState->delta_x) < x_len){
-          *drawState = INIT_H;
+      if (mouseState->type == LB_RELEASED) {
+        if(abs(mouseState->counter_x) < x_len){
+          *drawState = FAIL_H;
         }
         else{
           *drawState = COMP_H;
@@ -109,9 +109,11 @@ void draw_process_state_H(horizontal_state* drawState, struct mouse_ev* mouseSta
 
     case COMP_H:
       break;
+    case FAIL_H:
+      break;
   }
 }
-
+/*
 // Vertical Movement
 void draw_process_state_V(vertical_state* drawState, struct mouse_ev* mouseState, uint8_t y_len, uint8_t tolerance){
   switch (*drawState) {
@@ -143,7 +145,7 @@ void draw_process_state_V(vertical_state* drawState, struct mouse_ev* mouseState
   }
 }
 
-// Cross Movement
+// L Movement
 void draw_process_state_C(vertical_state* drawStateV, horizontal_state* drawStateH, struct mouse_ev* mouseState, uint8_t len, uint8_t tolerance){
   if(*drawStateV != COMP_V){
     draw_process_state_V(drawStateV, mouseState, len, tolerance);
@@ -152,3 +154,4 @@ void draw_process_state_C(vertical_state* drawStateV, horizontal_state* drawStat
     draw_process_state_H(drawStateH, mouseState, len, tolerance);
   }
 }
+*/

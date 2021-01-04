@@ -7,7 +7,7 @@ SRCS += common/utils.c common/interrupts.c common/counters.c
 SRCS += video/video.c video/extImages.c
 SRCS += kbc/i8042.c
 SRCS += kbc/keyboard.c
-SRCS += kbc/mouse.c
+SRCS += kbc/mouse.c kbc/gestureDetection.c
 SRCS += timer/i8254.c
 SRCS += rtc/rtc.c
 
@@ -44,6 +44,9 @@ kbc/keyboard.o: kbc/keyboard.c kbc/keyboard.h
 
 kbc/mouse.o: kbc/mouse.c kbc/mouse.h
 	cc $(CFLAGS) -o kbc/mouse.o -c kbc/mouse.c
+
+kbc/gestureDetection.o: kbc/gestureDetection.c kbc/gestureDetection.h
+	cc $(CFLAGS) -o kbc/gestureDetection.o -c kbc/gestureDetection.c
 
 timer/i8254.o: timer/i8254.c timer/i8254.h
 	cc $(CFLAGS) -o timer/i8254.o -c timer/i8254.c

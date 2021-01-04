@@ -14,6 +14,7 @@
 #include "kbc/i8042.h"
 #include "kbc/keyboard.h"
 #include "kbc/mouse.h"
+#include "kbc/gestureDetection.h"
 #include "rtc/rtc.h"
 
 
@@ -238,7 +239,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   // Needed by DRAWING_GAME
   //cursor
-  //Background drawing_game
+  Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
 
   // Needed by DESCRIPTION_TIME
   //cursor
@@ -256,23 +257,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
   //cursor
   //back
   Image background_lose = image_construct(gameOver_xpm, XPM_8_8_8_8, 0, 0);
-
-  /*
-Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_8_8, 0, 0);
-  
-  
-  Image background_keys = image_construct(background_keys_game_xpm, XPM_8_8_8_8, 0, 0);
-
-  
-  
-
-  
-  
-  
-  Sprite *player_reaction_game = create_sprite(player_green_xpm, 0, 670, 0, 0);
-
-  
-*/
 
   // Start timers
   counters *counters1 = counters_counters_initialize();
@@ -323,8 +307,14 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
   uint8_t mouse_counter = 0;
   mouse_packet_raw mouse;
   mouse_packet_processed pMouse;
+  mouse_event mouse_current_event;
+  mouse_current_event.type = BUTTON_EV;
+  horizontal_state hState = 0;
   pMouse.lb = 0;
-
+  #define NrOfPoints 21474
+  uint32_t nrOfPoints = 0;
+  uint32_t x_points[NrOfPoints];
+  uint32_t y_points[NrOfPoints];
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REP_STR))
     return 1;
 
@@ -704,27 +694,54 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
           change_speed(cursor, 0, 0);
           video_flip_page(&instance);
         }
+        
+        
         break;
-        /*case DRAWING_GAME:
+      
+      case DRAWING_GAME:
         if (interrupt_flags[2]) {
           interrupt_flags[2] = 0;
           mouse_counter = 0;
-          printf("%x, %x\n", mouse.bytes[0], mouse.bytes[2]);
           mouse_process_packet(&mouse, &pMouse);
-          //printf("lb = %d, rb = %d, ", pMouse.lb, pMouse.rb);
-          printf("x = %d, y = %d\n", pMouse.delta_x, pMouse.delta_y);
           change_speed(cursor, pMouse.delta_x, -pMouse.delta_y);
-          //printf("x_speed = %d, y_speed = %d\n", cursor->xspeed, cursor->yspeed);
+          gestureDetection_detect_event(&pMouse, &mouse_current_event);
+          gestureDetection_draw_process_state_H(&hState, &mouse_current_event, 100, 15);
+          if(hState == COMP_H){
+            mouse_current_event.counter_x = 0;
+            mouse_current_event.counter_y = 0;
+            hState = INIT_H;
+            module = WIN_MENU;
+          }
+          if(hState == FAIL_H){
+            mouse_current_event.counter_x = 0;
+            mouse_current_event.counter_y = 0;
+            hState = INIT_H;
+            module = LOSE_MENU;
+          }
+
         }
         if (interrupt_flags[0]) {
           interrupt_flags[0] = 0;
           fill_buffer(&instance, video_get_next_buffer(&instance), &background_drawing);
+          
+
+          if(hState == INIT_H){
+            nrOfPoints = 0;
+          }
+          if(hState == DRAW_H){
+            x_points[nrOfPoints] = cursor->drawing.x;
+            y_points[nrOfPoints] = cursor->drawing.y;
+            nrOfPoints++;
+          }
+          video_draw_from_array(x_points, y_points, nrOfPoints, 2, COLOR_MENU_BOXES, &instance);
+                    
           move_sprite(cursor, instance.mode_info.XResolution, instance.mode_info.YResolution, 1, &instance);
           draw_sprite(cursor, 1, &instance);
-          //printf("cursor_x = %d, cursor_y = %d\n", cursor->drawing.x, cursor->drawing.y);
           change_speed(cursor, 0, 0);
+          video_flip_page(&instance);
         }
-        break;*/
+        break;
+      
       case DESCRIPTION_TIME:
         if (interrupt_flags[2]) {
           interrupt_flags[2] = 0;
@@ -879,8 +896,9 @@ Image background_drawing = image_construct(background_drawing_game_xpm, XPM_8_8_
   if (mouse_write_cmd(MOUSE_DISABLE_DATA_REP_STR))
     return 1;
 
-  //destroy_sprite(bomb1);
-  //destroy_sprite(bomb);
+  destroy_sprite(virus);
+  destroy_sprite(bomb1);
+  destroy_sprite(bomb);
   destroy_sprite(player_reaction_game);
   destroy_sprite(cursor);
 

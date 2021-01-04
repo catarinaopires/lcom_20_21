@@ -179,7 +179,7 @@ int video_default_page(video_instance *instance){
     return 1;
 }
 
-int video_flip_page(video_instance *instance){
+ int video_flip_page(video_instance *instance){
   
   if(instance->mapped_vram_addr[1] == NULL){
     printf("Double buffer not in use\n");
@@ -233,7 +233,7 @@ inline void* video_get_current_buffer(video_instance *instance){
   return instance->mapped_vram_addr[instance->page];
 }
 
-inline void* video_get_next_buffer(video_instance *instance){
+ void* video_get_next_buffer(video_instance *instance){
     return instance->mapped_vram_addr[(instance->page + 1) % 3];
 }
 
@@ -322,6 +322,18 @@ void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
   for(uint32_t line = y; line < min_y; line++) {
     for(uint32_t col = x; col < min_x; col++){
       draw_pixel(col, line, color, instance);
+    }
+  }
+}
+
+void video_draw_from_array(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, video_instance* video_instance){
+  for(uint32_t i = 0; i < size; i++){
+    for(uint32_t lines = y_arr[i] - area; lines < y_arr[i] + area + 1; lines++){
+      for(uint32_t cols = x_arr[i] - area; cols < x_arr[i] + area + 1; cols++){
+        if(lines < video_instance->mode_info.YResolution && cols < video_instance->mode_info.XResolution){
+          draw_pixel(cols, lines, color, video_instance);
+        }
+      }
     }
   }
 }
