@@ -26,10 +26,8 @@ int rtc_read(uint8_t port, uint8_t* value){
 void wait_valid_rtc(void) {
   uint8_t regA = 0;
   do {
-    //disable();
     sys_outb(RTC_ADDR_REG, RTC_REGISTER_A);
     util_sys_inb(RTC_DATA_REG, &regA);
-    //enable();
   } while (regA & RTC_UIP);
 }
 

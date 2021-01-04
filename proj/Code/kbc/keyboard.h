@@ -61,20 +61,3 @@ void check_movement_r_l(uint8_t *bytes, direction *dir, uint8_t *keys);
 int is_make_code(uint8_t *buff_data);
 
 int assemble_keys(uint8_t* bytes, uint8_t* keys);
-
-/*void check_movement_array_idea(uint8_t* bytes, direction* dir, uint8_t* keys);*/
-/*void check_movement(uint8_t bytes[], direction* dir);*/
-
-/*
-typedef enum direction{
-    none,
-    right,
-    left,
-    up,
-    down,
-    right_up,
-    right_down,
-    left_up,
-    left_down
-} direction;
-*/

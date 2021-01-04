@@ -21,11 +21,11 @@
 /**
  * Display Modes
 */
-#define MODE_TEXT 0x003     // Minix default text mode
-#define MODE_1024x768 0x105 // Indexed color mode (8)
-#define MODE_1152x864 0X14C // Direct color mode (8:8:8:8) 32bit color
-#define COLOR_MENU_BOXES 0x8373ff
-#define COLOR_MENU_SELECTED 0xbdbdfb
+#define MODE_TEXT 0x003                 // Minix default text mode
+#define MODE_1024x768 0x105             // Indexed color mode (8)
+#define MODE_1152x864 0X14C             // Direct color mode (8:8:8:8) 32bit color
+#define COLOR_MENU_BOXES 0x8373FF
+#define COLOR_MENU_SELECTED 0xBDBDFB
 #define ENG_RED 0x8C0000
 #define ENG_GREEN 0x2D00
 #define ENG_BLUE 0x0016
