@@ -1,0 +1,6 @@
+<map id="draw_rectangle" name="draw_rectangle">
+<area shape="rect" id="node1" title="Draws rectangle starting in position (x,y) with width and height specified in parameters." alt="" coords="5,31,128,57"/>
+<area shape="rect" id="node2" href="$video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="176,5,269,32"/>
+<area shape="rect" id="node4" href="$utils_8c.html#a4d72780cf052ccfcd418c14f9f154319" title="Function to get the minimum value." alt="" coords="181,56,264,83"/>
+<area shape="rect" id="node3" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="317,5,485,32"/>
+</map>

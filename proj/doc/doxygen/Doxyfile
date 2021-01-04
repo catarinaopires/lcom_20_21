@@ -51,14 +51,14 @@ PROJECT_BRIEF          =
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = /home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX-LCOM/shared/proj/Code/video/images/logo.xpm
+PROJECT_LOGO           = /home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX-LCOM/shared/proj/src/video/images/logo.xpm
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = /home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX-LCOM/shared/proj/src
+OUTPUT_DIRECTORY       = .
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -844,7 +844,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = /home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX-LCOM/shared/proj/src
+INPUT                  = ../../src
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

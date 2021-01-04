@@ -1,0 +1,4 @@
+<map id="util_get_MSB" name="util_get_MSB">
+<area shape="rect" id="node1" title="Gets MSB (most significant bits) of value &#39;val&#39;." alt="" coords="211,5,317,32"/>
+<area shape="rect" id="node2" href="$i8254_8h.html#a99cb437089bbe2e106bfcb4ca4eae2af" title="Changes the operating frequency of a timer." alt="" coords="5,5,163,32"/>
+</map>

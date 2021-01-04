@@ -1,0 +1,4 @@
+<map id="kbc_is_mouse_packet" name="kbc_is_mouse_packet">
+<area shape="rect" id="node1" title="Function to determine if the byte to read comes from mouse." alt="" coords="5,5,169,32"/>
+<area shape="rect" id="node2" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="217,5,316,32"/>
+</map>

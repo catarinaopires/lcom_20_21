@@ -1,0 +1,5 @@
+<map id="rtc_write" name="rtc_write">
+<area shape="rect" id="node1" title="Writes 8 bit value (address) to given port." alt="" coords="184,31,263,57"/>
+<area shape="rect" id="node2" href="$rtc_8h.html#aca4e0ffb407888bb50847a2adea18c5d" title="Configures alarm. Alarm set to hours:min:sec." alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node3" href="$rtc_8h.html#a099b5a98a809c843cdea180249d09f78" title="Sets flag in certain register depending if is to enable or disable." alt="" coords="21,56,120,83"/>
+</map>

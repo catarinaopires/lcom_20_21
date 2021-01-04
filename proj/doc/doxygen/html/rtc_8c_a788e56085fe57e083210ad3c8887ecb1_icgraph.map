@@ -1,0 +1,9 @@
+<map id="wait_valid_rtc" name="wait_valid_rtc">
+<area shape="rect" id="node1" title="Waits fir valid Time/Date." alt="" coords="507,63,620,90"/>
+<area shape="rect" id="node2" href="$rtc_8h.html#a79dfcbff65639f366ba267311ddba01d" title="Reads 8 bit value from given port." alt="" coords="382,38,457,65"/>
+<area shape="rect" id="node6" href="$rtc_8h.html#ac01d13f18b58ef4579b94cdee25a1a0b" title="Writes 8 bit value (address) to given port." alt="" coords="380,89,459,115"/>
+<area shape="rect" id="node3" href="$rtc_8h.html#a73bd1ca2f7d76e55ade854a8d5baec08" title="Reads 8 bit value from given reg." alt="" coords="211,13,322,39"/>
+<area shape="rect" id="node5" href="$rtc_8h.html#a099b5a98a809c843cdea180249d09f78" title="Sets flag in certain register depending if is to enable or disable." alt="" coords="217,63,316,90"/>
+<area shape="rect" id="node4" href="$rtc_8h.html#a56b6c2fc4203b08f5b32d336a7c11753" title="Calculates time of the alarm according to wanted time interval." alt="" coords="5,5,153,47"/>
+<area shape="rect" id="node7" href="$rtc_8h.html#aca4e0ffb407888bb50847a2adea18c5d" title="Configures alarm. Alarm set to hours:min:sec." alt="" coords="201,114,332,141"/>
+</map>

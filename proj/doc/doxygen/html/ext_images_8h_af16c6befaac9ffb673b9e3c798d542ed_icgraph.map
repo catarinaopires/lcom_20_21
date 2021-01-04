@@ -1,0 +1,5 @@
+<map id="destroy_sprite" name="destroy_sprite">
+<area shape="rect" id="node1" title="The &quot;fig&quot; sprite is erased from memory used resources released." alt="" coords="331,5,445,32"/>
+<area shape="rect" id="node2" href="$ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,5,283,32"/>
+<area shape="rect" id="node3" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,5,128,32"/>
+</map>
