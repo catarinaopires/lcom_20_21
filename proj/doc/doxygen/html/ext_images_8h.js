@@ -4,6 +4,7 @@ var ext_images_8h =
     [ "Sprite", "struct_sprite.html", "struct_sprite" ],
     [ "Image", "ext_images_8h.html#acf12205a65321baefe5174db248f56f6", null ],
     [ "Sprite", "ext_images_8h.html#abb1060e0b7ecf8b4eba2c1bb55cfe5e2", null ],
+    [ "assemble_directions_r_l", "ext_images_8h.html#a9d9b7a4db3e5f2fb40ba8493d11785f4", null ],
     [ "change_speed", "ext_images_8h.html#abfa52bcd292846d65135a485fd108b0d", null ],
     [ "check_collision_options", "ext_images_8h.html#ad6f707e801a201b279d752f1047b2cf7", null ],
     [ "check_collisions_sprite", "ext_images_8h.html#af64744a5944e84f72ce884ff46369cb0", null ],

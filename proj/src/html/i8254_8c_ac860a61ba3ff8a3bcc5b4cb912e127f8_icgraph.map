@@ -1,6 +1,0 @@
-<map id="i8254_parse_port" name="i8254_parse_port">
-<area shape="rect" id="node1" title="Function to parse the timer_nr to the correspondent port." alt="" coords="436,56,571,83"/>
-<area shape="rect" id="node2" href="$i8254_8h.html#a161ccc849fb09dcf018ac55d1ba26575" title="Timer 0 interrupt handler." alt="" coords="239,5,360,32"/>
-<area shape="rect" id="node3" href="$i8254_8h.html#a99cb437089bbe2e106bfcb4ca4eae2af" title="Changes the operating frequency of a timer." alt="" coords="5,31,163,57"/>
-<area shape="rect" id="node4" href="$i8254_8h.html#a1b2c4d6e2bffd32bde8722f2d2f42e0e" title="Function to assemble control word with the desired mode." alt="" coords="211,107,388,133"/>
-</map>

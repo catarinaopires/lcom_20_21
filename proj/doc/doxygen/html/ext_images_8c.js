@@ -1,5 +1,6 @@
 var ext_images_8c =
 [
+    [ "assemble_directions_r_l", "ext_images_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4", null ],
     [ "change_speed", "ext_images_8c.html#abfa52bcd292846d65135a485fd108b0d", null ],
     [ "check_collision_options", "ext_images_8c.html#ad6f707e801a201b279d752f1047b2cf7", null ],
     [ "check_collisions_sprite", "ext_images_8c.html#af64744a5944e84f72ce884ff46369cb0", null ],

@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -124,7 +123,7 @@ $(document).ready(function(){initNavTree('mouse_8h_source.html',''); initResizab
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> <a class="code" href="mouse_8h.html#a28e6e2b9bda8b142d6eabfb2160c883c">mouse_process_packet</a>(<a class="code" href="structmouse__packet__raw.html">mouse_packet_raw</a> *packet, <a class="code" href="structmouse__packet__processed.html">mouse_packet_processed</a> *processed);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">int</span> <a class="code" href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">mouse_write_cmd</a>(uint8_t cmd);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">int</span> <a class="code" href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">mouse_write_cmd</a>(uint8_t cmd);</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astructmouse__packet__processed_html_af53b041fcbe6de2aca94b8ef4189705a"><div class="ttname"><a href="structmouse__packet__processed.html#af53b041fcbe6de2aca94b8ef4189705a">mouse_packet_processed::y_ov</a></div><div class="ttdeci">bool y_ov</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00038">mouse.h:38</a></div></div>
@@ -137,7 +136,7 @@ $(document).ready(function(){initNavTree('mouse_8h_source.html',''); initResizab
 <div class="ttc" id="astructmouse__packet__processed_html"><div class="ttname"><a href="structmouse__packet__processed.html">mouse_packet_processed</a></div><div class="ttdoc">Type to save processed mouse packets.</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00036">mouse.h:36</a></div></div>
 <div class="ttc" id="astructmouse__packet__processed_html_ae010190682edcfeb246d109ff3d4d7ba"><div class="ttname"><a href="structmouse__packet__processed.html#ae010190682edcfeb246d109ff3d4d7ba">mouse_packet_processed::mb</a></div><div class="ttdeci">bool mb</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00037">mouse.h:37</a></div></div>
 <div class="ttc" id="astructmouse__packet__processed_html_a34fd9f358287cbbc00b4a2e2d9ca894c"><div class="ttname"><a href="structmouse__packet__processed.html#a34fd9f358287cbbc00b4a2e2d9ca894c">mouse_packet_processed::x_ov</a></div><div class="ttdeci">bool x_ov</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00038">mouse.h:38</a></div></div>
-<div class="ttc" id="amouse_8h_html_ab62c8c6f483f4e577c5ef25d160d517a"><div class="ttname"><a href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">mouse_write_cmd</a></div><div class="ttdeci">int mouse_write_cmd(uint8_t cmd)</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8c_source.html#l00005">mouse.c:5</a></div></div>
+<div class="ttc" id="amouse_8h_html_ab62c8c6f483f4e577c5ef25d160d517a"><div class="ttname"><a href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">mouse_write_cmd</a></div><div class="ttdeci">int mouse_write_cmd(uint8_t cmd)</div><div class="ttdoc">Writes given command in control register of KBC.</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8c_source.html#l00005">mouse.c:5</a></div></div>
 <div class="ttc" id="astructmouse__packet__raw_html_a89fe01e2d4cf73b27993d65029aff235"><div class="ttname"><a href="structmouse__packet__raw.html#a89fe01e2d4cf73b27993d65029aff235">mouse_packet_raw::bytes</a></div><div class="ttdeci">uint8_t bytes[3]</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00031">mouse.h:31</a></div></div>
 <div class="ttc" id="astructmouse__packet__processed_html_a7699dbabc822179a121331d93fee1301"><div class="ttname"><a href="structmouse__packet__processed.html#a7699dbabc822179a121331d93fee1301">mouse_packet_processed::delta_y</a></div><div class="ttdeci">int16_t delta_y</div><div class="ttdef"><b>Definition:</b> <a href="mouse_8h_source.html#l00040">mouse.h:40</a></div></div>
 <div class="ttc" id="amouse_8h_html_a634d0e5053c9ab50348dd1cc05eefa56"><div class="ttname"><a href="mouse_8h.html#a634d0e5053c9ab50348dd1cc05eefa56">mouse_packet_raw</a></div><div class="ttdeci">struct mouse_packet_raw mouse_packet_raw</div><div class="ttdoc">Type to store the bytes of a mouse packet read directly from the kbc.</div></div>

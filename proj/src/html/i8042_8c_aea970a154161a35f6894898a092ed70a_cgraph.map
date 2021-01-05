@@ -1,4 +1,0 @@
-<map id="kbc_ih" name="kbc_ih">
-<area shape="rect" id="node1" title="KBC interruption handler." alt="" coords="5,5,69,32"/>
-<area shape="rect" id="node2" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="117,5,216,32"/>
-</map>

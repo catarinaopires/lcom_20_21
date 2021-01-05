@@ -1,5 +1,0 @@
-<map id="image_draw" name="image_draw">
-<area shape="rect" id="node1" title="Draws image starting in position (x,y)." alt="" coords="5,5,108,32"/>
-<area shape="rect" id="node2" href="$video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="156,5,249,32"/>
-<area shape="rect" id="node3" href="$video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="297,5,465,32"/>
-</map>

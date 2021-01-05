@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -94,7 +93,7 @@ $(document).ready(function(){initNavTree('keyboard_8c.html',''); initResizable()
 Include dependency graph for keyboard.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c__incl.png" border="0" usemap="#a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2keyboard_8c" alt=""/></div>
-<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2keyboard_8c" id="a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2keyboard_8c">
+<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2keyboard_8c" id="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2keyboard_8c">
 <area shape="rect" title=" " alt="" coords="16,5,204,76"/>
 <area shape="rect" href="keyboard_8h.html" title=" " alt="" coords="5,124,100,151"/>
 <area shape="rect" title=" " alt="" coords="125,124,210,151"/>
@@ -113,6 +112,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ab487d9a34ac3d9cc57c02453d7378cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses scancode and changes direction based on it. If given scancode if a makecode or breakcode of the keys in the array 'keys', direction changes. Else, discards it.  <a href="keyboard_8c.html#ab487d9a34ac3d9cc57c02453d7378cb9">More...</a><br /></td></tr>
 <tr class="separator:ab487d9a34ac3d9cc57c02453d7378cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafd235cd160ab12ae7eac785743e98ee"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aafd235cd160ab12ae7eac785743e98ee">assemble_keys</a> (uint8_t *bytes, uint8_t *keys)</td></tr>
+<tr class="memdesc:aafd235cd160ab12ae7eac785743e98ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if wanted keys are pressed according to kbc bytes received.  <a href="keyboard_8c.html#aafd235cd160ab12ae7eac785743e98ee">More...</a><br /></td></tr>
 <tr class="separator:aafd235cd160ab12ae7eac785743e98ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -141,6 +141,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Checks if wanted keys are pressed according to kbc bytes received. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bytes</td><td>Kbc bytes received </td></tr>
+    <tr><td class="paramname">keys</td><td>Status of wanted keys pressed (0 means not pressed) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return 1 if all wanted keys are pressed, -1 if lost game and 0 if has not finished game. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00044">44</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 

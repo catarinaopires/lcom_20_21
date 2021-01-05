@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -94,7 +93,7 @@ $(document).ready(function(){initNavTree('interrupts_8c.html',''); initResizable
 Include dependency graph for interrupts.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="interrupts_8c__incl.png" border="0" usemap="#a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2common_2interrupts_8c" alt=""/></div>
-<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2common_2interrupts_8c" id="a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2common_2interrupts_8c">
+<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2common_2interrupts_8c" id="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2common_2interrupts_8c">
 <area shape="rect" title=" " alt="" coords="115,5,303,76"/>
 <area shape="rect" href="interrupts_8h.html" title=" " alt="" coords="103,124,200,151"/>
 <area shape="rect" title=" " alt="" coords="225,124,310,151"/>
@@ -108,14 +107,19 @@ Include dependency graph for interrupts.c:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6791aa9d9771e23840ca302e2a49da57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interrupts_8c.html#a6791aa9d9771e23840ca302e2a49da57">interrupt_arr_initializer</a> (<a class="el" href="structinterrupt__info.html">interrupt_info</a> *arr)</td></tr>
+<tr class="memdesc:a6791aa9d9771e23840ca302e2a49da57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize array to of given interrupts.  <a href="interrupts_8c.html#a6791aa9d9771e23840ca302e2a49da57">More...</a><br /></td></tr>
 <tr class="separator:a6791aa9d9771e23840ca302e2a49da57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82e6d064637cdd2e020cca1643eedbd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinterrupt__info.html">interrupt_info</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interrupts_8c.html#a82e6d064637cdd2e020cca1643eedbd0">interrupt_info_collector</a> (const int *irq, const uint8_t *bit_no)</td></tr>
+<tr class="memdesc:a82e6d064637cdd2e020cca1643eedbd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="structinterrupt__info.html" title="Struct to keep hookId and IRQ of each interruption.">interrupt_info</a> object with given data.  <a href="interrupts_8c.html#a82e6d064637cdd2e020cca1643eedbd0">More...</a><br /></td></tr>
 <tr class="separator:a82e6d064637cdd2e020cca1643eedbd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9954271318b28c67a71f83f16851c5ff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interrupts_8c.html#a9954271318b28c67a71f83f16851c5ff">interrupt_subscribe</a> (int irq, int policy, uint8_t *bit_no)</td></tr>
+<tr class="memdesc:a9954271318b28c67a71f83f16851c5ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes interrupt adding its information to the array.  <a href="interrupts_8c.html#a9954271318b28c67a71f83f16851c5ff">More...</a><br /></td></tr>
 <tr class="separator:a9954271318b28c67a71f83f16851c5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab41db860b8c71c92f8e516896e01763a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interrupts_8c.html#ab41db860b8c71c92f8e516896e01763a">interrupt_unsubscribe</a> (int irq)</td></tr>
+<tr class="memdesc:ab41db860b8c71c92f8e516896e01763a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribe interruption with the give IRQ line.  <a href="interrupts_8c.html#ab41db860b8c71c92f8e516896e01763a">More...</a><br /></td></tr>
 <tr class="separator:ab41db860b8c71c92f8e516896e01763a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae951f7008b09f11ee380f078ba9753e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interrupts_8c.html#ae951f7008b09f11ee380f078ba9753e8">interrupt_unsubscribe_all</a> ()</td></tr>
+<tr class="memdesc:ae951f7008b09f11ee380f078ba9753e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribe all interruptions of array.  <a href="interrupts_8c.html#ae951f7008b09f11ee380f078ba9753e8">More...</a><br /></td></tr>
 <tr class="separator:ae951f7008b09f11ee380f078ba9753e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -134,6 +138,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initialize array to of given interrupts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arr</td><td>Array of interrupts info </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="interrupts_8c_source.html#l00004">4</a> of file <a class="el" href="interrupts_8c_source.html">interrupts.c</a>.</p>
 
@@ -165,14 +177,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Creates <a class="el" href="structinterrupt__info.html" title="Struct to keep hookId and IRQ of each interruption.">interrupt_info</a> object with given data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq</td><td>IQR line of interruption </td></tr>
+    <tr><td class="paramname">bit_no</td><td>Bit No of interruption </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns object of <a class="el" href="structinterrupt__info.html" title="Struct to keep hookId and IRQ of each interruption.">interrupt_info</a> created with given data. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="interrupts_8c_source.html#l00013">13</a> of file <a class="el" href="interrupts_8c_source.html">interrupts.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph.png" border="0" usemap="#ainterrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph" alt=""/></div>
-<map name="interrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph" id="ainterrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph">
-<area shape="rect" title=" " alt="" coords="200,5,373,32"/>
-<area shape="rect" href="interrupts_8h.html#a9954271318b28c67a71f83f16851c5ff" title=" " alt="" coords="5,5,152,32"/>
+<map name="interrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph" id="interrupts_8c_a82e6d064637cdd2e020cca1643eedbd0_icgraph">
+<area shape="rect" title="Creates interrupt_info object with given data." alt="" coords="200,5,373,32"/>
+<area shape="rect" href="interrupts_8h.html#a9954271318b28c67a71f83f16851c5ff" title="Subscribes interrupt adding its information to the array." alt="" coords="5,5,152,32"/>
 </map>
 </div>
 
@@ -210,14 +232,25 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Subscribes interrupt adding its information to the array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq</td><td>IRQ line </td></tr>
+    <tr><td class="paramname">policy</td><td>Policy </td></tr>
+    <tr><td class="paramname">bit_no</td><td>Bit No </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns 0 upon success, 1 otherwise. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="interrupts_8c_source.html#l00020">20</a> of file <a class="el" href="interrupts_8c_source.html">interrupts.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph.png" border="0" usemap="#ainterrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph" alt=""/></div>
-<map name="interrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph" id="ainterrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,152,32"/>
-<area shape="rect" href="interrupts_8c.html#a82e6d064637cdd2e020cca1643eedbd0" title=" " alt="" coords="200,5,373,32"/>
+<map name="interrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph" id="interrupts_8c_a9954271318b28c67a71f83f16851c5ff_cgraph">
+<area shape="rect" title="Subscribes interrupt adding its information to the array." alt="" coords="5,5,152,32"/>
+<area shape="rect" href="interrupts_8c.html#a82e6d064637cdd2e020cca1643eedbd0" title="Creates interrupt_info object with given data." alt="" coords="200,5,373,32"/>
 </map>
 </div>
 
@@ -239,6 +272,15 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Unsubscribe interruption with the give IRQ line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq</td><td>IRQ line </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns 0 upon success, 1 otherwise. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="interrupts_8c_source.html#l00044">44</a> of file <a class="el" href="interrupts_8c_source.html">interrupts.c</a>.</p>
 
 </div>
@@ -257,6 +299,9 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Unsubscribe all interruptions of array. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns 0 upon success, 1 otherwise. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="interrupts_8c_source.html#l00057">57</a> of file <a class="el" href="interrupts_8c_source.html">interrupts.c</a>.</p>
 

@@ -1,5 +1,0 @@
-<map id="i8254_get_control_word" name="i8254_get_control_word">
-<area shape="rect" id="node1" title="Function to assemble control word with the desired mode." alt="" coords="5,31,183,57"/>
-<area shape="rect" id="node2" href="$i8254_8c.html#ac860a61ba3ff8a3bcc5b4cb912e127f8" title="Function to parse the timer_nr to the correspondent port." alt="" coords="247,5,381,32"/>
-<area shape="rect" id="node3" href="$i8254_8c.html#a13c2a71a0b2cc84656f952568f14c0b3" title=" " alt="" coords="231,56,397,83"/>
-</map>

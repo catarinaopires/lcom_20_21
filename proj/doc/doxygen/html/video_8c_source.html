@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -297,174 +296,173 @@ $(document).ready(function(){initNavTree('video_8c_source.html',''); initResizab
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">case</span> 0:</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;      <span class="keywordflow">if</span>(reg.al == 0x4f){</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="comment">// Everything runs as expected</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="comment">//memset(video_get_next_buffer(instance), 0, instance-&gt;mode_info.BytesPerScanLine * instance-&gt;mode_info.YResolution);</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;      }</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    </div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">case</span> 1:</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      <span class="comment">// Function call failed</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      printf(<span class="stringliteral">&quot;Funtion call failed\n&quot;</span>);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordflow">case</span> 2:</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      <span class="comment">// Not supported by hardware</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      printf(<span class="stringliteral">&quot;Function not supported by hardware\n&quot;</span>);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">case</span> 3:</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="comment">// Function invalid in current video mode</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      printf(<span class="stringliteral">&quot;Function invalid for the current video mode\n&quot;</span>);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="video_8h.html#a131fbdf8508c1ea40640554c96911494">  235</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span>* <a class="code" href="video_8c.html#a131fbdf8508c1ea40640554c96911494">video_get_current_buffer</a>(<a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordflow">return</span> instance-&gt;<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[instance-&gt;<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a>];</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;}</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno"><a class="line" href="video_8h.html#a2fc474f9aac534bbcff36a4d6663e639">  239</a></span>&#160; <span class="keywordtype">void</span>* <a class="code" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a>(<a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">return</span> instance-&gt;<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[(instance-&gt;<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a> + 1) % 3];</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">video_instance video_init_single_buffer(uint16_t mode){</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment">  video_instance instance;</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">  instance.mode = 0;</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment">  instance.page = 0;</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">  instance.mapped_vram_addr[0] = NULL;</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">  instance.mapped_vram_addr[1] = NULL;</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment">  instance.video_get_mode_info = video_get_mode_info;</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment">  instance.video_change_mode = video_change_mode;</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="comment">  instance.video_map_vram_mem = video_map_vram_mem;</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment">  instance.video_flip_page = video_flip_page;</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">  instance.video_get_current_buffer = video_get_current_buffer;</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">  if(instance.video_get_mode_info(&amp;instance) != OK){</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">    printf(&quot;Fail getting mode info&quot;);</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">    instance.mode = -1;</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">  if(instance.video_map_vram_mem(&amp;instance, 1) != OK){</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">    printf(&quot;Fail mapping memory&quot;);</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">    instance.mode = -2;</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">  if(instance.video_change_mode(&amp;instance, mode) != OK){</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">    printf(&quot;Fail changing mode&quot;);</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">    instance.mode = -3;</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">}</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">video_instance video_init_double_buffer(uint16_t mode){</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">  video_instance instance;</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">  instance.mode = 0;</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">  instance.page = 0;</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">  instance.mapped_vram_addr[0] = NULL;</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment">  instance.mapped_vram_addr[1] = NULL;</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">  instance.video_get_mode_info = video_get_mode_info;</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">  instance.video_change_mode = video_change_mode;</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">  instance.video_map_vram_mem = video_map_vram_mem;</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">  instance.video_flip_page = video_flip_page;</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">  instance.video_get_current_buffer = video_get_current_buffer; </span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">  if(instance.video_get_mode_info(&amp;instance) != OK){</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">    printf(&quot;Fail getting mode info&quot;);</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">    instance.mode = -1;</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">  if(instance.video_map_vram_mem(&amp;instance, 2) != OK){</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">    printf(&quot;Fail mapping memory&quot;);</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">    instance.mode = -2;</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">  if(instance.video_change_mode(&amp;instance, mode) != OK){</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">    printf(&quot;Fail changing mode&quot;);</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">    instance.mode = -3;</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">    return instance;</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">}</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
-<div class="line"><a name="l00309"></a><span class="lineno"><a class="line" href="video_8h.html#a45307b758d03da04a6cf3b6bebbe2684">  309</a></span>&#160;<a class="code" href="structvideo__instance.html">video_instance</a> <a class="code" href="video_8c.html#a45307b758d03da04a6cf3b6bebbe2684">video_init_empty</a>(){</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <a class="code" href="structvideo__instance.html">video_instance</a> instance;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  instance.<a class="code" href="structvideo__instance.html#a7f1a6ad1b031aad550a427dcfbdd1705">mode</a> = 0;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  instance.<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a> = 0;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  instance.<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[0] = NULL;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  instance.<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[1] = NULL;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">return</span> instance;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00318"></a><span class="lineno"><a class="line" href="video_8h.html#a59a1cdbf5471d2dafe3c607d0e529ad0">  318</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8c.html#a59a1cdbf5471d2dafe3c607d0e529ad0">draw_rectangle</a>(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  uint16_t hres = instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.XResolution;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  uint16_t vres = instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.YResolution;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  uint16_t min_x = <a class="code" href="utils_8c.html#a4d72780cf052ccfcd418c14f9f154319">utils_min</a>(x + width, hres);</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  uint16_t min_y = <a class="code" href="utils_8c.html#a4d72780cf052ccfcd418c14f9f154319">utils_min</a>(y + height, vres);</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  </div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordflow">for</span>(uint32_t line = y; line &lt; min_y; line++) {</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordflow">for</span>(uint32_t col = x; col &lt; min_x; col++){</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(col, line, color, instance);</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    }</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  }</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="video_8h.html#aa3df4e907ddb57af1801ed0cf5fa0843">  332</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8c.html#aa3df4e907ddb57af1801ed0cf5fa0843">video_draw_from_array</a>(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a>* <a class="code" href="structvideo__instance.html">video_instance</a>){</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;  <span class="keywordflow">for</span>(uint32_t i = 0; i &lt; size; i++){</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="keywordflow">for</span>(uint32_t lines = y_arr[i] - area; lines &lt; y_arr[i] + area + 1; lines++){</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;      <span class="keywordflow">for</span>(uint32_t cols = x_arr[i] - area; cols &lt; x_arr[i] + area + 1; cols++){</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">if</span>(lines &lt; video_instance-&gt;mode_info.YResolution &amp;&amp; cols &lt; video_instance-&gt;mode_info.XResolution){</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;          <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(cols, lines, color, <a class="code" href="structvideo__instance.html">video_instance</a>);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      }</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    }</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  }</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;}</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160; </div>
-<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="video_8h.html#a0c6a1de812b57e2869b93269ea664bb0">  344</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(uint32_t col, uint32_t line, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a>* instance){</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  <span class="keywordtype">void</span>* video_it = <a class="code" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a>(instance)+ (col + line * instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.XResolution) * instance-&gt;<a class="code" href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">bytesPerPixel</a>;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  if (color != xpm_transparency_color(XPM_8_8_8_8))</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    memcpy(video_it, (<span class="keyword">const</span> <span class="keywordtype">void</span>*)(&amp;color), instance-&gt;<a class="code" href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">bytesPerPixel</a>);  <span class="comment">// Set Pixel color</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;}</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;      }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">case</span> 1:</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      <span class="comment">// Function call failed</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      printf(<span class="stringliteral">&quot;Funtion call failed\n&quot;</span>);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">case</span> 2:</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <span class="comment">// Not supported by hardware</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      printf(<span class="stringliteral">&quot;Function not supported by hardware\n&quot;</span>);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">case</span> 3:</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      <span class="comment">// Function invalid in current video mode</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      printf(<span class="stringliteral">&quot;Function invalid for the current video mode\n&quot;</span>);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="video_8h.html#a131fbdf8508c1ea40640554c96911494">  234</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span>* <a class="code" href="video_8c.html#a131fbdf8508c1ea40640554c96911494">video_get_current_buffer</a>(<a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  <span class="keywordflow">return</span> instance-&gt;<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[instance-&gt;<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a>];</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
+<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="video_8h.html#a2fc474f9aac534bbcff36a4d6663e639">  238</a></span>&#160; <span class="keywordtype">void</span>* <a class="code" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a>(<a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keywordflow">return</span> instance-&gt;<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[(instance-&gt;<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a> + 1) % 3];</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;}</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">video_instance video_init_single_buffer(uint16_t mode){</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">  video_instance instance;</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment">  instance.mode = 0;</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">  instance.page = 0;</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment">  instance.mapped_vram_addr[0] = NULL;</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">  instance.mapped_vram_addr[1] = NULL;</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">  instance.video_get_mode_info = video_get_mode_info;</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment">  instance.video_change_mode = video_change_mode;</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment">  instance.video_map_vram_mem = video_map_vram_mem;</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="comment">  instance.video_flip_page = video_flip_page;</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment">  instance.video_get_current_buffer = video_get_current_buffer;</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">  if(instance.video_get_mode_info(&amp;instance) != OK){</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">    printf(&quot;Fail getting mode info&quot;);</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">    instance.mode = -1;</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">  if(instance.video_map_vram_mem(&amp;instance, 1) != OK){</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">    printf(&quot;Fail mapping memory&quot;);</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">    instance.mode = -2;</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">  if(instance.video_change_mode(&amp;instance, mode) != OK){</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">    printf(&quot;Fail changing mode&quot;);</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">    instance.mode = -3;</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">}</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">video_instance video_init_double_buffer(uint16_t mode){</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">  video_instance instance;</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">  instance.mode = 0;</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">  instance.page = 0;</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">  instance.mapped_vram_addr[0] = NULL;</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">  instance.mapped_vram_addr[1] = NULL;</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment">  instance.video_get_mode_info = video_get_mode_info;</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">  instance.video_change_mode = video_change_mode;</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">  instance.video_map_vram_mem = video_map_vram_mem;</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">  instance.video_flip_page = video_flip_page;</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">  instance.video_get_current_buffer = video_get_current_buffer; </span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">  if(instance.video_get_mode_info(&amp;instance) != OK){</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">    printf(&quot;Fail getting mode info&quot;);</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">    instance.mode = -1;</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">  if(instance.video_map_vram_mem(&amp;instance, 2) != OK){</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">    printf(&quot;Fail mapping memory&quot;);</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">    instance.mode = -2;</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">  if(instance.video_change_mode(&amp;instance, mode) != OK){</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">    printf(&quot;Fail changing mode&quot;);</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">    instance.mode = -3;</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">    return instance;</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">}</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno"><a class="line" href="video_8h.html#a45307b758d03da04a6cf3b6bebbe2684">  308</a></span>&#160;<a class="code" href="structvideo__instance.html">video_instance</a> <a class="code" href="video_8c.html#a45307b758d03da04a6cf3b6bebbe2684">video_init_empty</a>(){</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <a class="code" href="structvideo__instance.html">video_instance</a> instance;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  instance.<a class="code" href="structvideo__instance.html#a7f1a6ad1b031aad550a427dcfbdd1705">mode</a> = 0;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  instance.<a class="code" href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">page</a> = 0;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  instance.<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[0] = NULL;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  instance.<a class="code" href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">mapped_vram_addr</a>[1] = NULL;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <span class="keywordflow">return</span> instance;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;}</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
+<div class="line"><a name="l00317"></a><span class="lineno"><a class="line" href="video_8h.html#a59a1cdbf5471d2dafe3c607d0e529ad0">  317</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8c.html#a59a1cdbf5471d2dafe3c607d0e529ad0">draw_rectangle</a>(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a> *instance){</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  uint16_t hres = instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.XResolution;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  uint16_t vres = instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.YResolution;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;  uint16_t min_x = <a class="code" href="utils_8c.html#a4d72780cf052ccfcd418c14f9f154319">utils_min</a>(x + width, hres);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  uint16_t min_y = <a class="code" href="utils_8c.html#a4d72780cf052ccfcd418c14f9f154319">utils_min</a>(y + height, vres);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  </div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <span class="keywordflow">for</span>(uint32_t line = y; line &lt; min_y; line++) {</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">for</span>(uint32_t col = x; col &lt; min_x; col++){</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;      <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(col, line, color, instance);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  }</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;}</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno"><a class="line" href="video_8h.html#aa3df4e907ddb57af1801ed0cf5fa0843">  331</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="video_8c.html#aa3df4e907ddb57af1801ed0cf5fa0843">video_draw_from_array</a>(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a>* <a class="code" href="structvideo__instance.html">video_instance</a>){</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  <span class="keywordflow">for</span>(uint32_t i = 0; i &lt; size; i++){</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keywordflow">for</span>(uint32_t lines = y_arr[i] - area; lines &lt; y_arr[i] + area + 1; lines++){</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      <span class="keywordflow">for</span>(uint32_t cols = x_arr[i] - area; cols &lt; x_arr[i] + area + 1; cols++){</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="keywordflow">if</span>(lines &lt; video_instance-&gt;mode_info.YResolution &amp;&amp; cols &lt; video_instance-&gt;mode_info.XResolution){</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;          <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(cols, lines, color, <a class="code" href="structvideo__instance.html">video_instance</a>);</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        }</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      }</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    }</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;  }</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;}</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00343"></a><span class="lineno"><a class="line" href="video_8h.html#a0c6a1de812b57e2869b93269ea664bb0">  343</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a>(uint32_t col, uint32_t line, uint32_t color, <a class="code" href="structvideo__instance.html">video_instance</a>* instance){</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keywordtype">void</span>* video_it = <a class="code" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a>(instance)+ (col + line * instance-&gt;<a class="code" href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">mode_info</a>.XResolution) * instance-&gt;<a class="code" href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">bytesPerPixel</a>;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  if (color != xpm_transparency_color(XPM_8_8_8_8))</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    memcpy(video_it, (<span class="keyword">const</span> <span class="keywordtype">void</span>*)(&amp;color), instance-&gt;<a class="code" href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">bytesPerPixel</a>);  <span class="comment">// Set Pixel color</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;}</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="avideo_8c_html_a45307b758d03da04a6cf3b6bebbe2684"><div class="ttname"><a href="video_8c.html#a45307b758d03da04a6cf3b6bebbe2684">video_init_empty</a></div><div class="ttdeci">video_instance video_init_empty()</div><div class="ttdoc">Populates mode, mode_info, maps memory and changes mode.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00309">video.c:309</a></div></div>
-<div class="ttc" id="avideo_8c_html_a131fbdf8508c1ea40640554c96911494"><div class="ttname"><a href="video_8c.html#a131fbdf8508c1ea40640554c96911494">video_get_current_buffer</a></div><div class="ttdeci">void * video_get_current_buffer(video_instance *instance)</div><div class="ttdoc">Returns the current buffer in use.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00235">video.c:235</a></div></div>
-<div class="ttc" id="avideo_8c_html_a49e489c4ab29a3323d9ab34ac512dea4"><div class="ttname"><a href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a></div><div class="ttdeci">int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance *instance)</div><div class="ttdoc">Colors pixel in certain position of certain color.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00344">video.c:344</a></div></div>
-<div class="ttc" id="avideo_8c_html_aa3df4e907ddb57af1801ed0cf5fa0843"><div class="ttname"><a href="video_8c.html#aa3df4e907ddb57af1801ed0cf5fa0843">video_draw_from_array</a></div><div class="ttdeci">void video_draw_from_array(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, video_instance *video_instance)</div><div class="ttdoc">Function to draw the trace of the cursor, based on the top left pixel of the cursor.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00332">video.c:332</a></div></div>
-<div class="ttc" id="avideo_8h_html_a65fbeaa5b066d27ea52637253167e862"><div class="ttname"><a href="video_8h.html#a65fbeaa5b066d27ea52637253167e862">VBE_SET_GET_DISPLAY_START_VR</a></div><div class="ttdeci">#define VBE_SET_GET_DISPLAY_START_VR</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00020">video.h:20</a></div></div>
-<div class="ttc" id="astructvideo__instance_html_a2c6362e11e7da8346152a55d2c1578a6"><div class="ttname"><a href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">video_instance::bytesPerPixel</a></div><div class="ttdeci">uint8_t bytesPerPixel</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00041">video.h:41</a></div></div>
+<div class="ttc" id="avideo_8c_html_a45307b758d03da04a6cf3b6bebbe2684"><div class="ttname"><a href="video_8c.html#a45307b758d03da04a6cf3b6bebbe2684">video_init_empty</a></div><div class="ttdeci">video_instance video_init_empty()</div><div class="ttdoc">Populates mode, mode_info, maps memory and changes mode.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00308">video.c:308</a></div></div>
+<div class="ttc" id="avideo_8c_html_a131fbdf8508c1ea40640554c96911494"><div class="ttname"><a href="video_8c.html#a131fbdf8508c1ea40640554c96911494">video_get_current_buffer</a></div><div class="ttdeci">void * video_get_current_buffer(video_instance *instance)</div><div class="ttdoc">Returns the current buffer in use.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00234">video.c:234</a></div></div>
+<div class="ttc" id="avideo_8c_html_a49e489c4ab29a3323d9ab34ac512dea4"><div class="ttname"><a href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4">draw_pixel</a></div><div class="ttdeci">int draw_pixel(uint32_t col, uint32_t line, uint32_t color, video_instance *instance)</div><div class="ttdoc">Colors pixel in certain position of certain color.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00343">video.c:343</a></div></div>
+<div class="ttc" id="avideo_8c_html_aa3df4e907ddb57af1801ed0cf5fa0843"><div class="ttname"><a href="video_8c.html#aa3df4e907ddb57af1801ed0cf5fa0843">video_draw_from_array</a></div><div class="ttdeci">void video_draw_from_array(uint32_t x_arr[], uint32_t y_arr[], uint32_t size, uint8_t area, uint32_t color, video_instance *video_instance)</div><div class="ttdoc">Function to draw the trace of the cursor, based on the top left pixel of the cursor.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00331">video.c:331</a></div></div>
+<div class="ttc" id="avideo_8h_html_a65fbeaa5b066d27ea52637253167e862"><div class="ttname"><a href="video_8h.html#a65fbeaa5b066d27ea52637253167e862">VBE_SET_GET_DISPLAY_START_VR</a></div><div class="ttdeci">#define VBE_SET_GET_DISPLAY_START_VR</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00019">video.h:19</a></div></div>
+<div class="ttc" id="astructvideo__instance_html_a2c6362e11e7da8346152a55d2c1578a6"><div class="ttname"><a href="structvideo__instance.html#a2c6362e11e7da8346152a55d2c1578a6">video_instance::bytesPerPixel</a></div><div class="ttdeci">uint8_t bytesPerPixel</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00040">video.h:40</a></div></div>
 <div class="ttc" id="avideo_8h_html"><div class="ttname"><a href="video_8h.html">video.h</a></div></div>
-<div class="ttc" id="avideo_8c_html_a2fc474f9aac534bbcff36a4d6663e639"><div class="ttname"><a href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a></div><div class="ttdeci">void * video_get_next_buffer(video_instance *instance)</div><div class="ttdoc">Returns the next buffer to use.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00239">video.c:239</a></div></div>
+<div class="ttc" id="avideo_8c_html_a2fc474f9aac534bbcff36a4d6663e639"><div class="ttname"><a href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639">video_get_next_buffer</a></div><div class="ttdeci">void * video_get_next_buffer(video_instance *instance)</div><div class="ttdoc">Returns the next buffer to use.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00238">video.c:238</a></div></div>
 <div class="ttc" id="avideo_8c_html_a3820342947e7f159e1b4d3d7a8e76750"><div class="ttname"><a href="video_8c.html#a3820342947e7f159e1b4d3d7a8e76750">video_clear_buffer</a></div><div class="ttdeci">void video_clear_buffer(video_instance *instance, void *buffer)</div><div class="ttdoc">Function to clear the desired video buffer.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00131">video.c:131</a></div></div>
-<div class="ttc" id="astructvideo__instance_html_a2f83e9b107394d95fc3967db09e97d76"><div class="ttname"><a href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">video_instance::page</a></div><div class="ttdeci">uint8_t page</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00042">video.h:42</a></div></div>
-<div class="ttc" id="avideo_8h_html_a42e69f4481060cb774e6e03c80a092fa"><div class="ttname"><a href="video_8h.html#a42e69f4481060cb774e6e03c80a092fa">VBE_SET_VBE_MODE</a></div><div class="ttdeci">#define VBE_SET_VBE_MODE</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00018">video.h:18</a></div></div>
-<div class="ttc" id="astructvideo__instance_html"><div class="ttname"><a href="structvideo__instance.html">video_instance</a></div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00038">video.h:38</a></div></div>
-<div class="ttc" id="avideo_8h_html_a6a9b7a6b5d6577456e574a0cc856428f"><div class="ttname"><a href="video_8h.html#a6a9b7a6b5d6577456e574a0cc856428f">VBE_SET_GET_DISPLAY_START</a></div><div class="ttdeci">#define VBE_SET_GET_DISPLAY_START</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00019">video.h:19</a></div></div>
-<div class="ttc" id="avideo_8h_html_a49e0d8458d5fa16ddc64d0542b77ea77"><div class="ttname"><a href="video_8h.html#a49e0d8458d5fa16ddc64d0542b77ea77">BIOS_VIDEO_FUNCTION</a></div><div class="ttdeci">#define BIOS_VIDEO_FUNCTION</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00012">video.h:12</a></div></div>
+<div class="ttc" id="astructvideo__instance_html_a2f83e9b107394d95fc3967db09e97d76"><div class="ttname"><a href="structvideo__instance.html#a2f83e9b107394d95fc3967db09e97d76">video_instance::page</a></div><div class="ttdeci">uint8_t page</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00041">video.h:41</a></div></div>
+<div class="ttc" id="avideo_8h_html_a42e69f4481060cb774e6e03c80a092fa"><div class="ttname"><a href="video_8h.html#a42e69f4481060cb774e6e03c80a092fa">VBE_SET_VBE_MODE</a></div><div class="ttdeci">#define VBE_SET_VBE_MODE</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00017">video.h:17</a></div></div>
+<div class="ttc" id="astructvideo__instance_html"><div class="ttname"><a href="structvideo__instance.html">video_instance</a></div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00037">video.h:37</a></div></div>
+<div class="ttc" id="avideo_8h_html_a6a9b7a6b5d6577456e574a0cc856428f"><div class="ttname"><a href="video_8h.html#a6a9b7a6b5d6577456e574a0cc856428f">VBE_SET_GET_DISPLAY_START</a></div><div class="ttdeci">#define VBE_SET_GET_DISPLAY_START</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00018">video.h:18</a></div></div>
+<div class="ttc" id="avideo_8h_html_a49e0d8458d5fa16ddc64d0542b77ea77"><div class="ttname"><a href="video_8h.html#a49e0d8458d5fa16ddc64d0542b77ea77">BIOS_VIDEO_FUNCTION</a></div><div class="ttdeci">#define BIOS_VIDEO_FUNCTION</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00011">video.h:11</a></div></div>
 <div class="ttc" id="avideo_8c_html_a9279fb6d40bf111c9258fbf704864034"><div class="ttname"><a href="video_8c.html#a9279fb6d40bf111c9258fbf704864034">video_default_page</a></div><div class="ttdeci">int video_default_page(video_instance *instance)</div><div class="ttdoc">Function to flip to the default page with the 0x07's bios function subfuction 0x80.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00135">video.c:135</a></div></div>
 <div class="ttc" id="autils_8c_html_a4d72780cf052ccfcd418c14f9f154319"><div class="ttname"><a href="utils_8c.html#a4d72780cf052ccfcd418c14f9f154319">utils_min</a></div><div class="ttdeci">int32_t utils_min(int32_t val1, int32_t val2)</div><div class="ttdoc">Function to get the minimum value.</div><div class="ttdef"><b>Definition:</b> <a href="utils_8c_source.html#l00033">utils.c:33</a></div></div>
 <div class="ttc" id="avideo_8c_html_ada0ccc964443111190637e34b4aa0f59"><div class="ttname"><a href="video_8c.html#ada0ccc964443111190637e34b4aa0f59">video_get_mode_info</a></div><div class="ttdeci">int video_get_mode_info(video_instance *instance)</div><div class="ttdoc">Function to retrieve information about the graphics card, changing the content of the struct.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00006">video.c:6</a></div></div>
 <div class="ttc" id="avideo_8c_html_aeb6284ff4db01ccfd27c5ee48d8d2569"><div class="ttname"><a href="video_8c.html#aeb6284ff4db01ccfd27c5ee48d8d2569">video_change_mode</a></div><div class="ttdeci">int video_change_mode(video_instance *instance, uint16_t mode)</div><div class="ttdoc">Funtion to change between display modes.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00056">video.c:56</a></div></div>
-<div class="ttc" id="astructvideo__instance_html_a9fcc2243068f8e628648febc0909c509"><div class="ttname"><a href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">video_instance::mode_info</a></div><div class="ttdeci">vbe_mode_info_t mode_info</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00040">video.h:40</a></div></div>
-<div class="ttc" id="avideo_8h_html_ab9fe51d728e4662b378ba3e0ae2b96a7"><div class="ttname"><a href="video_8h.html#ab9fe51d728e4662b378ba3e0ae2b96a7">VBE_RETURN_VBE_MODE_INFO</a></div><div class="ttdeci">#define VBE_RETURN_VBE_MODE_INFO</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00017">video.h:17</a></div></div>
-<div class="ttc" id="astructvideo__instance_html_ab7c46ff14fa8b0087fee387b47146218"><div class="ttname"><a href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">video_instance::mapped_vram_addr</a></div><div class="ttdeci">void * mapped_vram_addr[3]</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00043">video.h:43</a></div></div>
+<div class="ttc" id="astructvideo__instance_html_a9fcc2243068f8e628648febc0909c509"><div class="ttname"><a href="structvideo__instance.html#a9fcc2243068f8e628648febc0909c509">video_instance::mode_info</a></div><div class="ttdeci">vbe_mode_info_t mode_info</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00039">video.h:39</a></div></div>
+<div class="ttc" id="avideo_8h_html_ab9fe51d728e4662b378ba3e0ae2b96a7"><div class="ttname"><a href="video_8h.html#ab9fe51d728e4662b378ba3e0ae2b96a7">VBE_RETURN_VBE_MODE_INFO</a></div><div class="ttdeci">#define VBE_RETURN_VBE_MODE_INFO</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00016">video.h:16</a></div></div>
+<div class="ttc" id="astructvideo__instance_html_ab7c46ff14fa8b0087fee387b47146218"><div class="ttname"><a href="structvideo__instance.html#ab7c46ff14fa8b0087fee387b47146218">video_instance::mapped_vram_addr</a></div><div class="ttdeci">void * mapped_vram_addr[3]</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00042">video.h:42</a></div></div>
 <div class="ttc" id="avideo_8c_html_a5a2960eb77a910ec5720f87e047329a5"><div class="ttname"><a href="video_8c.html#a5a2960eb77a910ec5720f87e047329a5">video_map_vram_mem</a></div><div class="ttdeci">int video_map_vram_mem(video_instance *instance, uint8_t bufferNr)</div><div class="ttdoc">Function to map graphics memory to the process' address space.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00095">video.c:95</a></div></div>
-<div class="ttc" id="avideo_8c_html_a59a1cdbf5471d2dafe3c607d0e529ad0"><div class="ttname"><a href="video_8c.html#a59a1cdbf5471d2dafe3c607d0e529ad0">draw_rectangle</a></div><div class="ttdeci">void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, video_instance *instance)</div><div class="ttdoc">Draws rectangle starting in position (x,y) with width and height specified in parameters.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00318">video.c:318</a></div></div>
+<div class="ttc" id="avideo_8c_html_a59a1cdbf5471d2dafe3c607d0e529ad0"><div class="ttname"><a href="video_8c.html#a59a1cdbf5471d2dafe3c607d0e529ad0">draw_rectangle</a></div><div class="ttdeci">void draw_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color, video_instance *instance)</div><div class="ttdoc">Draws rectangle starting in position (x,y) with width and height specified in parameters.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00317">video.c:317</a></div></div>
 <div class="ttc" id="avideo_8c_html_aa4cef0df380e0533ccfcd0388fcd8321"><div class="ttname"><a href="video_8c.html#aa4cef0df380e0533ccfcd0388fcd8321">video_flip_page</a></div><div class="ttdeci">int video_flip_page(video_instance *instance)</div><div class="ttdoc">Function to flip pages with the 0x07's bios function subfuction 0x80.</div><div class="ttdef"><b>Definition:</b> <a href="video_8c_source.html#l00185">video.c:185</a></div></div>
-<div class="ttc" id="astructvideo__instance_html_a7f1a6ad1b031aad550a427dcfbdd1705"><div class="ttname"><a href="structvideo__instance.html#a7f1a6ad1b031aad550a427dcfbdd1705">video_instance::mode</a></div><div class="ttdeci">int32_t mode</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00039">video.h:39</a></div></div>
+<div class="ttc" id="astructvideo__instance_html_a7f1a6ad1b031aad550a427dcfbdd1705"><div class="ttname"><a href="structvideo__instance.html#a7f1a6ad1b031aad550a427dcfbdd1705">video_instance::mode</a></div><div class="ttdeci">int32_t mode</div><div class="ttdef"><b>Definition:</b> <a href="video_8h_source.html#l00038">video.h:38</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -1,4 +1,4 @@
 <map id="i8254_get_conf" name="i8254_get_conf">
-<area shape="rect" id="node1" title="Timer 0 interrupt handler." alt="" coords="211,5,332,32"/>
+<area shape="rect" id="node1" title="Reads the input timer configuration (status) via read&#45;back command." alt="" coords="211,5,332,32"/>
 <area shape="rect" id="node2" href="$i8254_8h.html#a99cb437089bbe2e106bfcb4ca4eae2af" title="Changes the operating frequency of a timer." alt="" coords="5,5,163,32"/>
 </map>

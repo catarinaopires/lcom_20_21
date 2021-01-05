@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -94,14 +93,15 @@ $(document).ready(function(){initNavTree('ext_images_8c.html',''); initResizable
 Include dependency graph for extImages.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c__incl.png" border="0" usemap="#a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2video_2ext_images_8c" alt=""/></div>
-<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2video_2ext_images_8c" id="a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2video_2ext_images_8c">
-<area shape="rect" title=" " alt="" coords="117,5,305,76"/>
-<area shape="rect" href="ext_images_8h.html" title=" " alt="" coords="101,124,203,151"/>
-<area shape="rect" title=" " alt="" coords="228,124,313,151"/>
+<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2video_2ext_images_8c" id="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2video_2ext_images_8c">
+<area shape="rect" title=" " alt="" coords="218,5,406,76"/>
+<area shape="rect" href="ext_images_8h.html" title=" " alt="" coords="202,124,305,151"/>
+<area shape="rect" title=" " alt="" coords="329,124,415,151"/>
 <area shape="rect" title=" " alt="" coords="5,199,72,225"/>
-<area shape="rect" title=" " alt="" coords="125,348,195,375"/>
-<area shape="rect" title=" " alt="" coords="147,199,245,225"/>
+<area shape="rect" title=" " alt="" coords="177,348,247,375"/>
+<area shape="rect" title=" " alt="" coords="204,199,303,225"/>
 <area shape="rect" href="video_8h.html" title=" " alt="" coords="385,199,455,225"/>
+<area shape="rect" href="keyboard_8h.html" title=" " alt="" coords="655,199,788,225"/>
 <area shape="rect" href="utils_8h.html" title=" " alt="" coords="198,273,333,300"/>
 <area shape="rect" title=" " alt="" coords="357,273,483,300"/>
 <area shape="rect" title=" " alt="" coords="508,273,612,300"/>
@@ -118,7 +118,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ade0ae8fd754cfc5cc717e6ff58b6f7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws image starting in position (x,y).  <a href="ext_images_8c.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8">More...</a><br /></td></tr>
 <tr class="separator:ade0ae8fd754cfc5cc717e6ff58b6f7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafdddd39408d46d335a4f7c1f97b7fe4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ext_images_8c.html#aafdddd39408d46d335a4f7c1f97b7fe4">image_move_to_pos</a> (<a class="el" href="struct_image.html">Image</a> *this_image, int x, int y)</td></tr>
-<tr class="memdesc:aafdddd39408d46d335a4f7c1f97b7fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move image to one determinated position (x, y)  <a href="ext_images_8c.html#aafdddd39408d46d335a4f7c1f97b7fe4">More...</a><br /></td></tr>
+<tr class="memdesc:aafdddd39408d46d335a4f7c1f97b7fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move image to one determined position (x, y)  <a href="ext_images_8c.html#aafdddd39408d46d335a4f7c1f97b7fe4">More...</a><br /></td></tr>
 <tr class="separator:aafdddd39408d46d335a4f7c1f97b7fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab781e5ec390ce21dff64c7abaf373202"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_image.html">Image</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ext_images_8c.html#ab781e5ec390ce21dff64c7abaf373202">image_construct</a> (xpm_map_t map, enum xpm_image_type type, int x, int y)</td></tr>
 <tr class="memdesc:ab781e5ec390ce21dff64c7abaf373202"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="struct_image.html">Image</a>.  <a href="ext_images_8c.html#ab781e5ec390ce21dff64c7abaf373202">More...</a><br /></td></tr>
@@ -150,8 +150,77 @@ Functions</h2></td></tr>
 <tr class="memitem:af26328c42f5b19c5d84b6c5df733daa8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ext_images_8c.html#af26328c42f5b19c5d84b6c5df733daa8">display_time_menu</a> (<a class="el" href="struct_image.html">Image</a> *numbers, int first_value, int second_value, <a class="el" href="structvideo__instance.html">video_instance</a> *instance)</td></tr>
 <tr class="memdesc:af26328c42f5b19c5d84b6c5df733daa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays time in console.  <a href="ext_images_8c.html#af26328c42f5b19c5d84b6c5df733daa8">More...</a><br /></td></tr>
 <tr class="separator:af26328c42f5b19c5d84b6c5df733daa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d9b7a4db3e5f2fb40ba8493d11785f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ext_images_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4">assemble_directions_r_l</a> (<a class="el" href="struct_sprite.html">Sprite</a> *sprite, <a class="el" href="keyboard_8h.html#a99f26e6ee9fcd62f75203b5402df8098">direction</a> *dir, <a class="el" href="structvideo__instance.html">video_instance</a> *instance, int infected)</td></tr>
+<tr class="memdesc:a9d9b7a4db3e5f2fb40ba8493d11785f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets the direction of player into movement, changing speed of sprite and drawing.  <a href="ext_images_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4">More...</a><br /></td></tr>
+<tr class="separator:a9d9b7a4db3e5f2fb40ba8493d11785f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a9d9b7a4db3e5f2fb40ba8493d11785f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d9b7a4db3e5f2fb40ba8493d11785f4">&#9670;&nbsp;</a></span>assemble_directions_r_l()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void assemble_directions_r_l </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="keyboard_8h.html#a99f26e6ee9fcd62f75203b5402df8098">direction</a> *&#160;</td>
+          <td class="paramname"><em>dir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvideo__instance.html">video_instance</a> *&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>infected</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interprets the direction of player into movement, changing speed of sprite and drawing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td><a class="el" href="struct_sprite.html">Sprite</a> </td></tr>
+    <tr><td class="paramname">dir</td><td>Direction according to input given by user </td></tr>
+    <tr><td class="paramname">instance</td><td>Video instance </td></tr>
+    <tr><td class="paramname">infected</td><td>1 if infected (directions switched), 0 otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00192">192</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="ext_images_8c_a9d9b7a4db3e5f2fb40ba8493d11785f4_cgraph.png" border="0" usemap="#aext_images_8c_a9d9b7a4db3e5f2fb40ba8493d11785f4_cgraph" alt=""/></div>
+<map name="ext_images_8c_a9d9b7a4db3e5f2fb40ba8493d11785f4_cgraph" id="ext_images_8c_a9d9b7a4db3e5f2fb40ba8493d11785f4_cgraph">
+<area shape="rect" title="Interprets the direction of player into movement, changing speed of sprite and drawing." alt="" coords="5,56,184,83"/>
+<area shape="rect" href="ext_images_8c.html#abfa52bcd292846d65135a485fd108b0d" title="Changes speed of the sprite." alt="" coords="232,5,347,32"/>
+<area shape="rect" href="ext_images_8c.html#ab0f9658a8b7eecf291c2e337e0504f0c" title="Draws sprite starting in position (x,y)." alt="" coords="240,56,339,83"/>
+<area shape="rect" href="ext_images_8c.html#a2550207ac94cbf16d5f3f1b601b6a554" title="Moves sprite with its according speed until final position given by (xf,yf)." alt="" coords="238,107,341,133"/>
+<area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="395,56,488,83"/>
+<area shape="rect" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="536,56,704,83"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="abfa52bcd292846d65135a485fd108b0d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abfa52bcd292846d65135a485fd108b0d">&#9670;&nbsp;</a></span>change_speed()</h2>
 
@@ -194,16 +263,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00181">181</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00166">166</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph.png" border="0" usemap="#aext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph" alt=""/></div>
-<map name="ext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph" id="aext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph">
+<map name="ext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph" id="ext_images_8c_abfa52bcd292846d65135a485fd108b0d_icgraph">
 <area shape="rect" title="Changes speed of the sprite." alt="" coords="403,31,517,57"/>
-<area shape="rect" href="proj_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title=" " alt="" coords="176,5,355,32"/>
+<area shape="rect" href="ext_images_8h.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title="Interprets the direction of player into movement, changing speed of sprite and drawing." alt="" coords="176,5,355,32"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="212,56,319,83"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,56,128,83"/>
 </map>
 </div>
 
@@ -266,7 +335,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns 1 upon collision, 0 otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00099">99</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00091">91</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 
 </div>
 </div>
@@ -306,15 +375,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns 0 upon success (no collisions), 1 if there was a collision </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00083">83</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00075">75</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph.png" border="0" usemap="#aext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph" alt=""/></div>
-<map name="ext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph" id="aext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph">
+<map name="ext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph" id="ext_images_8c_af64744a5944e84f72ce884ff46369cb0_icgraph">
 <area shape="rect" title="Checks if sprite can be drawn in new position without colliding with other images." alt="" coords="331,5,503,32"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,5,283,32"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,5,128,32"/>
 </map>
 </div>
 
@@ -377,12 +446,12 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to object <a class="el" href="struct_sprite.html">Sprite</a> created, NULL in case of failure (invalid pixmap) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00048">48</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00045">45</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph.png" border="0" usemap="#aext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph" alt=""/></div>
-<map name="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph" id="aext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph">
+<map name="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph" id="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_cgraph">
 <area shape="rect" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="5,132,112,159"/>
 <area shape="rect" href="ext_images_8c.html#abfa52bcd292846d65135a485fd108b0d" title="Changes speed of the sprite." alt="" coords="189,5,303,32"/>
 <area shape="rect" href="ext_images_8c.html#af64744a5944e84f72ce884ff46369cb0" title="Checks if sprite can be drawn in new position without colliding with other images." alt="" coords="160,56,332,83"/>
@@ -399,9 +468,9 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph.png" border="0" usemap="#aext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph" alt=""/></div>
-<map name="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph" id="aext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph">
+<map name="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph" id="ext_images_8c_affac42b8b55dacd08b584a6d2d2214cb_icgraph">
 <area shape="rect" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,5,283,32"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,5,128,32"/>
 </map>
 </div>
 
@@ -431,15 +500,15 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00076">76</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00068">68</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph.png" border="0" usemap="#aext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph" alt=""/></div>
-<map name="ext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph" id="aext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph">
+<map name="ext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph" id="ext_images_8c_af16c6befaac9ffb673b9e3c798d542ed_icgraph">
 <area shape="rect" title="The &quot;fig&quot; sprite is erased from memory used resources released." alt="" coords="331,5,445,32"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,5,283,32"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,5,128,32"/>
 </map>
 </div>
 
@@ -494,16 +563,17 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00190">190</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00175">175</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph.png" border="0" usemap="#aext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph" alt=""/></div>
-<map name="ext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph" id="aext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph">
-<area shape="rect" title="Displays time in console." alt="" coords="5,5,156,32"/>
-<area shape="rect" href="ext_images_8c.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8" title="Draws image starting in position (x,y)." alt="" coords="204,5,307,32"/>
-<area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="355,5,448,32"/>
-<area shape="rect" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="496,5,664,32"/>
+<map name="ext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph" id="ext_images_8c_af26328c42f5b19c5d84b6c5df733daa8_cgraph">
+<area shape="rect" title="Displays time in console." alt="" coords="5,31,156,57"/>
+<area shape="rect" href="ext_images_8c.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8" title="Draws image starting in position (x,y)." alt="" coords="231,5,334,32"/>
+<area shape="rect" href="ext_images_8c.html#aafdddd39408d46d335a4f7c1f97b7fe4" title="Move image to one determined position (x, y)" alt="" coords="204,56,361,83"/>
+<area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="409,5,503,32"/>
+<area shape="rect" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="551,5,719,32"/>
 </map>
 </div>
 
@@ -552,12 +622,12 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>returns 0 upon success (image drawn), 1 with failure (not possible to draw) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00107">107</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00099">99</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph.png" border="0" usemap="#aext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph" alt=""/></div>
-<map name="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph" id="aext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph">
+<map name="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph" id="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_cgraph">
 <area shape="rect" title="Draws sprite starting in position (x,y)." alt="" coords="5,5,104,32"/>
 <area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="152,5,245,32"/>
 <area shape="rect" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="293,5,461,32"/>
@@ -567,11 +637,11 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph.png" border="0" usemap="#aext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph" alt=""/></div>
-<map name="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph" id="aext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph">
+<map name="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph" id="ext_images_8c_ab0f9658a8b7eecf291c2e337e0504f0c_icgraph">
 <area shape="rect" title="Draws sprite starting in position (x,y)." alt="" coords="403,31,501,57"/>
-<area shape="rect" href="proj_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title=" " alt="" coords="176,5,355,32"/>
+<area shape="rect" href="ext_images_8h.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title="Interprets the direction of player into movement, changing speed of sprite and drawing." alt="" coords="176,5,355,32"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="212,56,319,83"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,56,128,83"/>
 </map>
 </div>
 
@@ -617,7 +687,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00186">186</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00171">171</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 
 </div>
 </div>
@@ -669,12 +739,12 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_image.html">Image</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00036">36</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00033">33</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph.png" border="0" usemap="#aext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph" alt=""/></div>
-<map name="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph" id="aext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph">
+<map name="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph" id="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_cgraph">
 <area shape="rect" title="Constructor of Image." alt="" coords="5,5,136,32"/>
 <area shape="rect" href="ext_images_8c.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8" title="Draws image starting in position (x,y)." alt="" coords="184,5,287,32"/>
 <area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="335,5,428,32"/>
@@ -685,10 +755,10 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph.png" border="0" usemap="#aext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph" alt=""/></div>
-<map name="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph" id="aext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph">
+<map name="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph" id="ext_images_8c_ab781e5ec390ce21dff64c7abaf373202_icgraph">
 <area shape="rect" title="Constructor of Image." alt="" coords="331,31,461,57"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,5,283,32"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,31,128,57"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,31,128,57"/>
 </map>
 </div>
 
@@ -730,12 +800,12 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns 0 upon success, 1 with failure </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00007">7</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00004">4</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph.png" border="0" usemap="#aext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph" alt=""/></div>
-<map name="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph" id="aext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph">
+<map name="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph" id="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_cgraph">
 <area shape="rect" title="Draws image starting in position (x,y)." alt="" coords="5,5,108,32"/>
 <area shape="rect" href="video_8c.html#a49e489c4ab29a3323d9ab34ac512dea4" title="Colors pixel in certain position of certain color." alt="" coords="156,5,249,32"/>
 <area shape="rect" href="video_8c.html#a2fc474f9aac534bbcff36a4d6663e639" title="Returns the next buffer to use." alt="" coords="297,5,465,32"/>
@@ -745,12 +815,12 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph.png" border="0" usemap="#aext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph" alt=""/></div>
-<map name="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph" id="aext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph">
+<map name="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph" id="ext_images_8c_ade0ae8fd754cfc5cc717e6ff58b6f7f8_icgraph">
 <area shape="rect" title="Draws image starting in position (x,y)." alt="" coords="529,31,632,57"/>
 <area shape="rect" href="ext_images_8h.html#af26328c42f5b19c5d84b6c5df733daa8" title="Displays time in console." alt="" coords="331,5,481,32"/>
 <area shape="rect" href="ext_images_8h.html#ab781e5ec390ce21dff64c7abaf373202" title="Constructor of Image." alt="" coords="341,56,471,83"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,31,283,57"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,56,128,83"/>
 </map>
 </div>
 
@@ -788,7 +858,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Move image to one determinated position (x, y) </p>
+<p>Move image to one determined position (x, y) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">this_image</td><td><a class="el" href="struct_image.html">Image</a> to change pos </td></tr>
@@ -798,7 +868,16 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00031">31</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00028">28</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="ext_images_8c_aafdddd39408d46d335a4f7c1f97b7fe4_icgraph.png" border="0" usemap="#aext_images_8c_aafdddd39408d46d335a4f7c1f97b7fe4_icgraph" alt=""/></div>
+<map name="ext_images_8c_aafdddd39408d46d335a4f7c1f97b7fe4_icgraph" id="ext_images_8c_aafdddd39408d46d335a4f7c1f97b7fe4_icgraph">
+<area shape="rect" title="Move image to one determined position (x, y)" alt="" coords="204,5,361,32"/>
+<area shape="rect" href="ext_images_8h.html#af26328c42f5b19c5d84b6c5df733daa8" title="Displays time in console." alt="" coords="5,5,156,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -851,24 +930,24 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">sp</td><td><a class="el" href="struct_sprite.html">Sprite</a> </td></tr>
     <tr><td class="paramname">xf</td><td>Last horizontal position of the beginning of the image </td></tr>
-    <tr><td class="paramname">yf</td><td>Last vetical position of the beginning of the image </td></tr>
+    <tr><td class="paramname">yf</td><td>Last vertical position of the beginning of the image </td></tr>
     <tr><td class="paramname">draw_if_outbounds</td><td>if 0 doesn't draw if image outbounds, otherwise draws image </td></tr>
     <tr><td class="paramname">instance</td><td>Struct video instance </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>returns 0 uppon success (image moved), 1 if image reached final position and -1 if it was not possible to draw in next position </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>returns 0 upon success (image moved), 1 if image reached final position and -1 if it was not possible to draw in next position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00134">134</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ext_images_8c_source.html#l00126">126</a> of file <a class="el" href="ext_images_8c_source.html">extImages.c</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph.png" border="0" usemap="#aext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph" alt=""/></div>
-<map name="ext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph" id="aext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph">
+<map name="ext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph" id="ext_images_8c_a2550207ac94cbf16d5f3f1b601b6a554_icgraph">
 <area shape="rect" title="Moves sprite with its according speed until final position given by (xf,yf)." alt="" coords="403,31,505,57"/>
-<area shape="rect" href="proj_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title=" " alt="" coords="176,5,355,32"/>
+<area shape="rect" href="ext_images_8h.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title="Interprets the direction of player into movement, changing speed of sprite and drawing." alt="" coords="176,5,355,32"/>
 <area shape="rect" href="ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="212,56,319,83"/>
-<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
+<area shape="rect" href="proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,56,128,83"/>
 </map>
 </div>
 

@@ -1,5 +1,5 @@
 <map id="proj_main_loop" name="proj_main_loop">
-<area shape="rect" id="node1" title=" " alt="" coords="5,284,128,311"/>
+<area shape="rect" id="node1" title="proj_main_loop" alt="" coords="5,284,128,311"/>
 <area shape="rect" id="node2" href="$ext_images_8c.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="211,157,317,184"/>
 <area shape="rect" id="node9" href="$ext_images_8c.html#ab781e5ec390ce21dff64c7abaf373202" title="Constructor of Image." alt="" coords="421,259,551,285"/>
 <area shape="rect" id="node12" href="$video_8c.html#ada0ccc964443111190637e34b4aa0f59" title="Function to retrieve information about the graphics card, changing the content of the struct." alt="" coords="183,284,345,311"/>

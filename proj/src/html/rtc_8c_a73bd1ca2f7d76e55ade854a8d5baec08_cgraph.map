@@ -1,7 +1,0 @@
-<map id="rtc_get_value" name="rtc_get_value">
-<area shape="rect" id="node1" title="Reads 8 bit value from given reg." alt="" coords="5,31,116,57"/>
-<area shape="rect" id="node2" href="$utils_8c.html#a8f4f50183a82a4b5ec640e5fa192df13" title="Function to convert number in BCD to decimal." alt="" coords="164,5,288,32"/>
-<area shape="rect" id="node3" href="$rtc_8c.html#a79dfcbff65639f366ba267311ddba01d" title="Reads 8 bit value from given port." alt="" coords="189,56,263,83"/>
-<area shape="rect" id="node4" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="497,56,596,83"/>
-<area shape="rect" id="node5" href="$rtc_8c.html#a788e56085fe57e083210ad3c8887ecb1" title="Waits fir valid Time/Date." alt="" coords="336,81,449,108"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="rtc_read" name="rtc_read">
-<area shape="rect" id="node1" title="Reads 8 bit value from given port." alt="" coords="360,38,435,65"/>
-<area shape="rect" id="node2" href="$rtc_8h.html#a73bd1ca2f7d76e55ade854a8d5baec08" title="Reads 8 bit value from given reg." alt="" coords="201,13,312,39"/>
-<area shape="rect" id="node4" href="$rtc_8h.html#a099b5a98a809c843cdea180249d09f78" title="Sets flag in certain register depending if is to enable or disable." alt="" coords="207,63,306,90"/>
-<area shape="rect" id="node3" href="$rtc_8h.html#a56b6c2fc4203b08f5b32d336a7c11753" title="Calculates time of the alarm according to wanted time interval." alt="" coords="5,5,153,47"/>
-</map>

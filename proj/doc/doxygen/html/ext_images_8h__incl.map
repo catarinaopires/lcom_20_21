@@ -1,9 +1,10 @@
 <map id="/home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX&#45;LCOM/shared/proj/src/video/extImages.h" name="/home/sirze/Universidade/1_Semestre/LCOM/Minix/MINIX&#45;LCOM/shared/proj/src/video/extImages.h">
-<area shape="rect" id="node1" title=" " alt="" coords="58,5,246,76"/>
+<area shape="rect" id="node1" title=" " alt="" coords="159,5,347,76"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,124,72,151"/>
-<area shape="rect" id="node3" title=" " alt="" coords="125,273,195,300"/>
-<area shape="rect" id="node4" title=" " alt="" coords="147,124,245,151"/>
+<area shape="rect" id="node3" title=" " alt="" coords="177,273,247,300"/>
+<area shape="rect" id="node4" title=" " alt="" coords="204,124,303,151"/>
 <area shape="rect" id="node5" href="$video_8h.html" title=" " alt="" coords="385,124,455,151"/>
+<area shape="rect" id="node11" href="$keyboard_8h.html" title=" " alt="" coords="655,124,788,151"/>
 <area shape="rect" id="node6" href="$utils_8h.html" title=" " alt="" coords="198,199,333,225"/>
 <area shape="rect" id="node7" title=" " alt="" coords="357,199,483,225"/>
 <area shape="rect" id="node8" title=" " alt="" coords="508,199,612,225"/>

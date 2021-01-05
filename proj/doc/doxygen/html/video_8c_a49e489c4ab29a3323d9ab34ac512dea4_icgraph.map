@@ -4,9 +4,9 @@
 <area shape="rect" id="node3" href="$ext_images_8h.html#ab0f9658a8b7eecf291c2e337e0504f0c" title="Draws sprite starting in position (x,y)." alt="" coords="596,56,695,83"/>
 <area shape="rect" id="node7" href="$ext_images_8h.html#ade0ae8fd754cfc5cc717e6ff58b6f7f8" title="Draws image starting in position (x,y)." alt="" coords="594,107,697,133"/>
 <area shape="rect" id="node10" href="$video_8h.html#aa3df4e907ddb57af1801ed0cf5fa0843" title="Function to draw the trace of the cursor, based on the top left pixel of the cursor." alt="" coords="557,157,733,184"/>
-<area shape="rect" id="node4" href="$proj_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title=" " alt="" coords="331,5,509,32"/>
+<area shape="rect" id="node4" href="$ext_images_8h.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title="Interprets the direction of player into movement, changing speed of sprite and drawing." alt="" coords="331,5,509,32"/>
 <area shape="rect" id="node5" href="$ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="176,107,283,133"/>
-<area shape="rect" id="node6" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,132,128,159"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,132,128,159"/>
 <area shape="rect" id="node8" href="$ext_images_8h.html#af26328c42f5b19c5d84b6c5df733daa8" title="Displays time in console." alt="" coords="345,107,495,133"/>
 <area shape="rect" id="node9" href="$ext_images_8h.html#ab781e5ec390ce21dff64c7abaf373202" title="Constructor of Image." alt="" coords="355,157,485,184"/>
 </map>

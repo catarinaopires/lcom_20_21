@@ -24,7 +24,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="logo.xpm"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HumanoId, LCOM Project
    </div>
@@ -98,7 +97,7 @@ $(document).ready(function(){initNavTree('mouse_8h.html',''); initResizable(); }
 Include dependency graph for mouse.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8h__incl.png" border="0" usemap="#a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8h" alt=""/></div>
-<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8h" id="a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8h">
+<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8h" id="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8h">
 <area shape="rect" title=" " alt="" coords="75,5,263,76"/>
 <area shape="rect" title=" " alt="" coords="5,124,104,151"/>
 <area shape="rect" title=" " alt="" coords="128,124,211,151"/>
@@ -109,7 +108,7 @@ Include dependency graph for mouse.h:</div>
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8h__dep__incl.png" border="0" usemap="#a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8hdep" alt=""/></div>
-<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8hdep" id="a_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8hdep">
+<map name="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8hdep" id="_2home_2sirze_2_universidade_21___semestre_2_l_c_o_m_2_minix_2_m_i_n_i_x-_l_c_o_m_2shared_2proj_2src_2kbc_2mouse_8hdep">
 <area shape="rect" title=" " alt="" coords="228,5,416,76"/>
 <area shape="rect" href="gesture_detection_8h.html" title=" " alt="" coords="85,124,285,195"/>
 <area shape="rect" href="proj_8c.html" title=" " alt="" coords="228,243,416,313"/>
@@ -179,6 +178,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a28e6e2b9bda8b142d6eabfb2160c883c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to process the mouse packets read from kbc.  <a href="mouse_8h.html#a28e6e2b9bda8b142d6eabfb2160c883c">More...</a><br /></td></tr>
 <tr class="separator:a28e6e2b9bda8b142d6eabfb2160c883c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab62c8c6f483f4e577c5ef25d160d517a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">mouse_write_cmd</a> (uint8_t cmd)</td></tr>
+<tr class="memdesc:ab62c8c6f483f4e577c5ef25d160d517a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes given command in control register of KBC.  <a href="mouse_8h.html#ab62c8c6f483f4e577c5ef25d160d517a">More...</a><br /></td></tr>
 <tr class="separator:ab62c8c6f483f4e577c5ef25d160d517a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -527,13 +527,22 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Writes given command in control register of KBC. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>Given command to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns 0 upon success, 1 otherwise </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="mouse_8c_source.html#l00005">5</a> of file <a class="el" href="mouse_8c_source.html">mouse.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph.png" border="0" usemap="#amouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph" alt=""/></div>
-<map name="mouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph" id="amouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,147,32"/>
+<map name="mouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph" id="mouse_8h_ab62c8c6f483f4e577c5ef25d160d517a_cgraph">
+<area shape="rect" title="Writes given command in control register of KBC." alt="" coords="5,5,147,32"/>
 <area shape="rect" href="utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads 8 bit value from given port." alt="" coords="195,5,293,32"/>
 </map>
 </div>

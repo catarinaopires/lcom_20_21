@@ -1,6 +1,0 @@
-<map id="draw_sprite" name="draw_sprite">
-<area shape="rect" id="node1" title="Draws sprite starting in position (x,y)." alt="" coords="403,31,501,57"/>
-<area shape="rect" id="node2" href="$proj_8c.html#a9d9b7a4db3e5f2fb40ba8493d11785f4" title=" " alt="" coords="176,5,355,32"/>
-<area shape="rect" id="node3" href="$ext_images_8h.html#affac42b8b55dacd08b584a6d2d2214cb" title="Creates a new sprite with pixmap &quot;pic&quot;, with specified position (within the screen limits) and speed;..." alt="" coords="212,56,319,83"/>
-<area shape="rect" id="node4" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,56,128,83"/>
-</map>

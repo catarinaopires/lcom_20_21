@@ -90,6 +90,9 @@ int main(int argc, char *argv[]) {
 }
 
 
+/**
+ * @brief proj_main_loop
+ */ 
 int(proj_main_loop)(int argc, char *argv[]) {
 
   typedef enum modules {

@@ -1,4 +1,4 @@
 <map id="video_map_vram_mem" name="video_map_vram_mem">
 <area shape="rect" id="node1" title="Function to map graphics memory to the process&#39; address space." alt="" coords="176,5,352,32"/>
-<area shape="rect" id="node2" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title=" " alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node2" href="$proj_8c.html#a2a16f651eccbd248e1ad3b3b924b143b" title="proj_main_loop" alt="" coords="5,5,128,32"/>
 </map>
