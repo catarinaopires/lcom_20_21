@@ -1,0 +1,482 @@
+delta_x = 25152
+delta_y = 2078
+
+IN INIT
+
+delta_x = 25151
+delta_y = 2078
+
+IN INIT
+
+delta_x = 25144
+delta_y = 2079
+
+IN INIT
+
+delta_x = 25140
+delta_y = 2080
+
+IN INIT
+
+delta_x = 25130
+delta_y = 2082
+
+IN INIT
+
+delta_x = 25123
+delta_y = 2084
+
+IN INIT
+
+delta_x = 25116
+delta_y = 2086
+
+IN INIT
+
+delta_x = 25098
+delta_y = 2089
+
+IN INIT
+
+delta_x = 25088
+delta_y = 2092
+
+IN INIT
+
+delta_x = 25079
+delta_y = 2094
+
+IN INIT
+
+delta_x = 25067
+delta_y = 2098
+
+IN INIT
+
+delta_x = 25044
+delta_y = 2103
+
+IN INIT
+
+delta_x = 25034
+delta_y = 2106
+
+IN INIT
+
+delta_x = 25023
+delta_y = 2109
+
+IN INIT
+
+delta_x = 25005
+delta_y = 2116
+
+IN INIT
+
+delta_x = 24997
+delta_y = 2119
+
+IN INIT
+
+delta_x = 24992
+delta_y = 2120
+
+IN INIT
+
+delta_x = 24992
+delta_y = 2120
+
+IN INIT
+
+delta_x = -3
+delta_y = 2
+delta_x = -4
+delta_y = 3
+delta_x = -4
+delta_y = 4
+delta_x = -2
+delta_y = 6
+delta_x = 5
+delta_y = 10
+delta_x = 12
+delta_y = 13
+delta_x = 20
+delta_y = 15
+
+IN INIT
+
+delta_x = 27
+delta_y = 5
+delta_x = 43
+delta_y = 8
+
+IN INIT
+
+delta_x = 19
+delta_y = 3
+delta_x = 61
+delta_y = 7
+
+IN INIT
+
+delta_x = 27
+delta_y = 0
+delta_x = 90
+delta_y = -2
+
+IN INIT
+
+delta_x = 32
+delta_y = -4
+delta_x = 64
+delta_y = -8
+
+IN INIT
+
+delta_x = 32
+delta_y = -6
+delta_x = 100
+delta_y = -20
+
+IN INIT
+
+delta_x = 34
+delta_y = -8
+delta_x = 92
+delta_y = -22
+
+IN INIT
+
+delta_x = 26
+delta_y = -4
+delta_x = 50
+delta_y = -10
+
+IN INIT
+
+delta_x = 22
+delta_y = -4
+delta_x = 42
+delta_y = -8
+
+IN INIT
+
+delta_x = 28
+delta_y = -6
+delta_x = 36
+delta_y = -8
+
+IN INIT
+
+delta_x = 4
+delta_y = 0
+delta_x = 5
+delta_y = 0
+delta_x = 5
+delta_y = 1
+delta_x = 7
+delta_y = 5
+delta_x = 8
+delta_y = 7
+delta_x = 9
+delta_y = 9
+delta_x = 12
+delta_y = 14
+delta_x = 14
+delta_y = 16
+
+IN INIT
+
+delta_x = 2
+delta_y = 3
+delta_x = 5
+delta_y = 7
+delta_x = 12
+delta_y = 14
+delta_x = 17
+delta_y = 17
+
+IN INIT
+
+delta_x = 5
+delta_y = 3
+delta_x = 23
+delta_y = 7
+delta_x = 36
+delta_y = 8
+
+IN INIT
+
+delta_x = 14
+delta_y = 1
+delta_x = 48
+delta_y = 3
+
+IN INIT
+
+delta_x = 23
+delta_y = 0
+delta_x = 49
+delta_y = 0
+
+IN INIT
+
+delta_x = 49
+delta_y = 0
+delta_x = 73
+delta_y = 0
+
+IN INIT
+
+delta_x = 26
+delta_y = -2
+delta_x = 84
+delta_y = -6
+
+IN INIT
+
+delta_x = 32
+delta_y = -4
+delta_x = 62
+delta_y = -6
+
+IN INIT
+
+delta_x = 49
+delta_y = -6
+delta_x = 73
+delta_y = -8
+
+IN INIT
+
+delta_x = 42
+delta_y = 0
+delta_x = 56
+delta_y = 0
+
+IN INIT
+
+delta_x = 8
+delta_y = 0
+delta_x = 11
+delta_y = 0
+delta_x = 11
+delta_y = 0
+
+IN INIT
+
+delta_x = 10
+delta_y = 0
+
+IN INIT
+
+delta_x = 9
+delta_y = 0
+
+IN INIT
+
+delta_x = 7
+delta_y = -1
+
+IN INIT
+
+delta_x = 1
+delta_y = -3
+
+IN INIT
+
+delta_x = -3
+delta_y = -4
+
+IN INIT
+
+delta_x = -7
+delta_y = -5
+
+IN INIT
+
+delta_x = -17
+delta_y = -8
+
+IN INIT
+
+delta_x = -22
+delta_y = -9
+
+IN INIT
+
+delta_x = -29
+delta_y = -10
+
+IN INIT
+
+delta_x = -37
+delta_y = -11
+
+IN INIT
+
+delta_x = -53
+delta_y = -12
+
+IN INIT
+
+delta_x = -61
+delta_y = -12
+
+IN INIT
+
+delta_x = -70
+delta_y = -12
+
+IN INIT
+
+delta_x = -78
+delta_y = -12
+
+IN INIT
+
+delta_x = -88
+delta_y = -12
+
+IN INIT
+
+delta_x = -94
+delta_y = -10
+
+IN INIT
+
+delta_x = -99
+delta_y = -9
+
+IN INIT
+
+delta_x = -107
+delta_y = -6
+
+IN INIT
+
+delta_x = -111
+delta_y = -6
+
+IN INIT
+
+delta_x = -118
+delta_y = -5
+
+IN INIT
+
+delta_x = -122
+delta_y = -4
+
+IN INIT
+
+delta_x = -127
+delta_y = -2
+
+IN INIT
+
+delta_x = -132
+delta_y = -2
+
+IN INIT
+
+delta_x = -143
+delta_y = -1
+
+IN INIT
+
+delta_x = -151
+delta_y = 0
+
+IN INIT
+
+delta_x = -158
+delta_y = 1
+
+IN INIT
+
+delta_x = -171
+delta_y = 3
+
+IN INIT
+
+delta_x = -177
+delta_y = 4
+
+IN INIT
+
+delta_x = -187
+delta_y = 7
+
+IN INIT
+
+delta_x = -192
+delta_y = 9
+
+IN INIT
+
+delta_x = -200
+delta_y = 12
+
+IN INIT
+
+delta_x = -204
+delta_y = 13
+
+IN INIT
+
+delta_x = -206
+delta_y = 14
+
+IN INIT
+
+delta_x = -211
+delta_y = 16
+
+IN INIT
+
+delta_x = -212
+delta_y = 17
+
+IN INIT
+
+delta_x = -212
+delta_y = 17
+
+IN INIT
+
+delta_x = -213
+delta_y = 17
+
+IN INIT
+
+delta_x = -213
+delta_y = 17
+
+IN INIT
+
+delta_x = -214
+delta_y = 17
+
+IN INIT
+
+delta_x = -215
+delta_y = 17
+
+IN INIT
+
+delta_x = -216
+delta_y = 17
+
+IN INIT
+
+delta_x = -216
+delta_y = 16
+
+IN INIT
+
+delta_x = -217
+delta_y = 16
+
+IN INIT
+
