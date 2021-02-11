@@ -11,6 +11,6 @@ Developed with [José Costa](https://github.com/Sirze01).
   5. [PC's video card in graphics mode](https://github.com/catarinaopires/lcom_20_21/tree/master/lab5)
   
   
-## Project - **HumanoId**
+## [Project - **HumanoId**](https://github.com/catarinaopires/lcom_20_21/tree/master/proj)
    - Game with challenges to prove that is not a robot playing.
    - The purpose is to use I/O devices and interruptions.
